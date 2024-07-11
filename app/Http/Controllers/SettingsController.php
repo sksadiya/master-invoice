@@ -62,7 +62,8 @@ class SettingsController extends Controller
             // Check for file inputs
             if ($request->hasFile($key)) {
                 $file = $files[$key];
-                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                // $filename = time() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('images/uploads'), $filename);
                 $value = $filename;
             }
