@@ -1,12 +1,11 @@
-@extends('layouts.master')
-@section('title')
-@lang('translation.settings')
-@endsection
-@section('css')
+<?php $__env->startSection('title'); ?>
+<?php echo app('translator')->get('translation.settings'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"
     type="text/css" />
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 
 
 <div class="row">
@@ -14,11 +13,11 @@
         <div class="card">
             <div class="card-body p-4">
                 <div class="text-center">
-                    <form id="profileImageForm" action="{{ route('updateProfile', Auth::user()->id) }}" method="post"
+                    <form id="profileImageForm" action="<?php echo e(route('updateProfile', Auth::user()->id)); ?>" method="post"
                         enctype="multipart/form-data">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <img src="{{ URL::asset('images/' . Auth::user()->avatar) }}"
+                            <img src="<?php echo e(URL::asset('images/' . Auth::user()->avatar)); ?>"
                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image material-shadow"
                                 alt="user-profile-image">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
@@ -31,8 +30,8 @@
                                 </label>
                             </div>
                         </div>
-                        <h5 class="fs-16 mb-1">{{ Auth::user()->name }}</h5>
-                        <p class="text-muted mb-0">{{ Auth::user()->email }}</p>
+                        <h5 class="fs-16 mb-1"><?php echo e(Auth::user()->name); ?></h5>
+                        <p class="text-muted mb-0"><?php echo e(Auth::user()->email); ?></p>
                 </div>
             </div>
         </div>
@@ -49,9 +48,9 @@
                 </div>
                 <div class="progress animated-progress custom-progress progress-label">
                     <div class="progress-bar bg-danger" role="progressbar"
-                        style="width: {{ $profileCompletionPercentage }}%" aria-valuenow="30" aria-valuemin="0"
+                        style="width: <?php echo e($profileCompletionPercentage); ?>%" aria-valuenow="30" aria-valuemin="0"
                         aria-valuemax="100">
-                        <div class="label">{{$profileCompletionPercentage}}%</div>
+                        <div class="label"><?php echo e($profileCompletionPercentage); ?>%</div>
                     </div>
                 </div>
             </div>
@@ -62,13 +61,14 @@
     <div class="col-xxl-9">
         <div class="card ">
             <div id="alert-container">
-                @if(Session::has('message'))
-                    <div class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismissible fade show"
+                <?php if(Session::has('message')): ?>
+                    <div class="alert <?php echo e(Session::get('alert-class', 'alert-info')); ?> alert-dismissible fade show"
                         role="alert">
-                        {{ Session::get('message') }}
+                        <?php echo e(Session::get('message')); ?>
+
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
             <div class="card-header">
                 <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
@@ -91,14 +91,22 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="firstnameInput" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="firstnameInput"
-                                        value="{{ Auth::user()->name }}" placeholder="Enter your firstname" name="name"
+                                    <input type="text" class="form-control <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="firstnameInput"
+                                        value="<?php echo e(Auth::user()->name); ?>" placeholder="Enter your firstname" name="name"
                                         value="Dave">
-                                        @if ($errors->has('name'))
+                                        <?php if($errors->has('name')): ?>
                                             <div class="invalid-feedback">
-                                                {{ $errors->first('name') }}
+                                                <?php echo e($errors->first('name')); ?>
+
                                             </div>
-                                        @endif
+                                        <?php endif; ?>
                                 </div>
                             </div>
                             <!--end col-->
@@ -109,23 +117,32 @@
                                         <div class="input-group-prepend">
                                             <select class="js-example-basic-single" id="regionCodeSelect"
                                                 name="region_code">
-                                                @foreach($countries as $country)
-                                                    <option value="{{ $country->phone_code }}" {{ Auth::user()->region_code == $country->phone_code ? 'selected' : '' }}
-                                                        data-flag="{{ $country->flag }}">
-                                                        +{{ $country->phone_code }} ({{ $country->name }})
+                                                <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($country->phone_code); ?>" <?php echo e(Auth::user()->region_code == $country->phone_code ? 'selected' : ''); ?>
+
+                                                        data-flag="<?php echo e($country->flag); ?>">
+                                                        +<?php echo e($country->phone_code); ?> (<?php echo e($country->name); ?>)
                                                     </option>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                             
                                         </div>
-                                        <input type="text" class="form-control @error('contact') is-invalid @enderror" id="phonenumberInput"
-                                            value="{{ Auth::user()->contact }}" name="contact"
+                                        <input type="text" class="form-control <?php $__errorArgs = ['contact'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="phonenumberInput"
+                                            value="<?php echo e(Auth::user()->contact); ?>" name="contact"
                                             placeholder="Enter your phone number">
-                                        @if ($errors->has('contact'))
+                                        <?php if($errors->has('contact')): ?>
                                             <div class="invalid-feedback">
-                                                {{ $errors->first('contact') }}
+                                                <?php echo e($errors->first('contact')); ?>
+
                                             </div>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -133,14 +150,22 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="emailInput" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" value="{{ Auth::user()->email }}"
+                                    <input type="email" class="form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="<?php echo e(Auth::user()->email); ?>"
                                         id="emailInput" placeholder="Enter your email" name="email"
                                         value="daveadame@velzon.com">
-                                        @if ($errors->has('email'))
+                                        <?php if($errors->has('email')): ?>
                                             <div class="invalid-feedback">
-                                                {{ $errors->first('email') }}
+                                                <?php echo e($errors->first('email')); ?>
+
                                             </div>
-                                        @endif
+                                        <?php endif; ?>
                                 </div>
                             </div>
                             <!--end col-->
@@ -157,8 +182,8 @@
                     </div>
                     <!--end tab-pane-->
                     <div class="tab-pane" id="changePassword" role="tabpanel">
-                        <form action="{{ route('updatePassword', Auth::user()->id)}}" method="post">
-                            @csrf
+                        <form action="<?php echo e(route('updatePassword', Auth::user()->id)); ?>" method="post">
+                            <?php echo csrf_field(); ?>
                             <div class="row g-2">
                                 <div class="col-lg-4">
                                     <div>
@@ -208,17 +233,18 @@
     <!--end col-->
 </div>
 <!--end row-->
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <!--select2 cdn-->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script src="{{ URL::asset('build/js/pages/select2.init.js') }}"></script>
+<script src="<?php echo e(URL::asset('build/js/pages/select2.init.js')); ?>"></script>
 
-<script src="{{ URL::asset('build/js/app.js') }}"></script>
-<script src="{{ URL::asset('build/js/pages/profile-setting.init.js') }}"></script>
-<script src="{{ URL::asset('build/js/app.js') }}"></script>
-@endsection
+<script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/js/pages/profile-setting.init.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\master\resources\views/pages-profile-settings.blade.php ENDPATH**/ ?>

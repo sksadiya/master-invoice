@@ -3,21 +3,21 @@
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
-        <a href="{{ route('root') }}" class="logo logo-dark">
+        <a href="<?php echo e(route('root')); ?>" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
+                <img src="<?php echo e(URL::asset('build/images/logo-sm.png')); ?>" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="17">
+                <img src="<?php echo e(URL::asset('build/images/logo-dark.png')); ?>" alt="" height="17">
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="{{ route('root') }}" class="logo logo-light">
+        <a href="<?php echo e(route('root')); ?>" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
+                <img src="<?php echo e(URL::asset('build/images/logo-sm.png')); ?>" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="17">
+                <img src="<?php echo e(URL::asset('build/images/logo-light.png')); ?>" alt="" height="17">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -34,14 +34,14 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-                <li class="menu-title"><span>@lang('translation.menu')</span></li>
+                <li class="menu-title"><span><?php echo app('translator')->get('translation.menu'); ?></span></li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('root') }}" wire:navigate="navigateTo('/')">
+                    <a class="nav-link menu-link" href="<?php echo e(route('root')); ?>" wire:navigate="navigateTo('/')">
                         <i class="ri-dashboard-2-line"></i> <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('app-settings') }}" wire:navigate="navigateTo('app-settings')">
+                    <a class="nav-link menu-link" href="<?php echo e(route('app-settings')); ?>" wire:navigate="navigateTo('app-settings')">
                         <i class="ri-dashboard-2-line"></i> <span>Settings</span>
                     </a>
                 </li>
@@ -53,4 +53,4 @@
 </div>
 <!-- Left Sidebar End -->
 <!-- Vertical Overlay-->
-<div class="vertical-overlay"></div>
+<div class="vertical-overlay"></div><?php /**PATH C:\xampp\htdocs\master\resources\views/layouts/sidebar.blade.php ENDPATH**/ ?>

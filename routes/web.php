@@ -28,8 +28,14 @@ Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class
 
 //update profilr image 
 Route::post('/update-profile-image/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'updateProfileImage'])->name('updateProfileImage');
+Route::post('/save-settings', [App\Http\Controllers\SettingsController::class, 'updateSettings'])->name('updateSettings');
 
-Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
+Route::get('app-settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('app-settings');
+// routes/web.php
+
+Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');
+Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
 
 });
 

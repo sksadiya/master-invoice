@@ -11,7 +11,9 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('build/images/favicon.ico') }}">
+    @livewireStyles
     @include('layouts.head-css')
+   
 </head>
 
 <body>
@@ -36,10 +38,12 @@
     </div>
     <!-- END layout-wrapper -->
 
-    @include('layouts.customizer')
 
     <!-- JAVASCRIPT -->
+
+
     @include('layouts.vendor-scripts')
+    @livewireScripts
 </body>
 
 </html>
