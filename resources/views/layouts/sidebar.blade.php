@@ -36,13 +36,18 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span>@lang('translation.menu')</span></li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('root') }}" wire:navigate="navigateTo('/')">
+                    <a class="nav-link menu-link" href="{{ route('root') }}" >
                         <i class="ri-dashboard-2-line"></i> <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('app-settings') }}" wire:navigate="navigateTo('app-settings')">
-                        <i class="ri-dashboard-2-line"></i> <span>Settings</span>
+                    <a class="nav-link menu-link" href="{{ route('app-settings') }}" >
+                    <i class="ri-stack-line"></i> <span>Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('categories') }}" >
+                    <i class="ri-apps-2-line"></i> <span>Categories</span>
                     </a>
                 </li>
             </ul>

@@ -138,7 +138,8 @@
         @endif
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="row">
+            <div class="col-lg-3 col-md-6">
               <div class="d-flex flex-column align-items-center">
                 <div class="mb-2">
                   <span>App Logo <span class="text-danger">*</span></span>
@@ -157,7 +158,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-lg-3 col-md-6">
               <div class="d-flex flex-column align-items-center">
                 <div class="mb-2">
                   <span>App Fevicon <span class="text-danger">*</span></span>
@@ -176,6 +177,7 @@
                   </div>
                 </div>
               </div>
+            </div>
             </div>
             <div class="col-md-6 d-none">
               <div class="mb-3">

@@ -34,6 +34,11 @@ Route::get('settings', [App\Http\Controllers\HomeController::class, 'settings'])
 Route::get('app-settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('app-settings');
 // routes/web.php
 
+
+Route::get('categories', [App\Http\Controllers\categoryController::class, 'index'])->name('categories');
+Route::post('categories', [App\Http\Controllers\categoryController::class, 'store'])->name('category.add');
+Route::put('/categories/{id}', [App\Http\Controllers\categoryController::class, 'update'])->name('category.update');
+Route::delete('/categories/{id}', [App\Http\Controllers\categoryController::class, 'destroy'])->name('category.delete');
 Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');
 Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
 
