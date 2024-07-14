@@ -40,7 +40,7 @@ class taxController extends Controller
         $tax->value = $request->value;
         $tax->is_default = $request->is_default;
         $tax->save();
-
+        Session::flash('success','Tax created successfully');
         return response()->json([
             'status' => true,
             'message' => 'Tax created successfully',

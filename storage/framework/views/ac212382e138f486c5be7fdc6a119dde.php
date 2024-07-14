@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection('title'); ?>
-Clients
+products
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
@@ -13,26 +13,26 @@ Clients
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0">Clients</h4>
+        <h4 class="card-title mb-0">Products</h4>
       </div>
 
       <div class="card-body">
-        <div class="listjs-table" id="clientsList">
+        <div class="listjs-table" id="productsList">
           <div class="row g-4 mb-3">
             <div class="col-sm-auto">
               <div>
-                <a href="<?php echo e(route('client.add')); ?>" type="button" class="btn btn-primary add-btn" >Add Client</a>
+                <a href="<?php echo e(route('product.add')); ?>" type="button" class="btn btn-primary add-btn" >Add Product</a>
               </div>
             </div>
             <div class="col-sm">
-              <form method="GET" action="<?php echo e(route('clients')); ?>" id="searchForm">
+              <form method="GET" action="<?php echo e(route('products')); ?>" id="searchForm">
                 <div class="d-flex justify-content-sm-end">
                   <div class="search-box ms-2 me-2">
                     <input type="text" class="form-control search" name="search" id="searchInput"
                       value="<?php echo e(request()->get('search')); ?>" placeholder="Search...">
                     <i class="ri-search-line search-icon"></i>
                   </div>
-                  <a href="<?php echo e(route('clients')); ?>" type="button" class="btn bg-primary text-light">reset</a>
+                  <a href="<?php echo e(route('products')); ?>" type="button" class="btn bg-primary text-light">reset</a>
 
                 </div>
               </form>
@@ -43,33 +43,27 @@ Clients
             <table class="table align-middle table-nowrap" id="categoryTable">
               <thead class="table-light">
                 <tr>
-                  <th class="sort" data-sort="client-name">Name</th>
-                  <th class="sort" data-sort="client-business">Business Name</th>
-                  <th class="sort" data-sort="client-contact">Contact</th>
-                  <th class="sort" data-sort="client-invoices-count">Invoices</th>
-                  <th class="sort" data-sort="client-total-amount">Total</th>
-                  <th class="sort" data-sort="client-pending-amount">Pending</th>
+                  <th class="sort" data-sort="product-name">product Name</th>
+                  <th class="sort" data-sort="product-category">Product Category</th>
+                  <th class="sort" data-sort="product-price">Price</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
               <tbody class="list form-check-all">
-                <?php if($clients): ?>
-          <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if($products): ?>
+          <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-        <td class="client-name"><a href="<?php echo e(route('client.show',$client->id)); ?>"><?php echo e($client->first_name); ?> <?php echo e($client->last_name); ?></a></td>
-        <td class="client-business"><?php echo e($client->business); ?></td>
-        <td class="client-contact"><?php echo e($client->contact); ?></td>
-        <td class="client-invoices-count"></td>
-        <td class="client-total-amount"></td>
-        <td class="client-pending-amount"></td>
+        <td class="product-name"><?php echo e($product->name); ?></td>
+        <td class="product-category"><?php echo e($product->category_id); ?></td>
+        <td class="product-price"><?php echo e($product->unit_price); ?></td>
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
-          <a href="<?php echo e(route('client.edit',$client->id)); ?>" class="btn btn-sm btn-success edit-item-btn" ><i class="bx bxs-pencil"></i> Edit</a>
+          <a href="<?php echo e(route('product.edit',$product->id)); ?>" class="btn btn-sm btn-success edit-item-btn" ><i class="bx bxs-pencil"></i> Edit</a>
           </div>
           <div class="remove">
           <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
-          data-bs-target="#confirmationModal" data-id="<?php echo e($client->id); ?>"><i class="bx bx-trash"></i>
+          data-bs-target="#productDeleteModal" data-id="<?php echo e($product->id); ?>"><i class="bx bx-trash"></i>
           Delete</button>
           </div>
         </div>
@@ -87,7 +81,7 @@ Clients
           <div class="row">
             <div class="col-md-6 justify-content-start">
               <div class="pagination-wrap hstack gap-2">
-              <?php echo e($clients->links()); ?>
+              <?php echo e($products->links()); ?>
 
               </div>
             </div>
@@ -98,10 +92,10 @@ Clients
                   Per Page
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="perPageDropdown">
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="20">20</a></li>
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="30">30</a></li>
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="50">50</a></li>
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="100">100</a></li>
+                  <li><a class="dropdown-item product-per-page-item" href="#" data-per-page="20">20</a></li>
+                  <li><a class="dropdown-item product-per-page-item" href="#" data-per-page="30">30</a></li>
+                  <li><a class="dropdown-item product-per-page-item" href="#" data-per-page="50">50</a></li>
+                  <li><a class="dropdown-item product-per-page-item" href="#" data-per-page="100">100</a></li>
                 </ul>
               </div>
             </div>
@@ -114,7 +108,7 @@ Clients
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade zoomIn" id="confirmationModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade zoomIn" id="productDeleteModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -126,7 +120,7 @@ Clients
             colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
           <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
             <h4>Are you sure?</h4>
-            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this client?</p>
+            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this product?</p>
           </div>
         </div>
         <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
@@ -176,27 +170,26 @@ Clients
   <?php endif; ?>
 
   $(document).ready(function() {
-    $('.dropdown-item.client-per-page-item').on('click', function (e) {
+    $('.dropdown-item.product-per-page-item').on('click', function (e) {
       e.preventDefault();
       var perPage = $(this).data('per-page');
-      var url = '<?php echo e($clients->url($clients->currentPage())); ?>' + '&perPage=' + perPage;
+      var url = '<?php echo e($products->url($products->currentPage())); ?>' + '&perPage=' + perPage;
       window.location.href = url;
     });
-    var clientsList = new List('clientsList', {
-      valueNames: ['client-name', 'client-business', 'client-contact','client-invoices-count',
-      'client-total-amount','client-pending-amount' ,'action'],
+    var productsList = new List('productsList', {
+      valueNames: ['product-name', 'product-category', 'product-price','action'],
     });
 
     $('.remove-item-btn').on('click', function () {
-      var clientId = $(this).data('id');
-      $('#delete-record').data('id', clientId);
+      var productId = $(this).data('id');
+      $('#delete-record').data('id', productId);
     });
 
     $('#delete-record').on('click', function () {
-      var clientId = $(this).data('id');
-      console.log(clientId);
-      const delRoute = "<?php echo e(route('client.delete', 'ID')); ?>";
-      const newdelRoute = delRoute.replace('ID', clientId);
+      var productId = $(this).data('id');
+      console.log(productId);
+      const delRoute = "<?php echo e(route('product.delete', 'ID')); ?>";
+      const newdelRoute = delRoute.replace('ID', productId);
 
       $.ajax({
         type: 'DELETE',
@@ -206,13 +199,15 @@ Clients
         },
         success: function (response) {
           if (response.status) {
-            $('#confirmationModal').hide();
+            $('#productDeleteModal').hide();
+            
             console.log(response.status);
             location.reload();
           }
         },
         error: function (response) {
-          $('#confirmationModal').hide();
+          $('#productDeleteModal').hide();
+          location.reload();
           Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -224,4 +219,4 @@ Clients
   });
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\master\resources\views/client/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\master\resources\views/product/index.blade.php ENDPATH**/ ?>

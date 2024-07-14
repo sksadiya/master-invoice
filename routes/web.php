@@ -55,6 +55,12 @@ Route::post('client/update/{id}', [App\Http\Controllers\clientController::class,
 Route::delete('/client/{id}', [App\Http\Controllers\clientController::class, 'destroy'])->name('client.delete');
 Route::get('client/{id}', [App\Http\Controllers\clientController::class, 'show'])->name('client.show');
 
+Route::get('product', [App\Http\Controllers\ProductController::class, 'index'])->name('products');
+Route::post('products', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
+Route::get('products', [App\Http\Controllers\ProductController::class, 'create'])->name('product.add');
+Route::get('product/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
+Route::post('product/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
+Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete');
 
 Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');
 Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
