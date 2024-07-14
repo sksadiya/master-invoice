@@ -10,6 +10,9 @@
 <div class="row">
   <div class="col-xxl-12">
     <div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">App Settings</h4>
+      </div>
       <div class="card-body p-4">
         <form action="{{ route('updateSettings')}}" method="post" id="app_settings-form" name="app_settings-form"
           enctype="multipart/form-data">

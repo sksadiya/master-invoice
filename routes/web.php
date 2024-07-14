@@ -39,6 +39,23 @@ Route::get('categories', [App\Http\Controllers\categoryController::class, 'index
 Route::post('categories', [App\Http\Controllers\categoryController::class, 'store'])->name('category.add');
 Route::put('/categories/{id}', [App\Http\Controllers\categoryController::class, 'update'])->name('category.update');
 Route::delete('/categories/{id}', [App\Http\Controllers\categoryController::class, 'destroy'])->name('category.delete');
+
+
+Route::get('taxes', [App\Http\Controllers\taxController::class, 'index'])->name('taxes');
+Route::post('taxes', [App\Http\Controllers\taxController::class, 'store'])->name('tax.add');
+Route::put('/taxes/{id}', [App\Http\Controllers\taxController::class, 'update'])->name('tax.update');
+Route::delete('/taxes/{id}', [App\Http\Controllers\taxController::class, 'destroy'])->name('tax.delete');
+Route::post('/taxes/{id}', [App\Http\Controllers\taxController::class, 'setDefaultTax'])->name('setDefault');
+
+Route::get('client', [App\Http\Controllers\clientController::class, 'index'])->name('clients');
+Route::post('clients', [App\Http\Controllers\clientController::class, 'store'])->name('client.store');
+Route::get('clients', [App\Http\Controllers\clientController::class, 'create'])->name('client.add');
+Route::get('client/edit/{id}', [App\Http\Controllers\clientController::class, 'edit'])->name('client.edit');
+Route::post('client/update/{id}', [App\Http\Controllers\clientController::class, 'update'])->name('client.update');
+Route::delete('/client/{id}', [App\Http\Controllers\clientController::class, 'destroy'])->name('client.delete');
+Route::get('client/{id}', [App\Http\Controllers\clientController::class, 'show'])->name('client.show');
+
+
 Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');
 Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
 

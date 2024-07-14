@@ -3,8 +3,7 @@
 @lang('translation.settings')
 @endsection
 @section('css')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"
-    type="text/css" />
+<link href="{{ asset('build/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 
@@ -209,16 +208,16 @@
 </div>
 <!--end row-->
 @endsection
+
 @section('script')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-<!--select2 cdn-->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script src="{{ URL::asset('build/js/pages/select2.init.js') }}"></script>
-
+<script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
+<script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+<script src="{{ asset('build/select2/js/select2.min.js') }}"></script>
 <script src="{{ URL::asset('build/js/app.js') }}"></script>
 <script src="{{ URL::asset('build/js/pages/profile-setting.init.js') }}"></script>
-<script src="{{ URL::asset('build/js/app.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#regionCodeSelect').select2()
+    });
+</script>
 @endsection

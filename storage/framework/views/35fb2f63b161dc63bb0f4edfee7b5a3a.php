@@ -41,13 +41,23 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('app-settings')); ?>" >
-                    <i class="ri-stack-line"></i> <span>Settings</span>
+                    <a class="nav-link menu-link" href="<?php echo e(route('clients')); ?>" >
+                        <i class="ri-dashboard-2-line"></i> <span>Clients</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('categories')); ?>" >
                     <i class="ri-apps-2-line"></i> <span>Categories</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('taxes')); ?>" >
+                    <i class="ri-apps-2-line"></i> <span>Taxes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('app-settings')); ?>" >
+                    <i class="ri-stack-line"></i> <span>Settings</span>
                     </a>
                 </li>
             </ul>

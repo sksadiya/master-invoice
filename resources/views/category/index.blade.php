@@ -91,10 +91,10 @@ Categories
                   Per Page
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="perPageDropdown">
-                  <li><a class="dropdown-item" href="#" data-per-page="20">20</a></li>
-                  <li><a class="dropdown-item" href="#" data-per-page="30">30</a></li>
-                  <li><a class="dropdown-item" href="#" data-per-page="50">50</a></li>
-                  <li><a class="dropdown-item" href="#" data-per-page="100">100</a></li>
+                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="20">20</a></li>
+                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="30">30</a></li>
+                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="50">50</a></li>
+                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="100">100</a></li>
                 </ul>
               </div>
             </div>
@@ -120,7 +120,7 @@ Categories
         <div class="modal-body">
           <div class="mb-3">
             <label for="addCatName" class="form-label">Category Name</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Enter Category Name" required />
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter Category Name"  />
             <div class="invalid-feedback"></div>
           </div>
         </div>
@@ -204,7 +204,7 @@ Categories
 <script>
   $(document).ready(function () {
 
-    $('.dropdown-item').on('click', function (e) {
+    $('.dropdown-item.category-per-page-item').on('click', function (e) {
       e.preventDefault();
       var perPage = $(this).data('per-page');
       var url = '{{ $categories->url($categories->currentPage()) }}' + '&perPage=' + perPage;
@@ -357,6 +357,7 @@ Categories
           }
         },
         error: function (response) {
+          $('#deleteRecordModal').hide();
           Swal.fire({
             icon: 'error',
             title: 'Error',

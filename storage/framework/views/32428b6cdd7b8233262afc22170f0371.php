@@ -10,5 +10,6 @@
 <!-- custom Css-->
 <link href="<?php echo e(URL::asset('build/css/custom.min.css')); ?>" id="app-style" rel="stylesheet" type="text/css" />
 <link href="<?php echo e(URL::asset('build/css/style.css')); ?>" id="app-style" rel="stylesheet" type="text/css" />
+<script src="<?php echo e(asset('build/jquery/jquery.min.js')); ?>"></script>
 
 <?php /**PATH C:\xampp\htdocs\master\resources\views/layouts/head-css.blade.php ENDPATH**/ ?>

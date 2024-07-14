@@ -1,39 +1,39 @@
+@extends('layouts.master')
 
+@section('title')
+Taxes
+@endsection
 
-<?php $__env->startSection('title'); ?>
-Categories
-<?php $__env->stopSection(); ?>
+@section('css')
+<link href="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 
-<?php $__env->startSection('css'); ?>
-<link href="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet" type="text/css" />
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('content'); ?>
+@section('content')
 <div class="row">
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0">Product Categories</h4>
+        <h4 class="card-title mb-0">Taxes</h4>
       </div>
 
       <div class="card-body">
-        <div class="listjs-table" id="categoryList">
+        <div class="listjs-table" id="taxesList">
           <div class="row g-4 mb-3">
             <div class="col-sm-auto">
               <div>
                 <button type="button" class="btn btn-primary add-btn" data-bs-toggle="modal" id="create-btn"
-                  data-bs-target="#addCategoryModal">Add Category</button>
+                  data-bs-target="#addTaxModal">Add Tax</button>
               </div>
             </div>
             <div class="col-sm">
-              <form method="GET" action="<?php echo e(route('categories')); ?>" id="searchForm">
+              <form method="GET" action="{{ route('taxes') }}" id="searchForm">
                 <div class="d-flex justify-content-sm-end">
                   <div class="search-box ms-2 me-2">
                     <input type="text" class="form-control search" name="search" id="searchInput"
-                      value="<?php echo e(request()->get('search')); ?>" placeholder="Search...">
+                      value="{{ request()->get('search') }}" placeholder="Search...">
                     <i class="ri-search-line search-icon"></i>
                   </div>
-                  <a href="<?php echo e(route('categories')); ?>" type="button" class="btn bg-primary text-light">reset</a>
+                  <a href="{{ route('taxes') }}" type="button" class="btn bg-primary text-light">reset</a>
 
                 </div>
               </form>
@@ -41,48 +41,55 @@ Categories
           </div>
 
           <div class="table-responsive table-card mt-3 mb-1">
-            <table class="table align-middle table-nowrap" id="categoryTable">
+            <table class="table align-middle table-nowrap" id="taxTable">
               <thead class="table-light">
                 <tr>
-                  <th class="sort" data-sort="category-name">Category</th>
-                  <!-- <th class="sort" data-sort="product-count">Product</th> -->
+                  <th class="sort" data-sort="tax-name">Tax Name</th>
+                  <th class="sort" data-sort="tax-value">Tax Percentage</th>
+                  <th class="sort" data-sort="tax-default">Default</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
               <tbody class="list form-check-all">
-                <?php if($categories): ?>
-          <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                @if($taxes)
+          @foreach ($taxes as $tax)
         <tr>
-        <td class="category-name"><?php echo e($category->name); ?></td>
-        <!-- <td class="product-count"></td> -->
+        <td class="tax-name">{{ $tax->name }}</td>
+        <td class="tax-value">{{ $tax->value }}%</td>
+        <td class="tax-default">
+        <div class="form-check form-switch">
+          <input class="form-check-input default-toggle-input" type="checkbox" role="switch"
+          onclick="setDefault({{ $tax->id }})" {{ ($tax->is_default == 1) ? 'checked' : '' }}>
+          <label class="form-check-label" for="is_default"></label>
+        </div>
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
           <button type="button" class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal"
-          data-bs-target="#editCategoryModal" data-id="<?php echo e($category->id); ?>"
-          data-name="<?php echo e($category->name); ?>"><i class="bx bxs-pencil"></i> Edit</button>
+          data-bs-target="#editTaxModal" data-id="{{ $tax->id }}" data-name="{{ $tax->name }}"
+          data-value="{{ $tax->value }}"><i class="bx bxs-pencil"></i> Edit</button>
           </div>
           <div class="remove">
           <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
-          data-bs-target="#deleteRecordModal" data-id="<?php echo e($category->id); ?>"><i class="bx bx-trash"></i> Delete</button>
+          data-bs-target="#deleteTaxModal" data-id="{{ $tax->id }}"><i class="bx bx-trash"></i>
+          Delete</button>
           </div>
         </div>
         </td>
         </tr>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        <?php else: ?>
+      @endforeach
+        @else
       <tr>
         <td colspan="2" class="text-center">Result Not found</td>
       </tr>
-    <?php endif; ?>
+    @endif
               </tbody>
             </table>
           </div>
           <div class="row">
             <div class="col-md-6 justify-content-start">
               <div class="pagination-wrap hstack gap-2">
-                <?php echo e($categories->links()); ?>
-
+                {{ $taxes->links() }}
               </div>
             </div>
             <div class="col-md-6 justify-content-end d-flex">
@@ -92,10 +99,10 @@ Categories
                   Per Page
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="perPageDropdown">
-                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="20">20</a></li>
-                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="30">30</a></li>
-                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="50">50</a></li>
-                  <li><a class="dropdown-item category-per-page-item" href="#" data-per-page="100">100</a></li>
+                  <li><a class="dropdown-item tax-per-page-item" href="#" data-per-page="20">20</a></li>
+                  <li><a class="dropdown-item tax-per-page-item" href="#" data-per-page="30">30</a></li>
+                  <li><a class="dropdown-item tax-per-page-item" href="#" data-per-page="50">50</a></li>
+                  <li><a class="dropdown-item tax-per-page-item" href="#" data-per-page="100">100</a></li>
                 </ul>
               </div>
             </div>
@@ -107,22 +114,32 @@ Categories
   </div>
 </div>
 
-<!-- Add Category Modal -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+<!-- Add Tax Modal -->
+<div class="modal fade" id="addTaxModal" tabindex="-1" aria-labelledby="addTaxModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
+        <h5 class="modal-title" id="addTaxModalLabel">Add Taxes</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           id="close-add-modal"></button>
       </div>
-      <form id="addCategoryForm" name="addCategoryForm">
-        <?php echo csrf_field(); ?>
+      <form id="addTaxForm" name="addTaxForm" method="post">
+        @csrf
         <div class="modal-body">
           <div class="mb-3">
-            <label for="addCatName" class="form-label">Category Name</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Enter Category Name"  />
+            <label for="addTaxname" class="form-label">Tax Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter Tax Name" />
             <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="addTaxvalue" class="form-label">Tax Percentage</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="value" name="value" placeholder="Enter Tax Percentage"
+                aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">%</span>
+              <div class="invalid-feedback"></div>
+            </div>
+
           </div>
         </div>
         <div class="modal-footer">
@@ -136,25 +153,34 @@ Categories
   </div>
 </div>
 
-<!-- Edit Category Modal -->
-<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
-  aria-hidden="true">
+<!-- Edit Tax Modal -->
+<div class="modal fade" id="editTaxModal" tabindex="-1" aria-labelledby="editTaxModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+        <h5 class="modal-title" id="editTaxModalLabel">Edit Tax</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           id="close-edit-modal"></button>
       </div>
-      <form id="editCategoryForm" name="editCategoryForm">
-        <?php echo csrf_field(); ?>
-        <?php echo method_field('PUT'); ?>
-        <input type="hidden" id="editCatId" name="id">
+      <form id="editTaxForm" name="editTaxForm">
+        @csrf
+        @method('PUT')
+        <input type="hidden" id="editTaxId" name="id">
         <div class="modal-body">
           <div class="mb-3">
-            <label for="editCatName" class="form-label">Category Name</label>
-            <input type="text" id="editCatName" name="name" class="form-control" placeholder="Enter Category Name" required />
-            <div class="invalid-feedback">Please enter a category name.</div>
+            <label for="editTaxName" class="form-label">Tax Name</label>
+            <input type="text" id="editTaxName" name="name" class="form-control" placeholder="Enter Tax Name"
+              required />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="editTaxValue" class="form-label">Tax Percentage</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="editTaxValue" name="value" placeholder="Enter Tax Percentage"
+                aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">%</span>
+              <div class="invalid-feedback"></div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -169,7 +195,7 @@ Categories
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade zoomIn" id="deleteTaxModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -181,7 +207,7 @@ Categories
             colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
           <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
             <h4>Are you sure?</h4>
-            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this category?</p>
+            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Tax?</p>
           </div>
         </div>
         <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
@@ -193,37 +219,78 @@ Categories
   </div>
 </div>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('script'); ?>
+@section('script')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
-<script src="<?php echo e(URL::asset('build/libs/list.js/list.min.js')); ?>"></script>
-<script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
-<script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
-<script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
+<script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ URL::asset('build/js/app.js') }}"></script>
 <script>
   $(document).ready(function () {
 
-    $('.dropdown-item.category-per-page-item').on('click', function (e) {
+    window.setDefault = function (taxId) {
+      const checkbox = document.querySelector(`.default-toggle-input[onclick="setDefault(${taxId})"]`);
+      const isChecked = checkbox.checked ? 1 : 0;
+      const route = "{{ route('setDefault', 'ID') }}";
+      const newRoute = route.replace("ID", taxId);
+
+      $.ajax({
+        url: newRoute,
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        data: {
+          is_default: isChecked
+        },
+        success: function (response) {
+          if (response.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Default tax updated successfully.'
+            }).then(function () {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'An error occurred while updating the default tax.'
+            });
+          }
+        },
+        error: function (xhr) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while updating the default tax.'
+          });
+        }
+      });
+    }
+    $('.dropdown-item.tax-per-page-item').on('click', function (e) {
       e.preventDefault();
       var perPage = $(this).data('per-page');
-      var url = '<?php echo e($categories->url($categories->currentPage())); ?>' + '&perPage=' + perPage;
+      var url = '{{ $taxes->url($taxes->currentPage()) }}' + '&perPage=' + perPage;
       window.location.href = url;
     });
-    var categoryList = new List('categoryList', {
-      valueNames: ['category-name', 'product-count', 'action'],
+    var taxesList = new List('taxesList', {
+      valueNames: ['tax-name', 'tax-value', 'tax-default', 'action'],
     });
-    $('#addCategoryForm').on('submit', function (e) {
+    $('#addTaxForm').on('submit', function (e) {
       e.preventDefault();
 
       $.ajax({
         type: 'POST',
-        url: '<?php echo e(route("category.add")); ?>',
+        url: '{{ route("tax.add") }}',
         data: $(this).serialize(),
         success: function (response) {
           if (response.status) {
-            $('#addCategoryModal').hide();
+            $('#addTaxModal').hide();
             Swal.fire({
               icon: 'success',
               title: 'Success',
@@ -238,7 +305,7 @@ Categories
           if (errors) {
             $.each(errors, function (key, value) {
               $('#' + key).addClass('is-invalid');
-              $('#' + key).next('.invalid-feedback').text(value[0]);
+              $('#' + key).siblings('.invalid-feedback').text(value[0]);
             });
           } else {
             Swal.fire({
@@ -251,42 +318,44 @@ Categories
       });
     });
 
-    $('#addCategoryModal').on('hidden.bs.modal', function () {
-      $('#addCategoryForm')[0].reset();
+    $('#addTaxModal').on('hidden.bs.modal', function () {
+      $('#addTaxForm')[0].reset();
       $('.form-control').removeClass('is-invalid');
       $('.invalid-feedback').text('');
     });
 
     // Handle modal close button click to reset the form
     $('#close-add-modal, .btn-light').on('click', function () {
-      $('#addCategoryForm')[0].reset();
+      $('#addTaxForm')[0].reset();
       $('.form-control').removeClass('is-invalid');
       $('.invalid-feedback').text('');
     });
     $('.edit-item-btn').on('click', function () {
-      var categoryId = $(this).data('id');
-      var categoryName = $(this).data('name');
+      var taxId = $(this).data('id');
+      var taxName = $(this).data('name');
+      var taxValue = $(this).data('value');
 
       // Populate the edit modal with the category data
-      $('#editCatId').val(categoryId);
-      $('#editCatName').val(categoryName);
+      $('#editTaxId').val(taxId);
+      $('#editTaxName').val(taxName);
+      $('#editTaxValue').val(taxValue);
 
       // Show the edit modal
-      $('#editCategoryModal').modal('show');
+      $('#editTaxModal').modal('show');
     });
-    $('#editCategoryForm').on('submit', function (e) {
+    $('#editTaxForm').on('submit', function (e) {
       e.preventDefault();
 
-      var categoryId = $('#editCatId').val();
-      const catRoute = "<?php echo e(route('category.update', 'ID')); ?>";
-      const newcatRoute = catRoute.replace("ID", categoryId)
+      var taxId = $('#editTaxId').val();
+      const TaxRoute = "{{ route('tax.update', 'ID') }}";
+      const newTaxRoute = TaxRoute.replace("ID", taxId)
       $.ajax({
         type: 'PUT',
-        url: newcatRoute,  // Adjust this URL to match your route
+        url: newTaxRoute,  // Adjust this URL to match your route
         data: $(this).serialize(),
         success: function (response) {
           if (response.status) {
-            $('#editCategoryModal').hide();
+            $('#editTaxModal').hide();
             Swal.fire({
               icon: 'success',
               title: 'Success',
@@ -300,8 +369,14 @@ Categories
           var errors = response.responseJSON.errors;
           if (errors) {
             $.each(errors, function (key, value) {
-              $('#editCatName').addClass('is-invalid');
-              $('#editCatName').next('.invalid-feedback').text(value[0]);
+              if (key == 'name') {
+                $('#editTaxName').addClass('is-invalid');
+                $('#editTaxName').siblings('.invalid-feedback').text(value[0]);
+              }
+              if (key == 'value') {
+                $('#editTaxValue').addClass('is-invalid');
+                $('#editTaxValue').siblings('.invalid-feedback').text(value[0]);
+              }
             });
           } else {
             Swal.fire({
@@ -310,44 +385,46 @@ Categories
               text: response.responseJSON.message,
             });
           }
+
         }
       });
     });
 
     // Reset edit form when the modal is hidden
-    $('#editCategoryModal').on('hidden.bs.modal', function () {
-      $('#editCategoryForm')[0].reset();
+    $('#editTaxModal').on('hidden.bs.modal', function () {
+      $('#editTaxForm')[0].reset();
       $('.form-control').removeClass('is-invalid');
       $('.invalid-feedback').text('');
     });
 
     // Handle modal close button click to reset the edit form
     $('#close-edit-modal, .btn-light').on('click', function () {
-      $('#editCategoryForm')[0].reset();
+      $('#editTaxForm')[0].reset();
       $('.form-control').removeClass('is-invalid');
       $('.invalid-feedback').text('');
     });
 
     $('.remove-item-btn').on('click', function () {
-      var categoryId = $(this).data('id');
-      $('#delete-record').data('id', categoryId);
-      $('#deleteRecordModal').modal('show');
+      var taxId = $(this).data('id');
+      $('#delete-record').data('id', taxId);
+      $('#deleteTaxModal').modal('show');
     });
 
     $('#delete-record').on('click', function () {
-      var categoryId = $(this).data('id');
-      const delRoute = "<?php echo e(route('category.delete', 'ID')); ?>";
-      const newdelRoute = delRoute.replace('ID', categoryId);
+      var taxId = $(this).data('id');
+      console.log(taxId);
+      const delRoute = "{{ route('tax.delete', 'ID') }}";
+      const newdelRoute = delRoute.replace('ID', taxId);
 
       $.ajax({
         type: 'DELETE',
         url: newdelRoute,
         data: {
-          _token: '<?php echo e(csrf_token()); ?>'
+          _token: '{{ csrf_token() }}'
         },
         success: function (response) {
           if (response.status) {
-            $('#deleteRecordModal').hide();
+            $('#deleteTaxModal').hide();
             Swal.fire({
               icon: 'success',
               title: 'Deleted!',
@@ -358,16 +435,15 @@ Categories
           }
         },
         error: function (response) {
-          $('#deleteRecordModal').hide();
+          $('#deleteTaxModal').hide();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: response.responseJSON.message,
+            text: response.responseJSON.error,
           });
         }
       });
     });
   });
 </script>
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\master\resources\views/category/index.blade.php ENDPATH**/ ?>
+@endsection
