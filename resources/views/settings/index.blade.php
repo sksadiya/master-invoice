@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-@lang('translation.dashboards')
+App Settings
 @endsection
 @section('css')
 <link href="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
@@ -10,7 +10,7 @@
 <div class="row">
   <div class="col-xxl-12">
     <div class="card">
-    <div class="card-header">
+      <div class="card-header">
         <h4 class="card-title mb-0">App Settings</h4>
       </div>
       <div class="card-body p-4">
@@ -35,18 +35,30 @@
                 <label for="company-name" class="form-label">Company Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control @error('company-name') is-invalid @enderror" id="company-name"
                   placeholder="company name" value="{{ $settings['company-name'] }}" name="company-name">
-                @if ($errors->has('company-name'))
-          <div class="invalid-feedback">
-            {{ $errors->first('company-name') }}
-          </div>
-        @endif
+                  @if ($errors->has('company-name'))
+                    <div class="invalid-feedback">
+                      {{ $errors->first('company-name') }}
+                    </div>
+                  @endif
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="company-email" class="form-label">Company Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control @error('company-email') is-invalid @enderror" id="company-email"
+                  placeholder="Company Email" value="{{ $settings['company-email'] }}" name="company-email">
+                  @if ($errors->has('company-email'))
+                    <div class="invalid-feedback">
+                      {{ $errors->first('company-email') }}
+                    </div>
+                  @endif
               </div>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
                 <label for="country-code" class="form-label">Country Code <span class="text-danger">*</span></label>
                 <div class="mb-3">
-                  <select class="form-control"  name="country-code" id="country-code">
+                  <select class="form-control" name="country-code" id="country-code">
                     @foreach ($countries as $country)
             <option {{ ($settings['country-code'] && $settings['country-code'] == $country->phone_code) ? 'selected' : '' }} value="{{ $country->phone_code }}">+({{ $country->phone_code }})
               {{ $country->name }}
@@ -73,7 +85,7 @@
               <div class="mb-3">
                 <label for="country-name" class="form-label">Country</label>
                 <div class="mb-3">
-                  <select class="form-control"  name="country-name" id="country-name">
+                  <select class="form-control" name="country-name" id="country-name">
                     <option value="">Select Country</option>
                     @foreach ($countries as $country)
             <option value="{{ $country->id }}" {{ ($settings['country-name'] && $settings['country-name'] == $country->id) ? 'selected' : '' }}>
@@ -88,7 +100,7 @@
               <div class="mb-3">
                 <label for="state-code" class="form-label">State</label>
                 <div class="mb-3">
-                  <select class="form-control"  name="state-code" id="state-code">
+                  <select class="form-control" name="state-code" id="state-code">
                   </select>
                 </div>
               </div>
@@ -128,6 +140,18 @@
         @endif
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="invoice-prefix" class="form-label">Invoice Prefix <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @error('invoice-prefix') is-invalid @enderror" id="invoice-prefix"
+                  placeholder="Invoice prefix" value="{{ $settings['invoice-prefix'] }}" name="invoice-prefix">
+                @if ($errors->has('invoice-prefix'))
+          <div class="invalid-feedback">
+            {{ $errors->first('invoice-prefix') }}
+          </div>
+        @endif
+              </div>
+            </div>
 
             <div class="col-md-6">
               <div class="mb-3">
@@ -142,45 +166,46 @@
               </div>
             </div>
             <div class="row">
-            <div class="col-lg-3 col-md-6">
-              <div class="d-flex flex-column align-items-center">
-                <div class="mb-2">
-                  <span>App Logo <span class="text-danger">*</span></span>
-                </div>
-                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                  <img src="{{ URL::asset('images/uploads/' . $settings['app-logo']) }}"
-                    class="rounded-circle avatar-xl img-thumbnail app-logo-image material-shadow" alt="app-logo-image">
-                  <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                    <input id="app-logo-input" type="file" name="app-logo" class="app-logo-input">
-                    <label for="app-logo-input" class="profile-photo-edit avatar-xs">
-                      <span class="avatar-title rounded-circle bg-light text-body material-shadow">
-                        <i class="ri-camera-fill"></i>
-                      </span>
-                    </label>
+              <div class="col-lg-3 col-md-6">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="mb-2">
+                    <span>App Logo <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                    <img src="{{ URL::asset('images/uploads/' . $settings['app-logo']) }}"
+                      class="rounded-circle avatar-xl img-thumbnail app-logo-image material-shadow"
+                      alt="app-logo-image">
+                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                      <input id="app-logo-input" type="file" name="app-logo" class="app-logo-input">
+                      <label for="app-logo-input" class="profile-photo-edit avatar-xs">
+                        <span class="avatar-title rounded-circle bg-light text-body material-shadow">
+                          <i class="ri-camera-fill"></i>
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="d-flex flex-column align-items-center">
-                <div class="mb-2">
-                  <span>App Fevicon <span class="text-danger">*</span></span>
-                </div>
-                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                  <img src="{{ URL::asset('images/uploads/' . $settings['app-fevicon']) }}"
-                    class="rounded-circle avatar-xl img-thumbnail app-fevicon-image material-shadow"
-                    alt="app-fevicon-image">
-                  <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                    <input id="app-fevicon-input" type="file" name="app-fevicon" class="app-fevicon-input">
-                    <label for="app-fevicon-input" class="profile-photo-edit avatar-xs">
-                      <span class="avatar-title rounded-circle bg-light text-body material-shadow">
-                        <i class="ri-camera-fill"></i>
-                      </span>
-                    </label>
+              <div class="col-lg-3 col-md-6">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="mb-2">
+                    <span>App Fevicon <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                    <img src="{{ URL::asset('images/uploads/' . $settings['app-fevicon']) }}"
+                      class="rounded-circle avatar-xl img-thumbnail app-fevicon-image material-shadow"
+                      alt="app-fevicon-image">
+                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                      <input id="app-fevicon-input" type="file" name="app-fevicon" class="app-fevicon-input">
+                      <label for="app-fevicon-input" class="profile-photo-edit avatar-xs">
+                        <span class="avatar-title rounded-circle bg-light text-body material-shadow">
+                          <i class="ri-camera-fill"></i>
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
             <div class="col-md-6 d-none">
               <div class="mb-3">
@@ -226,12 +251,12 @@
       icon: 'success',
       showCancelButton: false,
       customClass: {
-        confirmButton: 'btn btn-primary w-xs me-2 mt-2',
+      confirmButton: 'btn btn-primary w-xs me-2 mt-2',
       },
       buttonsStyling: false,
       showCloseButton: true
     });
-    @endif
+  @endif
 
     @if(Session::has('error'))
     Swal.fire({
@@ -240,23 +265,23 @@
       icon: 'error',
       showCancelButton: false,
       customClass: {
-        confirmButton: 'btn btn-danger w-xs mt-2',
+      confirmButton: 'btn btn-danger w-xs mt-2',
       },
       buttonsStyling: false,
       showCloseButton: true
     });
-    @endif
+  @endif
 
     $('#state-code').select2();
     $('#city').select2();
     $('#country-name').select2();
     $('#country-code').select2();
 
-    $('#country-name').change(function() {
+    $('#country-name').change(function () {
       fetchStates($(this).val());
     });
 
-    $('#state-code').change(function() {
+    $('#state-code').change(function () {
       fetchCities($(this).val());
     });
 
@@ -309,7 +334,7 @@
       }
 
       // Ensure cities are fetched only after states are loaded
-      $('#state-code').one('change', function() {
+      $('#state-code').one('change', function () {
         if (initialStateId) {
           fetchCities(initialStateId);
         }

@@ -9,6 +9,8 @@ use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Validator;
+use App\Rules\GstNumber;
+
 class SettingsController extends Controller
 {
     public function index() {
@@ -43,8 +45,10 @@ class SettingsController extends Controller
         'app-fevicon' => 'nullable|mimes:jpg,jpeg,png,webp',
         'country-code' => 'required',
         'company-phone' => 'required',
+        'company-email' => 'required|email|max:255|string',
         'Address' => 'required',
-        'GST-NO' => 'nullable',
+        'invoice-prefix' => 'required|string',
+        'GST-NO' =>  ['nullable', new GstNumber],
         'city' => 'nullable',
         'state-code' => 'nullable',
         'country-name' => 'nullable',

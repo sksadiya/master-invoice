@@ -1,6 +1,6 @@
 
 <?php $__env->startSection('title'); ?>
-<?php echo app('translator')->get('translation.dashboards'); ?>
+App Settings
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
 <link href="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet" type="text/css" />
@@ -10,7 +10,7 @@
 <div class="row">
   <div class="col-xxl-12">
     <div class="card">
-    <div class="card-header">
+      <div class="card-header">
         <h4 class="card-title mb-0">App Settings</h4>
       </div>
       <div class="card-body p-4">
@@ -50,19 +50,39 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="company-name"
                   placeholder="company name" value="<?php echo e($settings['company-name']); ?>" name="company-name">
-                <?php if($errors->has('company-name')): ?>
-          <div class="invalid-feedback">
-            <?php echo e($errors->first('company-name')); ?>
+                  <?php if($errors->has('company-name')): ?>
+                    <div class="invalid-feedback">
+                      <?php echo e($errors->first('company-name')); ?>
 
-          </div>
-        <?php endif; ?>
+                    </div>
+                  <?php endif; ?>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="company-email" class="form-label">Company Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control <?php $__errorArgs = ['company-email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="company-email"
+                  placeholder="Company Email" value="<?php echo e($settings['company-email']); ?>" name="company-email">
+                  <?php if($errors->has('company-email')): ?>
+                    <div class="invalid-feedback">
+                      <?php echo e($errors->first('company-email')); ?>
+
+                    </div>
+                  <?php endif; ?>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
                 <label for="country-code" class="form-label">Country Code <span class="text-danger">*</span></label>
                 <div class="mb-3">
-                  <select class="form-control"  name="country-code" id="country-code">
+                  <select class="form-control" name="country-code" id="country-code">
                     <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option <?php echo e(($settings['country-code'] && $settings['country-code'] == $country->phone_code) ? 'selected' : ''); ?> value="<?php echo e($country->phone_code); ?>">+(<?php echo e($country->phone_code); ?>)
               <?php echo e($country->name); ?>
@@ -98,7 +118,7 @@ unset($__errorArgs, $__bag); ?>" id="company-phone"
               <div class="mb-3">
                 <label for="country-name" class="form-label">Country</label>
                 <div class="mb-3">
-                  <select class="form-control"  name="country-name" id="country-name">
+                  <select class="form-control" name="country-name" id="country-name">
                     <option value="">Select Country</option>
                     <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($country->id); ?>" <?php echo e(($settings['country-name'] && $settings['country-name'] == $country->id) ? 'selected' : ''); ?>>
@@ -114,7 +134,7 @@ unset($__errorArgs, $__bag); ?>" id="company-phone"
               <div class="mb-3">
                 <label for="state-code" class="form-label">State</label>
                 <div class="mb-3">
-                  <select class="form-control"  name="state-code" id="state-code">
+                  <select class="form-control" name="state-code" id="state-code">
                   </select>
                 </div>
               </div>
@@ -170,6 +190,26 @@ unset($__errorArgs, $__bag); ?>" id="GST-NO"
         <?php endif; ?>
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="invoice-prefix" class="form-label">Invoice Prefix <span class="text-danger">*</span></label>
+                <input type="text" class="form-control <?php $__errorArgs = ['invoice-prefix'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="invoice-prefix"
+                  placeholder="Invoice prefix" value="<?php echo e($settings['invoice-prefix']); ?>" name="invoice-prefix">
+                <?php if($errors->has('invoice-prefix')): ?>
+          <div class="invalid-feedback">
+            <?php echo e($errors->first('invoice-prefix')); ?>
+
+          </div>
+        <?php endif; ?>
+              </div>
+            </div>
 
             <div class="col-md-6">
               <div class="mb-3">
@@ -192,45 +232,46 @@ unset($__errorArgs, $__bag); ?>" cols="5" rows="5" id="Address"
               </div>
             </div>
             <div class="row">
-            <div class="col-lg-3 col-md-6">
-              <div class="d-flex flex-column align-items-center">
-                <div class="mb-2">
-                  <span>App Logo <span class="text-danger">*</span></span>
-                </div>
-                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                  <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-logo'])); ?>"
-                    class="rounded-circle avatar-xl img-thumbnail app-logo-image material-shadow" alt="app-logo-image">
-                  <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                    <input id="app-logo-input" type="file" name="app-logo" class="app-logo-input">
-                    <label for="app-logo-input" class="profile-photo-edit avatar-xs">
-                      <span class="avatar-title rounded-circle bg-light text-body material-shadow">
-                        <i class="ri-camera-fill"></i>
-                      </span>
-                    </label>
+              <div class="col-lg-3 col-md-6">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="mb-2">
+                    <span>App Logo <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                    <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-logo'])); ?>"
+                      class="rounded-circle avatar-xl img-thumbnail app-logo-image material-shadow"
+                      alt="app-logo-image">
+                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                      <input id="app-logo-input" type="file" name="app-logo" class="app-logo-input">
+                      <label for="app-logo-input" class="profile-photo-edit avatar-xs">
+                        <span class="avatar-title rounded-circle bg-light text-body material-shadow">
+                          <i class="ri-camera-fill"></i>
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="d-flex flex-column align-items-center">
-                <div class="mb-2">
-                  <span>App Fevicon <span class="text-danger">*</span></span>
-                </div>
-                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                  <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-fevicon'])); ?>"
-                    class="rounded-circle avatar-xl img-thumbnail app-fevicon-image material-shadow"
-                    alt="app-fevicon-image">
-                  <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                    <input id="app-fevicon-input" type="file" name="app-fevicon" class="app-fevicon-input">
-                    <label for="app-fevicon-input" class="profile-photo-edit avatar-xs">
-                      <span class="avatar-title rounded-circle bg-light text-body material-shadow">
-                        <i class="ri-camera-fill"></i>
-                      </span>
-                    </label>
+              <div class="col-lg-3 col-md-6">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="mb-2">
+                    <span>App Fevicon <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                    <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-fevicon'])); ?>"
+                      class="rounded-circle avatar-xl img-thumbnail app-fevicon-image material-shadow"
+                      alt="app-fevicon-image">
+                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                      <input id="app-fevicon-input" type="file" name="app-fevicon" class="app-fevicon-input">
+                      <label for="app-fevicon-input" class="profile-photo-edit avatar-xs">
+                        <span class="avatar-title rounded-circle bg-light text-body material-shadow">
+                          <i class="ri-camera-fill"></i>
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
             <div class="col-md-6 d-none">
               <div class="mb-3">
@@ -284,12 +325,12 @@ unset($__errorArgs, $__bag); ?>" id="Copyright"
       icon: 'success',
       showCancelButton: false,
       customClass: {
-        confirmButton: 'btn btn-primary w-xs me-2 mt-2',
+      confirmButton: 'btn btn-primary w-xs me-2 mt-2',
       },
       buttonsStyling: false,
       showCloseButton: true
     });
-    <?php endif; ?>
+  <?php endif; ?>
 
     <?php if(Session::has('error')): ?>
     Swal.fire({
@@ -298,23 +339,23 @@ unset($__errorArgs, $__bag); ?>" id="Copyright"
       icon: 'error',
       showCancelButton: false,
       customClass: {
-        confirmButton: 'btn btn-danger w-xs mt-2',
+      confirmButton: 'btn btn-danger w-xs mt-2',
       },
       buttonsStyling: false,
       showCloseButton: true
     });
-    <?php endif; ?>
+  <?php endif; ?>
 
     $('#state-code').select2();
     $('#city').select2();
     $('#country-name').select2();
     $('#country-code').select2();
 
-    $('#country-name').change(function() {
+    $('#country-name').change(function () {
       fetchStates($(this).val());
     });
 
-    $('#state-code').change(function() {
+    $('#state-code').change(function () {
       fetchCities($(this).val());
     });
 
@@ -367,7 +408,7 @@ unset($__errorArgs, $__bag); ?>" id="Copyright"
       }
 
       // Ensure cities are fetched only after states are loaded
-      $('#state-code').one('change', function() {
+      $('#state-code').one('change', function () {
         if (initialStateId) {
           fetchCities(initialStateId);
         }

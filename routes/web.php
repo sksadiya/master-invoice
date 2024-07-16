@@ -62,8 +62,14 @@ Route::get('product/edit/{id}', [App\Http\Controllers\ProductController::class, 
 Route::post('product/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
 Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete');
 
+Route::get('invoice/add', [App\Http\Controllers\Invoices::class, 'create'])->name('invoice.add');
+Route::post('invoice/add', [App\Http\Controllers\Invoices::class, 'store'])->name('invoice.store');
+Route::get('invoice', [App\Http\Controllers\Invoices::class, 'index'])->name('invoices');
+
+
 Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');
 Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
+Route::get('/clients/{id}', [App\Http\Controllers\Invoices::class, 'fetchClient'])->name('fetch.client');
 
 });
 

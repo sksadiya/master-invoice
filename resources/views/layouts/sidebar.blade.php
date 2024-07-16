@@ -61,6 +61,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('invoices') }}" >
+                    <i class="ri-apps-2-line"></i> <span>Invoices</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('app-settings') }}" >
                     <i class="ri-stack-line"></i> <span>Settings</span>
                     </a>

@@ -48,10 +48,7 @@ document
 		}
 	});
 
-flatpickr("#date-field", {
-	enableTime: true,
-	dateFormat: "d M, Y, h:i K",
-});
+
 
 isData();
 

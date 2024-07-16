@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-Clients
+Invoices
 @endsection
 
 @section('css')
@@ -13,26 +13,26 @@ Clients
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0">Clients</h4>
+        <h4 class="card-title mb-0">Invoices</h4>
       </div>
 
       <div class="card-body">
-        <div class="listjs-table" id="clientsList">
+        <div class="listjs-table" id="invoiceList">
           <div class="row g-4 mb-3">
             <div class="col-sm-auto">
               <div>
-                <a href="{{ route('client.add') }}" type="button" class="btn btn-primary add-btn">Add Client</a>
+                <a href="{{ route('invoice.add') }}" type="button" class="btn btn-primary add-btn">Add Invoice</a>
               </div>
             </div>
             <div class="col-sm">
-              <form method="GET" action="{{ route('clients') }}" id="searchForm">
+              <form method="GET" action="" id="searchForm">
                 <div class="d-flex justify-content-sm-end">
                   <div class="search-box ms-2 me-2">
                     <input type="text" class="form-control search" name="search" id="searchInput"
                       value="{{ request()->get('search') }}" placeholder="Search...">
                     <i class="ri-search-line search-icon"></i>
                   </div>
-                  <a href="{{ route('clients') }}" type="button" class="btn bg-primary text-light">reset</a>
+                  <a href="" type="button" class="btn bg-primary text-light">reset</a>
 
                 </div>
               </form>
@@ -43,53 +43,41 @@ Clients
             <table class="table align-middle table-nowrap" id="categoryTable">
               <thead class="table-light">
                 <tr>
-                  <th class="sort" data-sort="client-name">Name</th>
-                  <th class="sort" data-sort="client-business">Business Name</th>
-                  <th class="sort" data-sort="client-contact">Contact</th>
-                  <th class="sort" data-sort="client-invoices-count">Invoices</th>
-                  <th class="sort" data-sort="client-total-amount">Total</th>
-                  <th class="sort" data-sort="client-pending-amount">Pending</th>
+                  <th class="sort" data-sort="invoice-number">Invoice</th>
+                  <th class="sort" data-sort="invoice-client">Client</th>
+                  <th class="sort" data-sort="invoice-total">Total Amount</th>
+                  <th class="sort" data-sort="invoice-due">Due Amount</th>
+                  <th class="sort" data-sort="invoice-status">Status</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
               <tbody class="list form-check-all">
-                @if($clients)
-          @foreach ($clients as $client)
-        <tr>
-        <td class="client-name"><a href="{{ route('client.show',$client->id)}}">{{ $client->first_name }}
-          {{$client->last_name}}</a></td>
-        <td class="client-business">{{ $client->business }}</td>
-        <td class="client-contact">{{ $client->contact }}</td>
-        <td class="client-invoices-count"></td>
-        <td class="client-total-amount"></td>
-        <td class="client-pending-amount"></td>
-        <td class="">
-        <div class="justify-content-end d-flex gap-2">
-          <div class="edit">
-          <a href="{{ route('client.edit', $client->id) }}" class="btn btn-sm btn-success edit-item-btn"><i
-          class="bx bxs-pencil"></i> Edit</a>
-          </div>
-          <div class="remove">
-          <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
-          data-bs-target="#confirmationModal" data-id="{{ $client->id }}"><i class="bx bx-trash"></i>
-          Delete</button>
-          </div>
-        </div>
-        </td>
-        </tr>
-      @endforeach
-        @else
-      <tr>
-        <td colspan="2" class="text-center">Result Not found</td>
-      </tr>
-    @endif
+
+                <tr>
+                  <td class="invoice-number"><a href=""></a></td>
+                  <td class="invoice-client"></td>
+                  <td class="invoice-total"></td>
+                  <td class="invoice-due"></td>
+                  <td class="invoice-status"></td>
+                  <td class="">
+                    <div class="justify-content-end d-flex gap-2">
+                      <div class="edit">
+                        <a href="" class="btn btn-sm btn-success edit-item-btn"><i class="bx bxs-pencil"></i> Edit</a>
+                      </div>
+                      <div class="remove">
+                        <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
+                          data-bs-target="#invoiceDeleteModal" data-id=""><i class="bx bx-trash"></i>
+                          Delete</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
           <div class="row">
             <div class="col-md-6 justify-content-start">
               <div class="pagination-wrap hstack gap-2">
-                {{ $clients->links() }}
               </div>
             </div>
             <div class="col-md-6 justify-content-end d-flex">
@@ -99,10 +87,10 @@ Clients
                   Per Page
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="perPageDropdown">
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="20">20</a></li>
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="30">30</a></li>
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="50">50</a></li>
-                  <li><a class="dropdown-item client-per-page-item" href="#" data-per-page="100">100</a></li>
+                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="20">20</a></li>
+                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="30">30</a></li>
+                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="50">50</a></li>
+                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="100">100</a></li>
                 </ul>
               </div>
             </div>
@@ -115,7 +103,7 @@ Clients
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade zoomIn" id="confirmationModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade zoomIn" id="invoiceDeleteModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -177,15 +165,16 @@ Clients
   @endif
 
   $(document).ready(function () {
-    $('.dropdown-item.client-per-page-item').on('click', function (e) {
+    $('.dropdown-item.invoive-per-page-item').on('click', function (e) {
       e.preventDefault();
       var perPage = $(this).data('per-page');
-      var url = '{{ $clients->url($clients->currentPage()) }}' + '&perPage=' + perPage;
+      var url = '' + '&perPage=' + perPage;
       window.location.href = url;
     });
-    var clientsList = new List('clientsList', {
-      valueNames: ['client-name', 'client-business', 'client-contact', 'client-invoices-count',
-        'client-total-amount', 'client-pending-amount', 'action'],
+
+    var invoiceList = new List('invoiceList', {
+      valueNames: ['invoice-number', 'invoice-client', 'invoice-total', 'invoice-due',
+        'invoice-status', 'action'],
     });
 
     $('.remove-item-btn').on('click', function () {
@@ -196,7 +185,7 @@ Clients
     $('#delete-record').on('click', function () {
       var clientId = $(this).data('id');
       console.log(clientId);
-      const delRoute = "{{ route('client.delete', 'ID') }}";
+      const delRoute = "";
       const newdelRoute = delRoute.replace('ID', clientId);
 
       $.ajax({
@@ -207,13 +196,13 @@ Clients
         },
         success: function (response) {
           if (response.status) {
-            $('#confirmationModal').hide();
+            $('#invoiceDeleteModal').hide();
             console.log(response.status);
             location.reload();
           }
         },
         error: function (response) {
-          $('#confirmationModal').hide();
+          $('#invoiceDeleteModal').hide();
           location.reload();
           Swal.fire({
             icon: 'error',

@@ -1,0 +1,20 @@
+ function updateTotalPrice() {
+      var quantity = parseInt($('.product-qty').val());
+      var pricePerUnit = parseFloat($('.productRate').val());
+      var totalPrice = quantity * pricePerUnit;
+
+      $('.productPrice').val('₹' + totalPrice.toFixed(2));
+      $('#invoice-subtotal').val('₹' + totalPrice.toFixed(2));
+
+    }
+
+    function updateRate() {
+      var selectedProductPrice = $('.select-product-item').find(':selected').data('product-price');
+      var selectedProductID = $('.select-product-item').find(':selected').data('product-id');
+      $('.productRate').val(selectedProductPrice);
+      $('.product-item-id').text(selectedProductID);
+      $('.product-row').attr('id', 'product-row-' + selectedProductID);
+      updateTotalPrice();
+    }
+    $('#select-product').change(updateRate);
+    updateRate();

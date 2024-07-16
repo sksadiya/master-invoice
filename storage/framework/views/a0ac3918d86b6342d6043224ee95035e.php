@@ -21,7 +21,7 @@ Clients
           <div class="row g-4 mb-3">
             <div class="col-sm-auto">
               <div>
-                <a href="<?php echo e(route('client.add')); ?>" type="button" class="btn btn-primary add-btn" >Add Client</a>
+                <a href="<?php echo e(route('client.add')); ?>" type="button" class="btn btn-primary add-btn">Add Client</a>
               </div>
             </div>
             <div class="col-sm">
@@ -56,7 +56,9 @@ Clients
                 <?php if($clients): ?>
           <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-        <td class="client-name"><a href="<?php echo e(route('client.show',$client->id)); ?>"><?php echo e($client->first_name); ?> <?php echo e($client->last_name); ?></a></td>
+        <td class="client-name"><a href="<?php echo e(route('client.show',$client->id)); ?>"><?php echo e($client->first_name); ?>
+
+          <?php echo e($client->last_name); ?></a></td>
         <td class="client-business"><?php echo e($client->business); ?></td>
         <td class="client-contact"><?php echo e($client->contact); ?></td>
         <td class="client-invoices-count"></td>
@@ -65,7 +67,8 @@ Clients
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
-          <a href="<?php echo e(route('client.edit',$client->id)); ?>" class="btn btn-sm btn-success edit-item-btn" ><i class="bx bxs-pencil"></i> Edit</a>
+          <a href="<?php echo e(route('client.edit', $client->id)); ?>" class="btn btn-sm btn-success edit-item-btn"><i
+          class="bx bxs-pencil"></i> Edit</a>
           </div>
           <div class="remove">
           <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
@@ -87,7 +90,7 @@ Clients
           <div class="row">
             <div class="col-md-6 justify-content-start">
               <div class="pagination-wrap hstack gap-2">
-              <?php echo e($clients->links()); ?>
+                <?php echo e($clients->links()); ?>
 
               </div>
             </div>
@@ -147,35 +150,35 @@ Clients
 <script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <script>
-   <?php if(Session::has('success')): ?>
+  <?php if(Session::has('success')): ?>
     Swal.fire({
-      title: 'Success!',
-      text: '<?php echo e(Session::get('success')); ?>',
-      icon: 'success',
-      showCancelButton: false,
-      customClass: {
+    title: 'Success!',
+    text: '<?php echo e(Session::get('success')); ?>',
+    icon: 'success',
+    showCancelButton: false,
+    customClass: {
       confirmButton: 'btn btn-primary w-xs me-2 mt-2',
-      },
-      buttonsStyling: false,
-      showCloseButton: true
+    },
+    buttonsStyling: false,
+    showCloseButton: true
     });
   <?php endif; ?>
 
-    <?php if(Session::has('error')): ?>
+  <?php if(Session::has('error')): ?>
     Swal.fire({
-      title: 'Error!',
-      text: "<?php echo e(Session::get('error')); ?>",
-      icon: 'error',
-      showCancelButton: false,
-      customClass: {
+    title: 'Error!',
+    text: "<?php echo e(Session::get('error')); ?>",
+    icon: 'error',
+    showCancelButton: false,
+    customClass: {
       confirmButton: 'btn btn-danger w-xs mt-2',
-      },
-      buttonsStyling: false,
-      showCloseButton: true
+    },
+    buttonsStyling: false,
+    showCloseButton: true
     });
   <?php endif; ?>
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('.dropdown-item.client-per-page-item').on('click', function (e) {
       e.preventDefault();
       var perPage = $(this).data('per-page');
@@ -183,8 +186,8 @@ Clients
       window.location.href = url;
     });
     var clientsList = new List('clientsList', {
-      valueNames: ['client-name', 'client-business', 'client-contact','client-invoices-count',
-      'client-total-amount','client-pending-amount' ,'action'],
+      valueNames: ['client-name', 'client-business', 'client-contact', 'client-invoices-count',
+        'client-total-amount', 'client-pending-amount', 'action'],
     });
 
     $('.remove-item-btn').on('click', function () {
@@ -213,6 +216,7 @@ Clients
         },
         error: function (response) {
           $('#confirmationModal').hide();
+          location.reload();
           Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -220,7 +224,7 @@ Clients
           });
         }
       });
-  });
+    });
   });
 </script>
 <?php $__env->stopSection(); ?>
