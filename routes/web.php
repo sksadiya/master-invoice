@@ -65,6 +65,7 @@ Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, '
 Route::get('invoice/add', [App\Http\Controllers\Invoices::class, 'create'])->name('invoice.add');
 Route::post('invoice/add', [App\Http\Controllers\Invoices::class, 'store'])->name('invoice.store');
 Route::get('invoice', [App\Http\Controllers\Invoices::class, 'index'])->name('invoices');
+Route::delete('/invoice/{id}', [App\Http\Controllers\Invoices::class, 'destroy'])->name('invoice.delete');
 
 
 Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');

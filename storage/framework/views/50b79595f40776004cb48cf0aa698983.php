@@ -10,67 +10,178 @@
 <div class="row justify-content-center">
   <div class="col-xxl-9">
     <div class="card">
-      <form action="<?php echo e(route('invoice.store')); ?>" method="post"  id="invoice_form" name="invoice_form">
+      <form action="<?php echo e(route('invoice.store')); ?>" method="post" id="invoice_form" name="invoice_form">
         <?php echo csrf_field(); ?>
         <div class="card-body border-bottom border-bottom-dashed p-4">
           <div class="row">
             <div class="col-lg-4">
               <div class="profile-user mx-auto  mb-3">
-                  <span
-                    class="overflow-hidden border border-dashed d-flex align-items-center justify-content-center rounded"
-                    style="height: 60px; width: 256px;">
-                    <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-logo'])); ?>"
-                      class="card-logo card-logo-dark user-profile-image img-fluid" alt="logo dark">
-                    <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-logo'])); ?>"
-                      class="card-logo card-logo-light user-profile-image img-fluid" alt="logo light">
-                  </span>
+                <span
+                  class="overflow-hidden border border-dashed d-flex align-items-center justify-content-center rounded"
+                  style="height: 60px; width: 256px;">
+                  <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-logo'])); ?>"
+                    class="card-logo card-logo-dark user-profile-image img-fluid" alt="logo dark">
+                  <img src="<?php echo e(URL::asset('images/uploads/' . $settings['app-logo'])); ?>"
+                    class="card-logo card-logo-light user-profile-image img-fluid" alt="logo light">
+                </span>
               </div>
               <div>
                 <div>
                   <label for="companyAddress">Address</label>
                 </div>
                 <div class="mb-2">
-                  <textarea class="form-control bg-light border-0" id="companyAddress" rows="3"
-                    placeholder="Company Address" name="companyAddress" required><?php echo e($settings['Address']); ?></textarea>
-                  <div class="invalid-feedback">
-                  </div>
+                  <textarea class="form-control bg-light border-0 <?php $__errorArgs = ['companyAddress'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                    id="companyAddress" rows="3" placeholder="Company Address"
+                    name="companyAddress"><?php echo e($settings['Address']); ?></textarea>
+                  <?php $__errorArgs = ['companyAddress'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+            </div>
+          <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
                 <div>
-                  <input type="text" class="form-control bg-light border-0" value="<?php echo e($settings['zip-code']); ?>"
-                    name="company-postal-code" id="companyaddpostalcode" minlength="5" maxlength="6"
-                    placeholder="Enter Postal Code" required />
-                  <div class="invalid-feedback">
-                  </div>
+                  <input type="text"
+                    class="form-control bg-light border-0 <?php $__errorArgs = ['company_postal_code'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                    value="<?php echo e($settings['zip-code']); ?>" name="company_postal_code" id="companyaddpostalcode"
+                    minlength="5" maxlength="6" placeholder="Enter Postal Code" />
+                  <?php $__errorArgs = ['company_postal_code'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+            </div>
+          <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
               </div>
             </div><!--end col-->
             <div class="col-lg-4 ms-auto">
               <div class="mb-2">
-                <input type="text" class="form-control bg-light border-0" value="<?php echo e($settings['GST-NO']); ?>"
-                  name="gst_number" id="GSTNumber" placeholder="GST No." required />
-                <div class="invalid-feedback">
-                </div>
+                <input type="text" class="form-control bg-light border-0 <?php $__errorArgs = ['gst_number'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  value="<?php echo e($settings['GST-NO']); ?>" name="gst_number" id="GSTNumber" placeholder="GST No." />
+                <?php $__errorArgs = ['gst_number'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
               <div class="mb-2">
-                <input type="email" class="form-control bg-light border-0" name="company_email"
-                  value="<?php echo e($settings['company-email']); ?>" id="companyEmail" placeholder="Email Address" required />
-                <div class="invalid-feedback">
-                </div>
+                <input type="email" class="form-control bg-light border-0 <?php $__errorArgs = ['company_email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  name="company_email" value="<?php echo e($settings['company-email']); ?>" id="companyEmail"
+                  placeholder="Email Address" />
+                <?php $__errorArgs = ['company_email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
 
               <div class="mb-2">
-                <input type="text" class="form-control bg-light border-0" name="companyPhone"
-                  value="+<?php echo e($settings['country-code']); ?> <?php echo e($settings['company-phone']); ?>" data-plugin="cleave-phone"
-                  id="compnayContactno" placeholder="Contact No" required />
-                <div class="invalid-feedback">
-                </div>
+                <input type="text" class="form-control bg-light border-0 <?php $__errorArgs = ['companyPhone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  name="companyPhone" value="<?php echo e($settings['company-phone']); ?>" id="compnayContactno"
+                  placeholder="Contact No" />
+                <?php $__errorArgs = ['companyPhone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
               <div>
-                <input type="text" class="form-control bg-light border-0" id="invoicenoInput" name="invoicenoInput"
-                  placeholder="Invoice Number" value="<?php echo e($settings['invoice-prefix']); ?><?php echo e($invoiceNumber); ?>"
+                <input type="text" class="form-control bg-light border-0 <?php $__errorArgs = ['invoicenoInput'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> "
+                  id="invoicenoInput" name="invoicenoInput" placeholder="Invoice Number" value="<?php echo e($invoiceNumber); ?>"
                   readonly="readonly" />
-                <div class="invalid-feedback">
-                </div>
+                <?php $__errorArgs = ['invoicenoInput'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
             </div>
           </div><!--end row-->
@@ -80,33 +191,103 @@
             <div class="col-lg-3 col-sm-6">
               <label for="client">Client</label>
               <div class="input-light">
-                <select class="form-control bg-light border-0" id="clientName" name="client">
+                <select class="form-control bg-light border-0 <?php $__errorArgs = ['client'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="clientName"
+                  name="client">
                   <?php if($clients): ?>
             <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <option value="<?php echo e($client->id); ?>"><?php echo e($client->first_name); ?></option>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           <?php endif; ?>
                 </select>
+                <?php $__errorArgs = ['client'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
             </div><!--end col-->
             <div class="col-lg-3 col-sm-6">
               <div>
                 <label for="date-field">Date</label>
-                <input type="date" value="<?php echo e($invoiceDate); ?>" name="invoice_date" class="form-control bg-light border-0"
-                  id="date-field" data-time="true" placeholder="Select Date-time">
+                <input type="date" value="<?php echo e($invoiceDate); ?>" name="invoice_date"
+                  class="form-control bg-light border-0 <?php $__errorArgs = ['invoice_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="date-field"
+                  data-time="true" placeholder="Select Date-time">
+                <?php $__errorArgs = ['invoice_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
             </div><!--end col-->
             <div class="col-lg-3 col-sm-6">
               <div>
                 <label for="totalamountInput">Due Date</label>
-                <input type="date" class="form-control bg-light border-0" id="due_date" value="<?php echo e($dueDate); ?>"
-                  name="due_date" />
+                <input type="date" class="form-control bg-light border-0 <?php $__errorArgs = ['due_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  id="due_date" value="<?php echo e($dueDate); ?>" name="due_date" />
+                <?php $__errorArgs = ['due_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
             </div><!--end col-->
             <div class="col-lg-3 col-sm-6">
               <label for="select-payment-status">Status <span class="text-danger">*</span></label>
               <div class="input-light">
-                <select class="form-control bg-light border-0" name="invoice_status" id="select-payment-status" required>
+                <select class="form-control bg-light border-0 <?php $__errorArgs = ['invoice_status'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  name="invoice_status" id="select-payment-status">
                   <option value="Unpaid">Unpaid</option>
                   <option value="Paid">Paid</option>
                   <option value="Partially_Paid">Partially Paid</option>
@@ -114,6 +295,19 @@
                   <option value="Processing">Processing</option>
                   <option value="Draft">Draft</option>
                 </select>
+                <?php $__errorArgs = ['invoice_status'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
             </div><!--end col-->
 
@@ -126,31 +320,100 @@
                 <label for="billingName" class="text-muted text-uppercase fw-semibold">Address</label>
               </div>
               <div class="mb-2">
-                <input type="text" class="form-control bg-light border-0" name="fullname" id="billingName"
-                  placeholder="Full Name" required />
-                <div class="invalid-feedback">
-                </div>
+                <input type="text" class="form-control bg-light border-0 <?php $__errorArgs = ['fullname'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> "
+                  name="fullname" id="billingName" placeholder="Full Name" />
+                <?php $__errorArgs = ['fullname'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
               <div class="mb-2">
-                <textarea class="form-control bg-light border-0" id="billingAddress" name="clientAddress" rows="3"
-                  placeholder="Address" required></textarea>
-                <div class="invalid-feedback">
-                  Please enter a address
-                </div>
+                <textarea class="form-control bg-light border-0 <?php $__errorArgs = ['clientAddress'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  id="billingAddress" name="clientAddress" rows="3" placeholder="Address"></textarea>
+                <?php $__errorArgs = ['clientAddress'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
               <div class="mb-2">
-                <input type="text" class="form-control bg-light border-0" name="clientContact" id="billingPhoneno"
-                  placeholder="(123)456-7890" required />
-                <div class="invalid-feedback">
-                  Please enter a phone number
-                </div>
+                <input type="text" class="form-control bg-light border-0 <?php $__errorArgs = ['clientContact'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  name="clientContact" id="billingPhoneno" placeholder="(123)456-7890" />
+                <?php $__errorArgs = ['clientContact'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control bg-light border-0" name="clientGST" id="billingTaxno"
-                  placeholder="Tax Number" required />
-                <div class="invalid-feedback">
-                  Please enter a tax number
-                </div>
+                <input type="text" class="form-control bg-light border-0 <?php $__errorArgs = ['clientGST'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                  name="clientGST" id="billingTaxno" placeholder="Tax Number" />
+                <?php $__errorArgs = ['clientGST'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+          </div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
               </div>
             </div><!--end col-->
           </div><!--end row-->
@@ -180,39 +443,108 @@
                   <td class="text-start">
                     <div class="mb-2">
                       <div class="input-light">
-                        <select class="form-control bg-light border-0 select-product-item" name="product_id[]">
+                        <select
+                          class="form-control bg-light border-0 select-product-item <?php $__errorArgs = ['product_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                          name="product_id[]">
                           <?php if($products): ?>
-                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($product->id); ?>" data-product-id="<?php echo e($product->id); ?>"
-                                data-product-price="<?php echo e($product->unit_price); ?>" data-product-name="<?php echo e($product->name); ?>">
-                                <?php echo e($product->name); ?>
+                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <option value="<?php echo e($product->id); ?>" data-product-id="<?php echo e($product->id); ?>"
+          data-product-price="<?php echo e($product->unit_price); ?>" data-product-name="<?php echo e($product->name); ?>">
+          <?php echo e($product->name); ?>
 
-                                </option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                          <?php endif; ?>
+          </option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+              <?php endif; ?>
                         </select>
+                        <?php $__errorArgs = ['product_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+              <div class="invalid-feedback">
+                <?php echo e($message); ?>
+
+              </div>
+            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <input type="number" readonly class="form-control product-price bg-light border-0 productRate"
-                      id="productRate" name="product_rate[]" step="0.01" placeholder="₹0.00" required />
-                    <div class="invalid-feedback">
-                      Please enter a rate
-                    </div>
+                    <input type="number" readonly
+                      class="form-control product-price bg-light border-0 productRate <?php $__errorArgs = ['product_rate'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                      id="productRate" name="product_rate[]" step="0.01" placeholder="₹0.00" />
+                    <?php $__errorArgs = ['product_rate'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="invalid-feedback">
+              <?php echo e($message); ?>
+
+            </div>
+          <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                   </td>
                   <td>
                     <div class="input-step">
                       <button type="button" class='minus'>–</button>
-                      <input type="number" class="product-quantity product-qty" name="product_qty[]" id="product-qty" min="1" max="10"
-                        value="1" readonly>
+                      <input type="number"
+                        class="product-quantity product-qty <?php $__errorArgs = ['product_qty'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                        name="product_qty[]" id="product-qty" min="1" max="10" value="1" readonly>
                       <button type="button" class='plus'>+</button>
                     </div>
                   </td>
                   <td class="text-end">
                     <div>
-                      <input type="text" class="form-control bg-light border-0 product-line-price productPrice"
+                      <input type="text"
+                        class="form-control bg-light border-0 product-line-price productPrice <?php $__errorArgs = ['product_item_total'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                         id="productPrice" placeholder="₹0.00" name="product_item_total[]" readonly />
+                      <?php $__errorArgs = ['product_item_total'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+              <div class="invalid-feedback">
+              <?php echo e($message); ?>
+
+              </div>
+            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
                   </td>
                   <td class="product-removal">
@@ -233,7 +565,6 @@
                   </td>
                 </tr>
                 <tr class="border-top border-top-dashed mt-2">
-                  <td colspan="1"></td>
                   <td colspan="3">
                     <table class="table table-borderless table-sm table-nowrap align-middle mb-0">
                       <tbody>
@@ -243,13 +574,41 @@
                             <div class="mb-3">
                               <div class="input-group">
                                 <div class="input-group-prepend">
-                                  <select class="js-example-basic-single" id="discount_type" name="discount_type">
+                                  <select class="js-example-basic-single <?php $__errorArgs = ['discount_type'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                    id="discount_type" name="discount_type">
                                     <option value="Fixed">Fixed</option>
                                     <option value="Percentage">Percentage</option>
                                   </select>
                                 </div>
-                                <input type="number" class="form-control " id="discount" value="" name="discount"
-                                  placeholder="0">
+                                <input type="number" class="form-control <?php $__errorArgs = ['discount'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                  id="discount" value="" name="discount" placeholder="0">
+                                <?php $__errorArgs = ['discount'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                  <div class="invalid-feedback">
+                    <?php echo e($message); ?>
+
+                  </div>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                               </div>
                             </div>
 
@@ -262,13 +621,15 @@
                               <select class="form-control" name="taxes" id="taxes" disabled>
                                 <?php if($taxes): ?>
                                   <?php
-                                      $defaultTax = $taxes->firstWhere('is_default', 1);
-                                  ?>
-                                  <option value="0" data-tax-value="0" <?php echo e(!$defaultTax ? 'selected' : ''); ?>>No Tax</option>
+                  $defaultTax = $taxes->firstWhere('is_default', 1);
+                  ?>
+                                  <option value="0" data-tax-value="0" <?php echo e(!$defaultTax ? 'selected' : ''); ?>>No Tax
+                                  </option>
                                   <?php $__currentLoopData = $taxes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tax): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option <?php echo e(($tax->is_default == 1) ? 'selected'  : ''); ?> data-tax-value="<?php echo e($tax->value); ?>"><?php echo e($tax->name); ?></option>
-                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <?php endif; ?>
+                    <option <?php echo e(($tax->is_default == 1) ? 'selected' : ''); ?> value="<?php echo e($tax->id); ?>"
+                    data-tax-value="<?php echo e($tax->value); ?>"><?php echo e($tax->name); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
                               </select>
                             </div>
                           </td>
@@ -282,29 +643,113 @@
                         <tr>
                           <th scope="row">Sub Total</th>
                           <td style="width:150px;">
-                            <input type="text" class="form-control bg-light border-0" name="invoice-subtotal" id="invoice-subtotal"
-                              placeholder="₹0.00" readonly />
+                            <input type="text"
+                              class="form-control bg-light border-0 <?php $__errorArgs = ['invoice_subtotal'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                              name="invoice_subtotal" id="invoice_subtotal" placeholder="₹0.00" readonly />
+                            <?php $__errorArgs = ['invoice_subtotal'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <div class="invalid-feedback">
+                  <?php echo e($message); ?>
+
+                </div>
+              <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                           </td>
                         </tr>
                         <tr>
                           <th scope="row" id="tax-table-head">Tax</th>
                           <td>
-                            <input type="text" class="form-control bg-light border-0" name="cart-tax" id="cart-tax" placeholder="₹0.00"
-                              readonly />
+                            <input type="text"
+                              class="form-control bg-light border-0  <?php $__errorArgs = ['cart_tax'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                              name="cart_tax" id="cart_tax" placeholder="₹0.00" readonly />
+                            <?php $__errorArgs = ['cart_tax'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <div class="invalid-feedback">
+                  <?php echo e($message); ?>
+
+                </div>
+              <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                           </td>
                         </tr>
                         <tr>
                           <th scope="row">Discount</th>
                           <td>
-                            <input type="text" class="form-control bg-light border-0" name="cart-discount" id="cart-discount"
-                              placeholder="₹0.00" readonly />
+                            <input type="text"
+                              class="form-control bg-light border-0 <?php $__errorArgs = ['cart_discount'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                              name="cart_discount" id="cart_discount" placeholder="₹0.00" readonly />
+                            <?php $__errorArgs = ['cart_discount'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <div class="invalid-feedback">
+                  <?php echo e($message); ?>
+
+                </div>
+              <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                           </td>
                         </tr>
                         <tr class="border-top border-top-dashed">
                           <th scope="row">Total Amount</th>
                           <td>
-                            <input type="text" class="form-control bg-light border-0" name="final_amount" id="cart-total"
-                              placeholder="₹0.00" readonly />
+                            <input type="text"
+                              class="form-control bg-light border-0 <?php $__errorArgs = ['final_amount'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                              name="final_amount" id="cart-total" placeholder="₹0.00" readonly />
+                            <?php $__errorArgs = ['final_amount'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <div class="invalid-feedback">
+                  <?php echo e($message); ?>
+
+                </div>
+              <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                           </td>
                         </tr>
                       </tbody>
@@ -319,26 +764,68 @@
             <div class="col-lg-4">
               <div class="mb-2">
                 <label for="select-payment-type" class="form-label text-muted text-uppercase fw-semibold">Payment
-                  Details</label>
+                  Method</label>
                 <div class="input-light">
-                  <select class="form-control bg-light border-0" id="select-payment-type" name="payment_type">
-                    <option value="">Payment Method</option>
+                  <select class="form-control bg-light border-0 <?php $__errorArgs = ['payment_type'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                    id="select-payment-type" name="payment_type">
                     <option value="bank_transfer">Bank Transfer</option>
                     <option value="phone_pe">PhonePe</option>
                     <option value="google_pay">Google Pay</option>
                   </select>
+                  <?php $__errorArgs = ['payment_type'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="invalid-feedback">
+            <?php echo e($message); ?>
+
+            </div>
+          <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
               </div>
             </div><!--end col-->
           </div><!--end row-->
           <div class="mt-4">
-            <label for="exampleFormControlTextarea1"
-              class="form-label text-muted text-uppercase fw-semibold">NOTES</label>
-            <textarea class="form-control alert alert-info" name="notes" id="exampleFormControlTextarea1" placeholder="Notes"
-              rows="5" cols="5" required>
-                        </textarea>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Notes</label>
+              <textarea class="form-control <?php $__errorArgs = ['notes'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="notes" id="notes" rows="3"></textarea>
+              <?php $__errorArgs = ['notes'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+        <div class="invalid-feedback">
+          <?php echo e($message); ?>
+
+        </div>
+      <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            </div>
+           
           </div>
           <input type="hidden" name="itemArray[]" id="invoiceItemsInput">
+          <input type="hidden" name="tax_id" id="default_tax_id">
+          <input type="hidden" name="tax_name" id="default_tax_name">
           <div class="hstack gap-2 justify-content-end d-print-none mt-4">
             <button type="submit" class="btn btn-success"><i class="ri-printer-line align-bottom me-1"></i>
               Save</button>
@@ -357,30 +844,30 @@
 <script src="<?php echo e(URL::asset('build/select2/js/select2.min.js')); ?>"></script>
 <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <script>
-    $(document).ready(function() {
-var count = 1;
+  $(document).ready(function () {
+    var count = 1;
 
 
-function new_link() {
-    count++; // Increment count or initialize it as needed
+    function new_link() {
+      count++; // Increment count or initialize it as needed
 
-    // Create a new table row element
-    var tr1 = document.createElement("tr");
-    tr1.id = "product-" + count; // Set a unique ID for the new row
-    tr1.className = "product-row";
+      // Create a new table row element
+      var tr1 = document.createElement("tr");
+      tr1.id = "product-" + count; // Set a unique ID for the new row
+      tr1.className = "product-row";
 
-    // Construct the HTML for the new row
-    var delLink =
+      // Construct the HTML for the new row
+      var delLink =
         '<th scope="row" class="product-item-id"></th>' +
         '<td class="text-start">' +
         '<div class="mb-2">' +
         '<div class="input-light">' +
         '<select class="form-control bg-light border-0 select-product-item" name="product_id[]">' +
         '<?php if($products): ?>' +
-        '<?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>' +
-        '<option value="<?php echo e($product->id); ?>" data-product-id="<?php echo e($product->id); ?>" data-product-price="<?php echo e($product->unit_price); ?>" data-product-name="<?php echo e($product->name); ?>" ><?php echo e($product->name); ?></option>' +
-        '<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>' +
-        '<?php endif; ?>' +
+      '<?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>' +
+      '<option value="<?php echo e($product->id); ?>" data-product-id="<?php echo e($product->id); ?>" data-product-price="<?php echo e($product->unit_price); ?>" data-product-name="<?php echo e($product->name); ?>" ><?php echo e($product->name); ?></option>' +
+    '<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>' +
+    '<?php endif; ?>' +
         '</select>' +
         '</div>' +
         '</div>' +
@@ -404,128 +891,133 @@ function new_link() {
         '<a class="btn btn-success delete-row">Delete</a>' +
         '</td>';
 
-    // Set the inner HTML of the new row
-    tr1.innerHTML = delLink;
+      // Set the inner HTML of the new row
+      tr1.innerHTML = delLink;
 
-    // Append the new row to the target container with id 'newlink'
-    document.getElementById("newlink").appendChild(tr1);
+      // Append the new row to the target container with id 'newlink'
+      document.getElementById("newlink").appendChild(tr1);
 
-    // Initialize Select2 on the newly added select element
-    $('.select-product-item').select2(); // Ensure Select2 is properly included and initialized
-    updateRate();
-    // Optional: Attach event handlers or perform other actions as needed
-}
-function updateRate() {
-        $('.product-row').each(function() {
-            var $row = $(this); // Current product row
+      // Initialize Select2 on the newly added select element
+      $('.select-product-item').select2(); // Ensure Select2 is properly included and initialized
+      updateRate();
+      // Optional: Attach event handlers or perform other actions as needed
+    }
+    function updateRate() {
+      $('.product-row').each(function () {
+        var $row = $(this); // Current product row
 
-            // Find the select element within the current row
-            var selectedProductPrice = $row.find('.select-product-item').find(':selected').data('product-price');
-            var selectedProductID = $row.find('.select-product-item').find(':selected').data('product-id');
+        // Find the select element within the current row
+        var selectedProductPrice = $row.find('.select-product-item').find(':selected').data('product-price');
+        var selectedProductID = $row.find('.select-product-item').find(':selected').data('product-id');
 
-            // Update elements within the current row
-            $row.find('.productRate').val(selectedProductPrice);
-            $row.find('.product-item-id').text(selectedProductID);
+        // Update elements within the current row
+        $row.find('.productRate').val(selectedProductPrice);
+        $row.find('.product-item-id').text(selectedProductID);
 
-            var quantity = parseInt($row.find('.product-qty').val());
-            var linePrice = selectedProductPrice * quantity;
-            $row.find('.product-line-price').val(linePrice.toFixed(2));
-        });
+        var quantity = parseInt($row.find('.product-qty').val());
+        var linePrice = selectedProductPrice * quantity;
+        $row.find('.product-line-price').val(linePrice.toFixed(2));
+      });
     }
     function updateSubtotal() {
-        var subtotal = 0;
-        var invoiceItems = [];
+      var subtotal = 0;
+      var invoiceItems = [];
 
-        $('.product-row').each(function() {
-          var $row = $(this); 
-          var productName = $row.find('.select-product-item').find(':selected').data('product-name');
-          var quantity = parseInt($row.find('.product-qty').val());
-          var linePrice = parseFloat($row.find('.product-line-price').val());
-          var productID = $row.find('.product-item-id').text();
-          var productPrice = $row.find('.productRate').val();
-            invoiceItems.push({
-                product_id: productID,
-                product_name: productName,
-                quantity: quantity,
-                price: productPrice,
-                total: linePrice
-            });
+      $('.product-row').each(function () {
+        var $row = $(this);
+        var productName = $row.find('.select-product-item').find(':selected').data('product-name');
+        var quantity = parseInt($row.find('.product-qty').val());
+        var linePrice = parseFloat($row.find('.product-line-price').val());
+        var productID = $row.find('.product-item-id').text();
+        var productPrice = $row.find('.productRate').val();
+        invoiceItems.push({
+          product_id: productID,
+          product_name: productName,
+          quantity: quantity,
+          price: productPrice,
+          total: linePrice
         });
-        var invoiceItemsJSON = JSON.stringify(invoiceItems);
-        $('#invoiceItemsInput').val(invoiceItemsJSON);
-        console.log($('#invoiceItemsInput').val());
-        // Calculate subtotal
-        $('.product-line-price').each(function() {
-            var linePrice = parseFloat($(this).val());
-            if (!isNaN(linePrice)) {
-                subtotal += linePrice;
-            }
-        });
-
-        $('#invoice-subtotal').val('₹' + subtotal.toFixed(2));
-
-        // Calculate tax
-        var selectedTaxRate = $('#taxes').find(':selected').data('tax-value');
-        $('#tax-table-head').text('Tax (' + selectedTaxRate + '%)');
-        var taxAmount = subtotal * (selectedTaxRate / 100);
-        $('#cart-tax').val('₹' + taxAmount.toFixed(2));
-
-        // Calculate discount
-        var discountValue = parseFloat($('#discount').val());
-        var discountType = $('#discount_type').val();
-        var discountAmount = 0;
-        if (discountType === 'Fixed' && discountValue) {
-            discountAmount = discountValue;
-        } else if (discountType === 'Percentage' && discountValue) {
-            discountAmount = subtotal * (discountValue / 100);
+      });
+      var invoiceItemsJSON = JSON.stringify(invoiceItems);
+      $('#invoiceItemsInput').val(invoiceItemsJSON);
+      console.log($('#invoiceItemsInput').val());
+      // Calculate subtotal
+      $('.product-line-price').each(function () {
+        var linePrice = parseFloat($(this).val());
+        if (!isNaN(linePrice)) {
+          subtotal += linePrice;
         }
-        $('#cart-discount').val('₹' + discountAmount.toFixed(2));
+      });
 
-        // Calculate total after tax and discount
-        var totalAmount = subtotal - discountAmount + taxAmount;
-        $('#cart-total').val('₹' + totalAmount.toFixed(2));
+      $('#invoice_subtotal').val(subtotal.toFixed(2));
+
+      // Calculate tax
+      var selectedTaxRate = $('#taxes').find(':selected').data('tax-value');
+      var selectedTaxId = $('#taxes').val();
+      $('#default_tax_name').val(selectedTaxRate);
+      $('#default_tax_id').val(selectedTaxId);
+      $('#tax-table-head').text('Tax (' + selectedTaxRate + '%)');
+      var taxAmount = subtotal * (selectedTaxRate / 100);
+      $('#cart_tax').val(taxAmount.toFixed(2));
+
+      // Calculate discount
+      var discountValue = parseFloat($('#discount').val());
+      var discountType = $('#discount_type').val();
+      var discountAmount = 0;
+      if (discountType === 'Fixed' && discountValue) {
+        discountAmount = discountValue;
+      } else if (discountType === 'Percentage' && discountValue) {
+        discountAmount = subtotal * (discountValue / 100);
+      }
+      $('#cart_discount').val(discountAmount.toFixed(2));
+
+      // Calculate total after tax and discount
+      var totalAmount = subtotal - discountAmount + taxAmount;
+      $('#cart-total').val(totalAmount.toFixed(2));
     }
     updateRate();
     updateSubtotal();
-      $('select').select2();
-      $('#add-item').click(function() {
-    new_link(); // Call the function to add a new row
-});
+    $('select').select2();
+    $('#add-item').click(function () {
+      new_link(); // Call the function to add a new row
+      updateRate();
+      updateSubtotal();
+    });
 
     $('#newlink').on('click', '.plus', function () {
-        var qtyInput = $(this).siblings('.product-qty');
-        var currentVal = parseInt(qtyInput.val());
-        if (currentVal < 10) {
-            qtyInput.val(currentVal + 1);
-        }
-        updateRate();
-    updateSubtotal();
+      var qtyInput = $(this).siblings('.product-qty');
+      var currentVal = parseInt(qtyInput.val());
+      if (currentVal < 10) {
+        qtyInput.val(currentVal + 1);
+      }
+      updateRate();
+      updateSubtotal();
 
     });
 
     // Handle the minus button click
     $('#newlink').on('click', '.minus', function () {
-        var qtyInput = $(this).siblings('.product-qty');
-        var currentVal = parseInt(qtyInput.val());
-        if (currentVal > 1) {
-            qtyInput.val(currentVal - 1);
-        }
-        updateRate();
-    updateSubtotal();
+      var qtyInput = $(this).siblings('.product-qty');
+      var currentVal = parseInt(qtyInput.val());
+      if (currentVal > 1) {
+        qtyInput.val(currentVal - 1);
+      }
+      updateRate();
+      updateSubtotal();
 
     });
 
-    $('#newlink').on('click', '.delete-row', function() {
-        $(this).closest('tr').remove(); // Remove the closest <tr> element
-        updateSubtotal();
+    $('#newlink').on('click', '.delete-row', function () {
+      $(this).closest('tr').remove(); // Remove the closest <tr> element
+      updateSubtotal();
     });
-    $(document).on('change', '.select-product-item', function() {
-        updateRate();
-    updateSubtotal();
+    $(document).on('change', '.select-product-item', function () {
+      updateRate();
+      updateSubtotal();
 
     });
-    $('#discount, #discount_type').change(function() {
-        updateSubtotal();
+    $('#discount, #discount_type').change(function () {
+      updateSubtotal();
     });
     $('#clientName').change(function () {
       console.log($(this).val());

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Client;
 use App\Models\Country;
+use App\Models\Invoice;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -161,9 +162,9 @@ class clientController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $client = Client::find($id);
+        $client = Client::with('invoices')->find($id);
         if (empty($client)) {
             Session::flash('error', 'No Client Found!');
             return redirect()->back();
@@ -171,6 +172,14 @@ class clientController extends Controller
         $country = Country::find($client->country_id);
         $state = State::find($client->state_id);
         $city = City::find($client->city_id);
-        return view('client.show', compact('client', 'country', 'state', 'city'));
+        $search = $request->input('search');
+        $invoices = $client->invoices();
+        if ($search) {
+            $invoices->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('value', 'like', '%' . $search . '%');
+            });
+        }
+        return view('client.show', compact('client', 'country', 'state', 'city', 'invoices'));
     }
 }

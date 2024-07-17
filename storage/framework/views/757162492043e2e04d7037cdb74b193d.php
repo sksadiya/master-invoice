@@ -1,6 +1,7 @@
 
 <?php $__env->startSection('title'); ?>
-<?php echo app('translator')->get('translation.settings'); ?>
+<?php echo e($client->first_name); ?>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
 <link href="<?php echo e(URL::asset('build/select2/css/select2.min.css')); ?>" rel="stylesheet" type="text/css" />
@@ -70,7 +71,7 @@
               </div>
               <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
                 <label for="name" class="pb-2 fs-5 ">GSTIN:</label>
-                <span class="fs-5 "><?php echo e(($client->GST) ?  $client->GST : 'N/A'); ?></span>
+                <span class="fs-5 "><?php echo e($client->GST ? $client->GST : 'N/A'); ?></span>
 
 
               </div>
@@ -82,8 +83,86 @@
           <!--end tab-pane-->
           <div class="tab-pane" id="invoices" role="tabpanel">
             <div class="row">
-              <div class="mb-3">
-                hi invoices
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="listjs-table" id="clientInvoicesList">
+                      <div class="row g-4 mb-3">
+                        <div class="col-sm">
+                          <form method="GET" action="" id="searchForm">
+                            <div class="d-flex justify-content-sm-end">
+                              <div class="search-box ms-2 me-2">
+                                <input type="text" class="form-control search" name="search" id="searchInput"
+                                  value="<?php echo e(request()->get('search')); ?>" placeholder="Search...">
+                                <i class="ri-search-line search-icon"></i>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table align-middle table-nowrap" id="categoryTable">
+                          <thead class="table-light">
+                            <tr>
+                              <th class="sort" data-sort="invoice-number">Invoice</th>
+                              <th class="sort" data-sort="invoice-date">Invoice Date</th>
+                              <th class="sort" data-sort="invoice-due-date">Due Date</th>
+                              <th class="sort" data-sort="invoice-total">Total Amount</th>
+                              <th class="sort" data-sort="invoice-due">Due Amount</th>
+                              <th class="sort" data-sort="invoice-status">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody class="list form-check-all">
+                            <?php if($client->invoices): ?>
+                <?php $__currentLoopData = $client->invoices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invoice): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <tr>
+            <td class="invoice-number"><a href="#"><?php echo e($invoice->invoice_number); ?></a></td>
+            <td class="invoice-date"><?php echo e($invoice->invoice_date); ?></td>
+            <td class="invoice-due-date"><?php echo e($invoice->due_date); ?></td>
+            <td class="invoice-total">₹<?php echo e($invoice->total); ?></td>
+            <td class="invoice-due"></td>
+            <td class="invoice-status">
+            <?php if($invoice->invoice_status == 'Unpaid'): ?>
+        <span class="badge bg-danger-subtle text-danger badge-border">
+        <?php echo e($invoice->invoice_status); ?>
+
+        </span>
+      <?php elseif($invoice->status == 'Paid'): ?>
+    <span class="badge bg-success-subtle text-success badge-border">
+    <?php echo e($invoice->invoice_status); ?>
+
+    </span>
+  <?php elseif($invoice->status == 'Partially_Paid'): ?>
+  <span class="badge bg-secondary-subtle text-secondary badge-border">
+  <?php echo e($invoice->invoice_status); ?>
+
+  </span>
+<?php elseif($invoice->status == 'Overdue'): ?>
+  <span class="badge bg-primary-subtle text-primary badge-border">
+  <?php echo e($invoice->invoice_status); ?>
+
+  </span>
+<?php elseif($invoice->status == 'Processing'): ?>
+  <span class="badge bg-info-subtle text-info badge-border">
+  <?php echo e($invoice->invoice_status); ?>
+
+  </span>
+<?php else: ?>
+  <span class="badge bg-warning-subtle text-warning badge-border">
+  <?php echo e($invoice->invoice_status); ?>
+
+  </span>
+<?php endif; ?>
+            </td>
+          </tr>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+              <?php endif; ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -103,6 +182,13 @@
 <script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
 <script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
-
+<script>
+  $(document).ready(function () {
+    var clientInvoicesList = new List('clientInvoicesList', {
+      valueNames: ['invoice-date', 'invoice-due-date', 'invoice-total', 'invoice-due',
+        'invoice-status', 'invoice-number'],
+    });
+  });
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\master\resources\views/client/show.blade.php ENDPATH**/ ?>

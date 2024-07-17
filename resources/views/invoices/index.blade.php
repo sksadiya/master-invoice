@@ -25,7 +25,7 @@ Invoices
               </div>
             </div>
             <div class="col-sm">
-              <form method="GET" action="" id="searchForm">
+              <form method="GET" action="{{ route('invoices') }}" id="searchForm">
                 <div class="d-flex justify-content-sm-end">
                   <div class="search-box ms-2 me-2">
                     <input type="text" class="form-control search" name="search" id="searchInput"
@@ -52,13 +52,40 @@ Invoices
                 </tr>
               </thead>
               <tbody class="list form-check-all">
-
+              @if($invoices)
+              @foreach($invoices as $invoice)
                 <tr>
-                  <td class="invoice-number"><a href=""></a></td>
-                  <td class="invoice-client"></td>
-                  <td class="invoice-total"></td>
+                  <td class="invoice-number"><a href="#">{{ $invoice->invoice_number}}</a></td>
+                  <td class="invoice-client"><a href="{{ route('client.show', $invoice->client->id )}}">{{ $invoice->client->first_name}} {{ $invoice->client->last_name}}</a></td>
+                  <td class="invoice-total">₹{{ $invoice->total }}</td>
                   <td class="invoice-due"></td>
-                  <td class="invoice-status"></td>
+                  <td class="invoice-status">
+                    @if($invoice->invoice_status == 'Unpaid')
+                    <span class="badge bg-danger-subtle text-danger badge-border">
+                  {{ $invoice->invoice_status}}
+                  </span>
+                  @elseif($invoice->status == 'Paid')
+                  <span class="badge bg-success-subtle text-success badge-border">
+                  {{ $invoice->invoice_status}}
+                  </span>
+                  @elseif($invoice->status == 'Partially_Paid')
+                  <span class="badge bg-secondary-subtle text-secondary badge-border">
+                  {{ $invoice->invoice_status}}
+                  </span>
+                  @elseif($invoice->status == 'Overdue')
+                  <span class="badge bg-primary-subtle text-primary badge-border">
+                  {{ $invoice->invoice_status}}
+                  </span>
+                  @elseif($invoice->status == 'Processing')
+                  <span class="badge bg-info-subtle text-info badge-border">
+                  {{ $invoice->invoice_status}}
+                  </span>
+                  @else
+                  <span class="badge bg-warning-subtle text-warning badge-border">
+                  {{ $invoice->invoice_status}}
+                  </span>
+                  @endif
+                  </td>
                   <td class="">
                     <div class="justify-content-end d-flex gap-2">
                       <div class="edit">
@@ -66,18 +93,21 @@ Invoices
                       </div>
                       <div class="remove">
                         <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
-                          data-bs-target="#invoiceDeleteModal" data-id=""><i class="bx bx-trash"></i>
+                          data-bs-target="#invoiceDeleteModal" data-id="{{ $invoice->id }}"><i class="bx bx-trash"></i>
                           Delete</button>
                       </div>
                     </div>
                   </td>
                 </tr>
+                @endforeach
+                @endif
               </tbody>
             </table>
           </div>
           <div class="row">
             <div class="col-md-6 justify-content-start">
               <div class="pagination-wrap hstack gap-2">
+                {{ $invoices->links() }}
               </div>
             </div>
             <div class="col-md-6 justify-content-end d-flex">
@@ -87,10 +117,10 @@ Invoices
                   Per Page
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="perPageDropdown">
-                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="20">20</a></li>
-                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="30">30</a></li>
-                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="50">50</a></li>
-                  <li><a class="dropdown-item invoive-per-page-item" href="#" data-per-page="100">100</a></li>
+                  <li><a class="dropdown-item invoice-per-page-item" href="#" data-per-page="20">20</a></li>
+                  <li><a class="dropdown-item invoice-per-page-item" href="#" data-per-page="30">30</a></li>
+                  <li><a class="dropdown-item invoice-per-page-item" href="#" data-per-page="50">50</a></li>
+                  <li><a class="dropdown-item invoice-per-page-item" href="#" data-per-page="100">100</a></li>
                 </ul>
               </div>
             </div>
@@ -115,7 +145,7 @@ Invoices
             colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
           <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
             <h4>Are you sure?</h4>
-            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this client?</p>
+            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this invoice?</p>
           </div>
         </div>
         <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
@@ -165,10 +195,10 @@ Invoices
   @endif
 
   $(document).ready(function () {
-    $('.dropdown-item.invoive-per-page-item').on('click', function (e) {
+    $('.dropdown-item.invoice-per-page-item').on('click', function (e) {
       e.preventDefault();
       var perPage = $(this).data('per-page');
-      var url = '' + '&perPage=' + perPage;
+      var url = '{{ $invoices->url($invoices->currentPage()) }}' + '&perPage=' + perPage;
       window.location.href = url;
     });
 
@@ -178,15 +208,15 @@ Invoices
     });
 
     $('.remove-item-btn').on('click', function () {
-      var clientId = $(this).data('id');
-      $('#delete-record').data('id', clientId);
+      var invoiceID = $(this).data('id');
+      $('#delete-record').data('id', invoiceID);
     });
 
     $('#delete-record').on('click', function () {
-      var clientId = $(this).data('id');
-      console.log(clientId);
-      const delRoute = "";
-      const newdelRoute = delRoute.replace('ID', clientId);
+      var invoiceID = $(this).data('id');
+      console.log(invoiceID);
+      const delRoute = "{{ route('invoice.delete','ID') }}";
+      const newdelRoute = delRoute.replace('ID', invoiceID);
 
       $.ajax({
         type: 'DELETE',
