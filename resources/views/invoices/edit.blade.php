@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') Create Invoice @endsection
+@section('title') Edit Invoice @endsection
 @section('css')
 <!-- Sweet Alert css-->
 <link href="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
@@ -10,7 +10,7 @@
 <div class="row justify-content-center">
   <div class="col-xxl-9">
     <div class="card">
-      <form action="{{ route('invoice.store') }}" method="post" id="invoice_form" name="invoice_form">
+      <form action="{{ route('invoice.update',$invoice->id)}}" method="post" id="invoice_edit_form" name="invoice_edit_form">
         @csrf
         <div class="card-body border-bottom border-bottom-dashed p-4">
           <div class="row">
@@ -34,21 +34,21 @@
                     id="companyAddress" rows="3" placeholder="Company Address"
                     name="companyAddress">{{ $settings['Address'] }}</textarea>
                   @error('companyAddress')
-                    <div class="invalid-feedback">
-                    {{ $message }}
-                    </div>
-                  @enderror
+            <div class="invalid-feedback">
+            {{ $message }}
+            </div>
+          @enderror
                 </div>
                 <div>
                   <input type="text"
-                    class="form-control bg-light border-0 @error('company_postal_code') is-invalid @enderror"
+                    class="form-control bg-light border-0 mb-3 @error('company_postal_code') is-invalid @enderror"
                     value="{{ $settings['zip-code'] }}" name="company_postal_code" id="companyaddpostalcode"
                     minlength="5" maxlength="6" placeholder="Enter Postal Code" />
                   @error('company_postal_code')
-                    <div class="invalid-feedback">
-                    {{ $message }}
-                    </div>
-                  @enderror
+            <div class="invalid-feedback">
+            {{ $message }}
+            </div>
+          @enderror
                 </div>
               </div>
             </div><!--end col-->
@@ -57,20 +57,20 @@
                 <input type="text" class="form-control bg-light border-0 @error('gst_number') is-invalid @enderror"
                   value="{{ $settings['GST-NO'] }}" name="gst_number" id="GSTNumber" placeholder="GST No." />
                 @error('gst_number')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
+          <div class="invalid-feedback">
+            {{ $message }}
+          </div>
+        @enderror
               </div>
               <div class="mb-2">
                 <input type="email" class="form-control bg-light border-0 @error('company_email') is-invalid @enderror"
                   name="company_email" value="{{ $settings['company-email'] }}" id="companyEmail"
                   placeholder="Email Address" />
                 @error('company_email')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
+          <div class="invalid-feedback">
+            {{ $message }}
+          </div>
+        @enderror
               </div>
 
               <div class="mb-2">
@@ -78,20 +78,20 @@
                   name="companyPhone" value="{{ $settings['company-phone']}}" id="compnayContactno"
                   placeholder="Contact No" />
                 @error('companyPhone')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
+          <div class="invalid-feedback">
+            {{ $message }}
+          </div>
+        @enderror
               </div>
               <div>
                 <input type="text" class="form-control bg-light border-0 @error('invoicenoInput') is-invalid @enderror "
-                  id="invoicenoInput" name="invoicenoInput" placeholder="Invoice Number" value="{{ $invoiceNumber }}"
-                  readonly="readonly" />
+                  id="invoicenoInput" name="invoicenoInput" placeholder="Invoice Number"
+                  value="{{ $invoice->invoice_number }}" readonly="readonly" />
                 @error('invoicenoInput')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
+          <div class="invalid-feedback">
+            {{ $message }}
+          </div>
+        @enderror
               </div>
             </div>
           </div><!--end row-->
@@ -105,7 +105,9 @@
                   name="client">
                   @if($clients)
             @foreach ($clients as $client)
-        <option value="{{ $client->id }}">{{ $client->first_name}}</option>
+        <option {{ ($invoice->client_id == $client->id) ? 'selected' : '' }} value="{{ $client->id }}">
+        {{ $client->first_name}}
+        </option>
       @endforeach
           @endif
                 </select>
@@ -119,7 +121,7 @@
             <div class="col-lg-3 col-sm-6">
               <div>
                 <label for="date-field">Date</label>
-                <input type="date" value="{{ $invoiceDate }}" name="invoice_date"
+                <input type="date" value="{{ $invoice->invoice_date }}" name="invoice_date"
                   class="form-control bg-light border-0 @error('invoice_date') is-invalid @enderror" id="date-field"
                   data-time="true" placeholder="Select Date-time">
                 @error('invoice_date')
@@ -133,7 +135,7 @@
               <div>
                 <label for="totalamountInput">Due Date</label>
                 <input type="date" class="form-control bg-light border-0 @error('due_date') is-invalid @enderror"
-                  id="due_date" value="{{ $dueDate }}" name="due_date" />
+                  id="due_date" value="{{ $invoice->due_date }}" name="due_date" />
                 @error('due_date')
           <div class="invalid-feedback">
             {{ $message }}
@@ -146,12 +148,14 @@
               <div class="input-light">
                 <select class="form-control bg-light border-0 @error('invoice_status') is-invalid @enderror"
                   name="invoice_status" id="select-payment-status">
-                  <option value="Unpaid">Unpaid</option>
-                  <option value="Paid">Paid</option>
-                  <option value="Partially_Paid">Partially Paid</option>
-                  <option value="Overdue">Overdue</option>
-                  <option value="Processing">Processing</option>
-                  <option value="Draft">Draft</option>
+                  <option value="Unpaid" {{ $invoice->invoice_status == 'Unpaid' ? 'selected' : '' }}>Unpaid</option>
+                  <option value="Paid" {{ $invoice->invoice_status == 'Paid' ? 'selected' : '' }}>Paid</option>
+                  <option value="Partially_Paid" {{ $invoice->invoice_status == 'Partially_Paid' ? 'selected' : '' }}>
+                    Partially Paid</option>
+                  <option value="Overdue" {{ $invoice->invoice_status == 'Overdue' ? 'selected' : '' }}>Overdue</option>
+                  <option value="Processing" {{ $invoice->invoice_status == 'Processing' ? 'selected' : '' }}>Processing
+                  </option>
+                  <option value="Draft" {{ $invoice->invoice_status == 'Draft' ? 'selected' : '' }}>Draft</option>
                 </select>
                 @error('invoice_status')
           <div class="invalid-feedback">
@@ -225,7 +229,7 @@
                 <div class="col-lg-6 col-sm-12">
                   <div class="mb-2">
                     <textarea class="form-control bg-light border-0 @error('clientAddress') is-invalid @enderror"
-                      id="billingAddress" name="clientAddress" rows="3" placeholder="Address"></textarea>
+                      id="billingAddress"  name="clientAddress" rows="3" placeholder="Address"></textarea>
                     @error('clientAddress')
             <div class="invalid-feedback">
               {{ $message }}
@@ -257,73 +261,137 @@
                 </tr>
               </thead>
               <tbody id="newlink">
-                <tr class="product-row">
-                  <th scope="row" class="product-item-id">1</th>
-                  <td class="text-start">
-                    <div class="mb-2">
-                      <div class="input-light">
-                        <select
-                          class="form-control bg-light border-0 select-product-item @error('product_id') is-invalid @enderror"
-                          name="product_id[]">
-                          @if ($products)
-                @foreach ($products as $product)
-          <option value="{{$product->id}}" data-product-id="{{$product->id}}"
-          data-product-price="{{ $product->unit_price }}" data-product-name="{{ $product->name}}">
-          {{$product->name}}
-          </option>
-        @endforeach
-              @endif
-                        </select>
-                        @error('product_id')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-            @enderror
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <input type="number" readonly
-                      class="form-control product-price bg-light border-0 productRate @error('product_rate') is-invalid @enderror"
-                      id="productRate" name="product_rate[]" step="0.01" placeholder="₹0.00" />
-                    @error('product_rate')
-            <div class="invalid-feedback">
-              {{ $message }}
-            </div>
-          @enderror
-                  </td>
-                  <td>
-                    <div class="input-step">
-                      <button type="button" class='minus'>–</button>
-                      <input type="number"
-                        class="product-quantity product-qty @error('product_qty') is-invalid @enderror"
-                        name="product_qty[]" id="product-qty" min="1" max="10" value="1" readonly>
-                      <button type="button" class='plus'>+</button>
-                    </div>
-                  </td>
-                  <td class="text-end">
-                    <div>
-                      <input type="text"
-                        class="form-control bg-light border-0 product-line-price productPrice @error('product_item_total') is-invalid @enderror"
-                        id="productPrice" placeholder="₹0.00" name="product_item_total[]" readonly />
-                      @error('product_item_total')
-              <div class="invalid-feedback">
-              {{ $message }}
-              </div>
-            @enderror
-                    </div>
-                  </td>
-                  <td class="product-removal">
-                    <a href="javascript:void(0)" class="btn btn-success delete-row">Delete</a>
-                  </td>
-                </tr>
+                @if($invoice->items)
+          @foreach($invoice->items as $item)
+        <tr class="product-row">
+        <th scope="row" class="product-item-id">{{ $item->product_id }}</th>
+        <td class="text-start">
+        <div class="mb-2">
+          <div class="input-light">
+          <select
+          class="form-control bg-light border-0 select-product-item @error('product_id') is-invalid @enderror"
+          name="product_id[]">
+          @if ($products)
+        @foreach ($products as $product)
+      <option value="{{$product->id}}" {{ ($item->product_id == $product->id) ? 'selected' : ''}}
+      data-product-id="{{$product->id}}" data-product-price="{{ $product->unit_price }}"
+      data-product-name="{{ $product->name}}">
+      {{$product->name}}
+      </option>
+    @endforeach
+      @endif
+          </select>
+          @error('product_id')
+        <div class="invalid-feedback">
+        {{ $message }}
+        </div>
+      @enderror
+          </div>
+        </div>
+        </td>
+        <td>
+        <input type="number" readonly
+          class="form-control product-price bg-light border-0 productRate @error('product_rate') is-invalid @enderror"
+          id="productRate" name="product_rate[]" value="{{ $item->unit_price}}" step="0.01"
+          placeholder="₹0.00" />
+        @error('product_rate')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+    @enderror
+        </td>
+        <td>
+        <div class="input-step">
+          <button type="button" class='minus'>–</button>
+          <input type="number"
+          class="product-quantity product-qty @error('product_qty') is-invalid @enderror"
+          name="product_qty[]" id="product-qty" value="{{ $item->quantity }}" min="1" max="10" value="1"
+          readonly>
+          <button type="button" class='plus'>+</button>
+        </div>
+        </td>
+        <td class="text-end">
+        <div>
+          <input type="text"
+          class="form-control bg-light border-0 product-line-price productPrice @error('product_item_total') is-invalid @enderror"
+          id="productPrice" placeholder="₹0.00" value="{{ $item->total }}" name="product_item_total[]"
+          readonly />
+          @error('product_item_total')
+        <div class="invalid-feedback">
+        {{ $message }}
+        </div>
+      @enderror
+        </div>
+        </td>
+        <td class="product-removal">
+        <a href="javascript:void(0)" class="btn btn-success delete-row">Delete</a>
+        </td>
+        </tr>
+      @endforeach
+        @else
+      <tr class="product-row">
+        <th scope="row" class="product-item-id">1</th>
+        <td class="text-start">
+        <div class="mb-2">
+          <div class="input-light">
+          <select
+            class="form-control bg-light border-0 select-product-item @error('product_id') is-invalid @enderror"
+            name="product_id[]">
+            @if ($products)
+        @foreach ($products as $product)
+      <option value="{{$product->id}}" data-product-id="{{$product->id}}"
+      data-product-price="{{ $product->unit_price }}" data-product-name="{{ $product->name}}">
+      {{$product->name}}
+      </option>
+    @endforeach
+      @endif
+          </select>
+          @error('product_id')
+        <div class="invalid-feedback">
+        {{ $message }}
+        </div>
+      @enderror
+          </div>
+        </div>
+        </td>
+        <td>
+        <input type="number" readonly
+          class="form-control product-price bg-light border-0 productRate @error('product_rate') is-invalid @enderror"
+          id="productRate" name="product_rate[]" step="0.01" placeholder="₹0.00" />
+        @error('product_rate')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+    @enderror
+        </td>
+        <td>
+        <div class="input-step">
+          <button type="button" class='minus'>–</button>
+          <input type="number"
+          class="product-quantity product-qty @error('product_qty') is-invalid @enderror"
+          name="product_qty[]" id="product-qty" min="1" max="10" value="1" readonly>
+          <button type="button" class='plus'>+</button>
+        </div>
+        </td>
+        <td class="text-end">
+        <div>
+          <input type="text"
+          class="form-control bg-light border-0 product-line-price productPrice @error('product_item_total') is-invalid @enderror"
+          id="productPrice" placeholder="₹0.00" name="product_item_total[]" readonly />
+          @error('product_item_total')
+        <div class="invalid-feedback">
+        {{ $message }}
+        </div>
+      @enderror
+        </div>
+        </td>
+        <td class="product-removal">
+        <a href="javascript:void(0)" class="btn btn-success delete-row">Delete</a>
+        </td>
+      </tr>
+    @endif
               </tbody>
               <tbody>
-                <!-- <tr id="newForm" style="display: none;">
-                  <td class="d-none" colspan="5">
-                    <p>Add New Form</p>
-                  </td>
-                </tr> -->
                 <tr>
                   <td colspan="5">
                     <a href="javascript:void(0)" id="add-item" class="btn btn-soft-secondary fw-medium"><i
@@ -342,12 +410,14 @@
                                 <div class="input-group-prepend">
                                   <select class="js-example-basic-single @error('discount_type') is-invalid @enderror"
                                     id="discount_type" name="discount_type">
-                                    <option value="Fixed">₹</option>
-                                    <option value="Percentage">%</option>
+                                    <option {{ ($invoice->discount_type == 'Fixed') ? 'selected' : '' }} value="Fixed">
+                                      ₹</option>
+                                    <option {{ ($invoice->discount_type == 'Percentage') ? 'selected' : '' }}
+                                      value="Percentage">%</option>
                                   </select>
                                 </div>
                                 <input type="number" class="form-control @error('discount') is-invalid @enderror"
-                                  id="discount" value="" name="discount" placeholder="0">
+                                  id="discount" value="{{ $invoice->discount }}" name="discount" placeholder="0">
                                 @error('discount')
                   <div class="invalid-feedback">
                     {{ $message }}
@@ -366,11 +436,11 @@
                                 @if($taxes)
                                   @php
                   $defaultTax = $taxes->firstWhere('is_default', 1);
-                @endphp
+                  @endphp
                                   <option value="0" data-tax-value="0" {{ !$defaultTax ? 'selected' : '' }}>No Tax
                                   </option>
                                   @foreach ($taxes as $tax)
-                    <option {{ ($tax->is_default == 1) ? 'selected' : '' }} value="{{ $tax->id }}"
+                    <option {{ ($invoice->tax_id == $tax->id) ? 'selected' : '' }} value="{{ $tax->id }}"
                     data-tax-value="{{ $tax->value }}">{{ $tax->name }}</option>
                   @endforeach
                 @endif
@@ -389,21 +459,23 @@
                           <td style="width:150px;">
                             <input type="text"
                               class="form-control bg-light border-0 @error('invoice_subtotal') is-invalid @enderror"
-                              name="invoice_subtotal" id="invoice_subtotal" placeholder="₹0.00" readonly />
+                              name="invoice_subtotal" value="{{ $invoice->subtotal }}" id="invoice_subtotal"
+                              placeholder="₹0.00" readonly />
                             @error('invoice_subtotal')
-                <div class="invalid-feedback">
-                  {{ $message }}
-                </div>
-              @enderror
+                              <div class="invalid-feedback">
+                                {{ $message }}
+                              </div>
+                            @enderror
                           </td>
                         </tr>
-
+                      
                         <tr>
                           <th scope="row">Discount</th>
                           <td>
                             <input type="text"
                               class="form-control bg-light border-0 @error('cart_discount') is-invalid @enderror"
-                              name="cart_discount" id="cart_discount" placeholder="₹0.00" readonly />
+                              name="cart_discount" value="{{$invoice->discount_total}}" id="cart_discount"
+                              placeholder="₹0.00" readonly />
                             @error('cart_discount')
                 <div class="invalid-feedback">
                   {{ $message }}
@@ -412,16 +484,17 @@
                           </td>
                         </tr>
                         <tr>
-                          <th scope="row" id="tax-table-head">Tax</th>
+                          <th scope="row" id="tax-table-head">Tax ({{ $tax->tax }})</th>
                           <td>
                             <input type="text"
                               class="form-control bg-light border-0  @error('cart_tax') is-invalid @enderror"
-                              name="cart_tax" id="cart_tax" placeholder="₹0.00" readonly />
+                              name="cart_tax" value="{{ $invoice->tax_total}}" id="cart_tax" placeholder="₹0.00"
+                              readonly />
                             @error('cart_tax')
-                <div class="invalid-feedback">
-                  {{ $message }}
-                </div>
-              @enderror
+                              <div class="invalid-feedback">
+                                {{ $message }}
+                              </div>
+                            @enderror
                           </td>
                         </tr>
                         <tr class="border-top border-top-dashed">
@@ -429,7 +502,8 @@
                           <td>
                             <input type="text"
                               class="form-control bg-light border-0 @error('final_amount') is-invalid @enderror"
-                              name="final_amount" id="cart-total" placeholder="₹0.00" readonly />
+                              name="final_amount" value="{{ $invoice->total }}" id="cart-total" placeholder="₹0.00"
+                              readonly />
                             @error('final_amount')
                 <div class="invalid-feedback">
                   {{ $message }}
@@ -453,9 +527,13 @@
                 <div class="input-light">
                   <select class="form-control bg-light border-0 @error('payment_type') is-invalid @enderror"
                     id="select-payment-type" name="payment_type">
-                    <option value="bank_transfer">Bank Transfer</option>
-                    <option value="phone_pe">PhonePe</option>
-                    <option value="google_pay">Google Pay</option>
+                    <option {{ ($invoice->payment_method == 'phone_pe') ? 'selected' : '' }} value="phone_pe">PhonePe
+                    </option>
+                    <option {{ ($invoice->payment_method == 'google_pay') ? 'selected' : '' }} value="google_pay">Google
+                      Pay</option>
+                    <option {{ ($invoice->payment_method == 'bank_transfer') ? 'selected' : '' }} value="bank_transfer">
+                      Bank Transfer</option>
+
                   </select>
                   @error('payment_type')
             <div class="invalid-feedback">
@@ -470,7 +548,7 @@
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Notes</label>
               <textarea class="form-control @error('notes') is-invalid @enderror" name="notes" id="notes"
-                rows="3"></textarea>
+                rows="3">{{ $invoice->note}}</textarea>
               @error('notes')
           <div class="invalid-feedback">
           {{ $message }}
@@ -575,7 +653,8 @@
         $row.find('.product-line-price').val(linePrice.toFixed(2));
       });
     }
-    function updateSubtotal() {
+    function updateSubtotal()
+     {
       var subtotal = 0;
       var invoiceItems = [];
 
@@ -608,37 +687,37 @@
       $('#invoice_subtotal').val(subtotal.toFixed(2));
 
       // Calculate discount
-      var discountValue = parseFloat($('#discount').val());
-      var discountType = $('#discount_type').val();
-      var discountAmount = 0;
-      if (discountType === 'Fixed' && discountValue) {
-        discountAmount = discountValue;
-      } else if (discountType === 'Percentage' && discountValue) {
-        if (discountValue < 0 || discountValue > 100) {
-          $('#discount').addClass('is-invalid');
-          $('#discount').next('.invalid-feedback').text('Discount percentage must be between 0 and 100.');
-        } else {
-          $('#discount').removeClass('is-invalid');
-          $('#discount').next('.invalid-feedback').text('');
-          discountAmount = subtotal * (discountValue / 100);
-        }
-      }
+  var discountValue = parseFloat($('#discount').val());
+  var discountType = $('#discount_type').val();
+  var discountAmount = 0;
+  if (discountType === 'Fixed' && discountValue) {
+    discountAmount = discountValue;
+  } else if (discountType === 'Percentage' && discountValue) {
+    if (discountValue < 0 || discountValue > 100) {
+      $('#discount').addClass('is-invalid');
+      $('#discount').next('.invalid-feedback').text('Discount percentage must be between 0 and 100.');
+    } else {
+      $('#discount').removeClass('is-invalid');
+      $('#discount').next('.invalid-feedback').text('');
+      discountAmount = subtotal * (discountValue / 100);
+    }
+  }
 
-      $('#cart_discount').val(discountAmount.toFixed(2));
+  $('#cart_discount').val(discountAmount.toFixed(2));
 
-      // Calculate tax based on subtotal after discount
-      var discountedSubtotal = subtotal - discountAmount;
-      var selectedTaxRate = $('#taxes').find(':selected').data('tax-value');
-      var selectedTaxId = $('#taxes').val();
-      $('#default_tax_name').val(selectedTaxRate);
-      $('#default_tax_id').val(selectedTaxId);
-      $('#tax-table-head').text('Tax (' + selectedTaxRate + '%)');
-      var taxAmount = discountedSubtotal * (selectedTaxRate / 100);
-      $('#cart_tax').val(taxAmount.toFixed(2));
+       // Calculate tax based on subtotal after discount
+  var discountedSubtotal = subtotal - discountAmount;
+  var selectedTaxRate = $('#taxes').find(':selected').data('tax-value');
+  var selectedTaxId = $('#taxes').val();
+  $('#default_tax_name').val(selectedTaxRate);
+  $('#default_tax_id').val(selectedTaxId);
+  $('#tax-table-head').text('Tax (' + selectedTaxRate + '%)');
+  var taxAmount = discountedSubtotal * (selectedTaxRate / 100);
+  $('#cart_tax').val(taxAmount.toFixed(2));
 
-      // Calculate total after tax and discount
-      var totalAmount = discountedSubtotal + taxAmount;
-      $('#cart-total').val(totalAmount.toFixed(2));
+  // Calculate total after tax and discount
+  var totalAmount = discountedSubtotal + taxAmount;
+  $('#cart-total').val(totalAmount.toFixed(2));
     }
     updateRate();
     updateSubtotal();

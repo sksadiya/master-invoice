@@ -163,7 +163,7 @@ Edit Client
               <div class="mb-3">
                 <label for="Address" class="form-label">Address</label>
                 <textarea class="form-control @error('Address') is-invalid @enderror" cols="5" rows="5" id="Address"
-                  placeholder="Address" value="{{ $client->Address }}" name="Address"></textarea>
+                  placeholder="Address" value="" name="Address">{{ $client->Address }}</textarea>
                 @if ($errors->has('Address'))
                 <div class="invalid-feedback">
                   {{ $errors->first('Address') }}

@@ -117,8 +117,8 @@
                 <?php $__currentLoopData = $client->invoices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invoice): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr>
             <td class="invoice-number"><a href="#"><?php echo e($invoice->invoice_number); ?></a></td>
-            <td class="invoice-date"><?php echo e($invoice->invoice_date); ?></td>
-            <td class="invoice-due-date"><?php echo e($invoice->due_date); ?></td>
+            <td class="invoice-date"><?php echo e(\Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y')); ?></td>
+            <td class="invoice-due-date"><?php echo e(\Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y')); ?></td>
             <td class="invoice-total">₹<?php echo e($invoice->total); ?></td>
             <td class="invoice-due"></td>
             <td class="invoice-status">

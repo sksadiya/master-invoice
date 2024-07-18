@@ -115,8 +115,8 @@
                 @foreach($client->invoices as $invoice)
           <tr>
             <td class="invoice-number"><a href="#">{{ $invoice->invoice_number}}</a></td>
-            <td class="invoice-date">{{ $invoice->invoice_date}}</td>
-            <td class="invoice-due-date">{{ $invoice->due_date}}</td>
+            <td class="invoice-date">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</td>
+            <td class="invoice-due-date">{{ \Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y') }}</td>
             <td class="invoice-total">₹{{ $invoice->total }}</td>
             <td class="invoice-due"></td>
             <td class="invoice-status">

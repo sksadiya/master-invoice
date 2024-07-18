@@ -55,7 +55,7 @@ Invoices
               <?php if($invoices): ?>
               <?php $__currentLoopData = $invoices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invoice): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                  <td class="invoice-number"><a href="#"><?php echo e($invoice->invoice_number); ?></a></td>
+                  <td class="invoice-number"><a href="<?php echo e(route('invoice.show', $invoice->id)); ?>"><?php echo e($invoice->invoice_number); ?></a></td>
                   <td class="invoice-client"><a href="<?php echo e(route('client.show', $invoice->client->id )); ?>"><?php echo e($invoice->client->first_name); ?> <?php echo e($invoice->client->last_name); ?></a></td>
                   <td class="invoice-total">₹<?php echo e($invoice->total); ?></td>
                   <td class="invoice-due"></td>
@@ -95,7 +95,7 @@ Invoices
                   <td class="">
                     <div class="justify-content-end d-flex gap-2">
                       <div class="edit">
-                        <a href="" class="btn btn-sm btn-success edit-item-btn"><i class="bx bxs-pencil"></i> Edit</a>
+                        <a href="<?php echo e(route('invoice.edit',$invoice->id)); ?>" class="btn btn-sm btn-success edit-item-btn"><i class="bx bxs-pencil"></i> Edit</a>
                       </div>
                       <div class="remove">
                         <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"

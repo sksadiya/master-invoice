@@ -55,7 +55,7 @@ Invoices
               @if($invoices)
               @foreach($invoices as $invoice)
                 <tr>
-                  <td class="invoice-number"><a href="#">{{ $invoice->invoice_number}}</a></td>
+                  <td class="invoice-number"><a href="{{ route('invoice.show', $invoice->id) }}">{{ $invoice->invoice_number}}</a></td>
                   <td class="invoice-client"><a href="{{ route('client.show', $invoice->client->id )}}">{{ $invoice->client->first_name}} {{ $invoice->client->last_name}}</a></td>
                   <td class="invoice-total">₹{{ $invoice->total }}</td>
                   <td class="invoice-due"></td>
@@ -89,7 +89,7 @@ Invoices
                   <td class="">
                     <div class="justify-content-end d-flex gap-2">
                       <div class="edit">
-                        <a href="" class="btn btn-sm btn-success edit-item-btn"><i class="bx bxs-pencil"></i> Edit</a>
+                        <a href="{{ route('invoice.edit',$invoice->id)}}" class="btn btn-sm btn-success edit-item-btn"><i class="bx bxs-pencil"></i> Edit</a>
                       </div>
                       <div class="remove">
                         <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"

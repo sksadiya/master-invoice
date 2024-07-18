@@ -66,6 +66,10 @@ Route::get('invoice/add', [App\Http\Controllers\Invoices::class, 'create'])->nam
 Route::post('invoice/add', [App\Http\Controllers\Invoices::class, 'store'])->name('invoice.store');
 Route::get('invoice', [App\Http\Controllers\Invoices::class, 'index'])->name('invoices');
 Route::delete('/invoice/{id}', [App\Http\Controllers\Invoices::class, 'destroy'])->name('invoice.delete');
+Route::get('invoice/edit/{id}', [App\Http\Controllers\Invoices::class, 'edit'])->name('invoice.edit');
+Route::post('invoice/update/{id}', [App\Http\Controllers\Invoices::class, 'update'])->name('invoice.update');
+Route::get('invoice/{id}', [App\Http\Controllers\Invoices::class, 'show'])->name('invoice.show');
+Route::get('/download-invoice/{id}', [App\Http\Controllers\Invoices::class, 'downloadInvoice'])->name('download.invoice');
 
 
 Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');
