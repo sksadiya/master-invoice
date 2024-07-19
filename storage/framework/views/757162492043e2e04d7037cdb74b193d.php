@@ -26,11 +26,21 @@
               <i class="fas fa-home"></i> Client Details
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#invoices" role="tab">
-              <i class="far fa-user"></i> Invoices
-            </a>
-          </li>
+          <?php if($client->invoices->count() > 0): ?>
+        <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#invoices" role="tab">
+          <i class="far fa-user"></i> Invoices
+        </a>
+        </li>
+      <?php endif; ?>
+      <?php if($client->invoices->pluck('payments')->flatten()->isNotEmpty()): ?>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#payments" role="tab">
+            <i class="far fa-user"></i> Payments
+        </a>
+    </li>
+<?php endif; ?>
+
         </ul>
       </div>
       <div class="card-body p-4">
@@ -117,32 +127,38 @@
                 <?php $__currentLoopData = $client->invoices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invoice): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr>
             <td class="invoice-number"><a href="#"><?php echo e($invoice->invoice_number); ?></a></td>
-            <td class="invoice-date"><?php echo e(\Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y')); ?></td>
-            <td class="invoice-due-date"><?php echo e(\Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y')); ?></td>
+            <td class="invoice-date">
+            <?php echo e(\Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y')); ?>
+
+            </td>
+            <td class="invoice-due-date">
+            <?php echo e(\Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y')); ?>
+
+            </td>
             <td class="invoice-total">₹<?php echo e($invoice->total); ?></td>
-            <td class="invoice-due"></td>
+            <td class="invoice-due">₹<?php echo e($invoice->due_amount); ?></td>
             <td class="invoice-status">
             <?php if($invoice->invoice_status == 'Unpaid'): ?>
         <span class="badge bg-danger-subtle text-danger badge-border">
         <?php echo e($invoice->invoice_status); ?>
 
         </span>
-      <?php elseif($invoice->status == 'Paid'): ?>
+      <?php elseif($invoice->invoice_status == 'Paid'): ?>
     <span class="badge bg-success-subtle text-success badge-border">
     <?php echo e($invoice->invoice_status); ?>
 
     </span>
-  <?php elseif($invoice->status == 'Partially_Paid'): ?>
+  <?php elseif($invoice->invoice_status == 'Partially_Paid'): ?>
   <span class="badge bg-secondary-subtle text-secondary badge-border">
   <?php echo e($invoice->invoice_status); ?>
 
   </span>
-<?php elseif($invoice->status == 'Overdue'): ?>
+<?php elseif($invoice->invoice_status == 'Overdue'): ?>
   <span class="badge bg-primary-subtle text-primary badge-border">
   <?php echo e($invoice->invoice_status); ?>
 
   </span>
-<?php elseif($invoice->status == 'Processing'): ?>
+<?php elseif($invoice->invoice_status == 'Processing'): ?>
   <span class="badge bg-info-subtle text-info badge-border">
   <?php echo e($invoice->invoice_status); ?>
 
@@ -154,6 +170,7 @@
   </span>
 <?php endif; ?>
             </td>
+
           </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               <?php endif; ?>
@@ -168,6 +185,55 @@
           </div>
           <!--end tab-pane-->
 
+          <div class="tab-pane" id="payments" role="tabpanel">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="listjs-table" id="paymentList">
+                      <div class="row g-4 mb-3">
+                        <div class="col-sm">
+                          <form method="GET" action="" id="searchForm">
+                            <div class="d-flex justify-content-sm-end">
+                              <div class="search-box ms-2 me-2">
+                                <input type="text" class="form-control search" name="paymentSearch" id="searchInput"
+                                  value="<?php echo e(request()->get('paymentSearch')); ?>" placeholder="Search...">
+                                <i class="ri-search-line search-icon"></i>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table align-middle table-nowrap" id="paymentTable">
+                          <thead class="table-light">
+                            <tr>
+                              <th class="sort" data-sort="payment-invoice-number">Invoice</th>
+                              <th class="sort" data-sort="payment-date">Payment Date</th>
+                              <th class="sort" data-sort="payment-mode">Payment Mode</th>
+                              <th class="sort" data-sort="payment-total">Total Amount</th>
+                              <th class="sort" data-sort="payment-due">Due Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody class="list form-check-all">
+                          <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                          <tr>
+                            <td class="payment-invoice-number"> <?php echo e($payment->invoice->invoice_number); ?></td>
+                            <td class="payment-date"><?php echo e(\Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y')); ?></td>
+                            <td class="payment-mode"><?php echo e($payment->payment_mode); ?></td>
+                            <td class="payment-total"><?php echo e($payment->amount); ?></td>
+                            <td class="payment-due"><?php echo e($payment->due_payment); ?></td>
+                          </tr>
+                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -187,6 +253,10 @@
     var clientInvoicesList = new List('clientInvoicesList', {
       valueNames: ['invoice-date', 'invoice-due-date', 'invoice-total', 'invoice-due',
         'invoice-status', 'invoice-number'],
+    });
+    var paymentList = new List('paymentList', {
+      valueNames: ['payment-invoice-number', 'payment-date', 'payment-mode', 'payment-total',
+        'payment-due'],
     });
   });
 </script>

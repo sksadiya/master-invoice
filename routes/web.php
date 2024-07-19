@@ -76,6 +76,8 @@ Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fet
 Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
 Route::get('/clients/{id}', [App\Http\Controllers\Invoices::class, 'fetchClient'])->name('fetch.client');
 
+
+Route::post('payment/add', [App\Http\Controllers\Payments::class, 'store'])->name('payment.store');
 });
 
 // Route::middleware('admin.guest')->group(function () {

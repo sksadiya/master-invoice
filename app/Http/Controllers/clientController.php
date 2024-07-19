@@ -164,7 +164,7 @@ class clientController extends Controller
 
     public function show($id, Request $request)
     {
-        $client = Client::with('invoices')->find($id);
+        $client = Client::with('invoices.payments')->find($id);
         if (empty($client)) {
             Session::flash('error', 'No Client Found!');
             return redirect()->back();
@@ -173,6 +173,7 @@ class clientController extends Controller
         $state = State::find($client->state_id);
         $city = City::find($client->city_id);
         $search = $request->input('search');
+        $paymentSearch = $request->input('paymentSearch');
         $invoices = $client->invoices();
         if ($search) {
             $invoices->where(function ($query) use ($search) {
@@ -180,6 +181,16 @@ class clientController extends Controller
                     ->orWhere('value', 'like', '%' . $search . '%');
             });
         }
-        return view('client.show', compact('client', 'country', 'state', 'city', 'invoices'));
+         // Collect all payments from the invoices
+    $payments = $client->invoices->flatMap(function($invoice) {
+        return $invoice->payments;
+    });
+    if ($paymentSearch) {
+        $payments->where(function ($query) use ($paymentSearch) {
+            $query->where('name', 'like', '%' . $paymentSearch . '%')
+                ->orWhere('value', 'like', '%' . $paymentSearch . '%');
+        });
+    }
+        return view('client.show', compact('client', 'country', 'state', 'city', 'invoices','payments'));
     }
 }

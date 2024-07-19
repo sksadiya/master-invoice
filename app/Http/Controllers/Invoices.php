@@ -127,6 +127,7 @@ class Invoices extends Controller
             $invoice->discount_total = $request->cart_discount;
             $invoice->note = $request->notes;
             $invoice->payment_method = $request->payment_type;
+            $invoice->due_amount = $request->final_amount;
             $invoice->save();
 
             Setting::where('key', 'Address')->update(['value' => $request->companyAddress]);
@@ -207,10 +208,11 @@ class Invoices extends Controller
         $products = Product::all();
         $taxes = Tax::all();
 
-        return view('invoices.edit', compact('invoice','settings','clients','products','taxes'));
+        return view('invoices.edit', compact('invoice', 'settings', 'clients', 'products', 'taxes'));
     }
 
-    public function update($id , Request $request) {
+    public function update($id, Request $request)
+    {
         // dd($request->all());
         $invoice = Invoice::with('items')->find($id);
         if (empty($invoice)) {
@@ -250,7 +252,7 @@ class Invoices extends Controller
             'clientContact' => 'required',
             'clientGST' => ['required', new GstNumber],
         ]);
-        if ($validator->fails()) { 
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         if ($validator->passes()) {
@@ -269,7 +271,20 @@ class Invoices extends Controller
             $invoice->discount_total = $request->cart_discount;
             $invoice->note = $request->notes;
             $invoice->payment_method = $request->payment_type;
+            // Recalculate due amount
+            $previousPayments = $invoice->payments()->sum('amount');
+            $newDueAmount = max($invoice->total - $previousPayments, 0);
+            $invoice->due_amount = $newDueAmount;
+
+            if ($newDueAmount == 0) {
+                $invoice->invoice_status = 'Paid';
+            } elseif ($newDueAmount > 0 && $newDueAmount < $invoice->total) {
+                $invoice->invoice_status = 'Partially_Paid';
+            } else {
+                $invoice->invoice_status = 'Unpaid'; // or any other default status
+            }
             $invoice->save();
+
 
             Setting::where('key', 'Address')->update(['value' => $request->companyAddress]);
             Setting::where('key', 'zip-code')->update(['value' => $request->company_postal_code]);
@@ -310,7 +325,7 @@ class Invoices extends Controller
                 $client->save();
             }
             $success = true;
-        } 
+        }
         if ($success) {
             Session::flash('success', 'Invoice Updated Successfully');
         } else {
@@ -319,22 +334,16 @@ class Invoices extends Controller
         return redirect()->route('invoices');
     }
 
-    
+
     public function show($id, Request $request)
     {
-        $invoice = Invoice::with('items','client', 'client.city', 'client.state', 'client.country')->find($id);
+        $invoice = Invoice::with('items', 'client', 'client.city', 'client.state', 'client.country')->find($id);
         if (empty($invoice)) {
             Session::flash('error', 'No Invoice Found!');
             return redirect()->back();
         }
-        
-        return view('invoices.show',compact('invoice'));
+
+        return view('invoices.show', compact('invoice'));
     }
-    public function downloadInvoice($id)
-    {
-        set_time_limit(300);
-        $invoice = Invoice::with('items', 'client', 'client.city', 'client.state', 'client.country')->find($id);
-        $pdf = Pdf::loadView('invoices.invoice_pdf', compact('invoice'));
-        return $pdf->download('invoice.pdf');
-    }
+
 }

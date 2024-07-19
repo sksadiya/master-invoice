@@ -1,9 +1,21 @@
 
 <?php $__env->startSection('title'); ?> Show <?php echo e($invoice->invoice_number); ?> <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
+<link href="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet">
+<link href="<?php echo e(URL::asset('build/select2/css/select2.min.css')); ?>" rel="stylesheet" type="text/css" />
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+            <h4 class="mb-sm-0 font-size-18">Invoice <?php echo e($invoice->invoice_number); ?></h4>
+            <div class="page-title-right">
+            <button type="button" class="btn btn-primary add-btn" data-bs-toggle="modal" id="create-btn"
+            data-bs-target="#addPaymentModal"><i class="bx bx-plus-circle me-2"></i>Add Payments</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Invoice 1 - Bootstrap Brain Component -->
 <section class="py-3 py-md-5">
   <div class="container">
@@ -92,7 +104,7 @@
                       <td></td>
                       <?php
             $invoice->tax = rtrim(rtrim($invoice->tax, '0'), '.');
-            ?>
+          ?>
                       <th>Tax (<?php echo e($invoice->tax); ?>%)</th>
                       <td>₹ <?php echo e($invoice->tax_total); ?></td>
                     </tr>
@@ -128,7 +140,7 @@
           </div>
           <div class="row">
             <div class="col-12 text-end">
-           <a href="<?php echo e(route('download.invoice',$invoice->id)); ?>" class="btn btn-primary">Download</a>
+              <a href="" class="btn btn-primary">Download</a>
             </div>
           </div>
         </div>
@@ -137,9 +149,129 @@
   </div>
 </section>
 
+
+<div class="modal fade" id="addPaymentModal" tabindex="-1" aria-labelledby="addPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="addPaymentModalLabel">Add Payments</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          id="close-add-modal"></button>
+      </div>
+      <form id="addPaymentForm" name="addPaymentForm" method="post">
+        <?php echo csrf_field(); ?>
+        <div class="modal-body">
+          <div class="mb-3">
+           <input type="hidden" name="invoice" value="<?php echo e($invoice->id); ?>" >
+          </div>
+          <div class="mb-3">
+            <label for="Payment_method" class="form-label">Payment Method</label>
+            <select class="form-select mb-3" id="Payment_method" name="Payment_method">
+              <option value="bank_transfer">Bank Transfer</option>
+              <option value="phone_pe">PhonePe</option>
+              <option value="google_pay">Google Pay</option>
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="payment_date" class="form-label">Payment Date</label>
+            <input type="date" class="form-control" id="payment_date"
+              value="<?php echo e(\Carbon\Carbon::today()->toDateString()); ?>" name="payment_date" />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="payment_amount" class="form-label">Payment Amount</label>
+            <input type="number" class="form-control" id="payment_amount" step="0.01" min="0" placeholder="Enter Amount"
+              name="payment_amount" />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="payment_note" class="form-label">Payment Note</label>
+            <textarea class="form-control" cols="5" rows="5" name="payment_note" placeholder="Enter Note"
+              id="payment_note"></textarea>
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="hstack gap-2 justify-content-end">
+            <button type="button" class="btn btn-light" id="close-add-modal" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="add-btn">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
+<script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/select2/js/select2.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<script>
+   $(document).ready(function () {
+    $('#addPaymentModal').on('shown.bs.modal', function () {
+      $('#invoice').select2({
+        dropdownParent: $('#addPaymentModal') // Ensure dropdown is appended to modal
+      });
+      $('#Payment_method').select2({
+        dropdownParent: $('#addPaymentModal') // Ensure dropdown is appended to modal
+      });
+    });
 
+    $('#addPaymentForm').on('submit', function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo e(route("payment.store")); ?>',
+        data: $(this).serialize(),
+        success: function (response) {
+          if (response.status) {
+            $('#addPaymentModal').modal('hide');
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: response.message,
+            }).then(function () {
+              location.reload();
+            });
+          }
+
+
+
+        },
+        error: function (response) {
+          var errors = response.responseJSON.errors;
+          if (errors) {
+            $.each(errors, function (key, value) {
+              $('#' + key).addClass('is-invalid');
+              $('#' + key).siblings('.invalid-feedback').text(value[0]);
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: response.responseJSON.message,
+            });
+          }
+        }
+      });
+    });
+
+    $('#addPaymentModal').on('hidden.bs.modal', function () {
+      $('#addPaymentForm')[0].reset();
+      $('.form-control').removeClass('is-invalid');
+      $('.invalid-feedback').text('');
+    });
+
+    $('#close-add-modal, .btn-light').on('click', function () {
+      $('#addPaymentForm')[0].reset();
+      $('.form-control').removeClass('is-invalid');
+      $('.invalid-feedback').text('');
+    });
+    });
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\master\resources\views/invoices/show.blade.php ENDPATH**/ ?>
