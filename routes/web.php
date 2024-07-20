@@ -76,8 +76,12 @@ Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fet
 Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
 Route::get('/clients/{id}', [App\Http\Controllers\Invoices::class, 'fetchClient'])->name('fetch.client');
 
+Route::get('payments', [App\Http\Controllers\Payments::class, 'index'])->name('payments');
+Route::post('payments', [App\Http\Controllers\Payments::class, 'store'])->name('payment.store');
+Route::delete('/payment/{id}', [App\Http\Controllers\Payments::class, 'destroy'])->name('payment.delete');
+Route::put('/payment/{id}', [App\Http\Controllers\Payments::class, 'update'])->name('payment.update');
 
-Route::post('payment/add', [App\Http\Controllers\Payments::class, 'store'])->name('payment.store');
+
 });
 
 // Route::middleware('admin.guest')->group(function () {

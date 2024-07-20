@@ -300,9 +300,6 @@ Invoices
               location.reload();
             });
           }
-
-
-
         },
         error: function (response) {
           var errors = response.responseJSON.errors;

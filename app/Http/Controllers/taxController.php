@@ -57,6 +57,7 @@ class taxController extends Controller
 }
 public function update(Request $request, $id)
 {
+    
     $validator = Validator::make($request->all(), [
         'name' => 'required|unique:taxes,name,'.$id,
         'value' => 'required|numeric|min:0|max:100',

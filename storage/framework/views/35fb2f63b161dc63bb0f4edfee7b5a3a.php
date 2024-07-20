@@ -66,6 +66,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('payments')); ?>" >
+                    <i class="ri-apps-2-line"></i> <span>Payments</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('app-settings')); ?>" >
                     <i class="ri-stack-line"></i> <span>Settings</span>
                     </a>

@@ -201,7 +201,7 @@
                               <th class="sort" data-sort="payment-invoice-number">Invoice</th>
                               <th class="sort" data-sort="payment-date">Payment Date</th>
                               <th class="sort" data-sort="payment-mode">Payment Mode</th>
-                              <th class="sort" data-sort="payment-total">Total Amount</th>
+                              <th class="sort" data-sort="payment-total">Payment Amount</th>
                               <th class="sort" data-sort="payment-due">Due Amount</th>
                             </tr>
                           </thead>
