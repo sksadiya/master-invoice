@@ -32,8 +32,7 @@ products
                       value="{{ request()->get('search') }}" placeholder="Search...">
                     <i class="ri-search-line search-icon"></i>
                   </div>
-                  <a href="{{ route('products') }}" type="button" class="btn bg-primary text-light">reset</a>
-
+                  <a href="{{ route('products') }}" type="button" class="btn bg-primary text-light">Reset</a>
                 </div>
               </form>
             </div>

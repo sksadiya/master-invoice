@@ -14,10 +14,10 @@
         <!-- Light Logo-->
         <a href="{{ route('root') }}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ URL::asset('images/uploads/'.$settings['app-fevicon']) }}" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('images/uploads/'.$settings['app-logo']) }}" alt="" height="17">
+                <img src="{{ URL::asset('images/uploads/'.$settings['app-logo']) }}" alt="" width="200px"  height="36">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -42,7 +42,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('clients') }}" >
-                        <i class="ri-dashboard-2-line"></i> <span>Clients</span>
+                        <i class="ri-folder-user-line"></i> <span>Clients</span>
+                    </a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('invoices') }}" >
+                    <i class="ri-file-list-3-line"></i> <span>Invoices</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('payments') }}" >
+                    <i class="ri-currency-line"></i> <span>Payments</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -52,27 +63,17 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('taxes') }}" >
-                    <i class="ri-apps-2-line"></i> <span>Taxes</span>
+                    <i class="ri-money-dollar-circle-line"></i> <span>Taxes</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('products') }}" >
-                    <i class="ri-apps-2-line"></i> <span>Products</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('invoices') }}" >
-                    <i class="ri-apps-2-line"></i> <span>Invoices</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('payments') }}" >
-                    <i class="ri-apps-2-line"></i> <span>Payments</span>
+                    <i class="ri-product-hunt-line"></i> <span>Services</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('app-settings') }}" >
-                    <i class="ri-stack-line"></i> <span>Settings</span>
+                    <i class="ri-settings-2-line"></i> <span>Settings</span>
                     </a>
                 </li>
             </ul>

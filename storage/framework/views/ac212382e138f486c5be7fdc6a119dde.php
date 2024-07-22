@@ -32,8 +32,7 @@ products
                       value="<?php echo e(request()->get('search')); ?>" placeholder="Search...">
                     <i class="ri-search-line search-icon"></i>
                   </div>
-                  <a href="<?php echo e(route('products')); ?>" type="button" class="btn bg-primary text-light">reset</a>
-
+                  <a href="<?php echo e(route('products')); ?>" type="button" class="btn bg-primary text-light">Reset</a>
                 </div>
               </form>
             </div>

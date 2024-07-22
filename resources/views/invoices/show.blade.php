@@ -17,7 +17,7 @@
     </div>
 </div>
 <!-- Invoice 1 - Bootstrap Brain Component -->
-<section class="py-3 py-md-5">
+<section class="py-3 invoice-container">
   <div class="container">
     <div class="card py-5">
       <div class="row justify-content-center px-lg-5 px-sm-1">
@@ -137,7 +137,7 @@
           </div>
           <div class="row">
             <div class="col-12 text-end">
-              <a href="" class="btn btn-primary">Download</a>
+              <a href="#" onclick="window.print()" class="btn btn-primary">Print</a>
             </div>
           </div>
         </div>

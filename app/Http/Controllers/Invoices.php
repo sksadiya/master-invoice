@@ -346,4 +346,21 @@ class Invoices extends Controller
         return view('invoices.show', compact('invoice'));
     }
 
+    public function generatePDF($id)
+{
+    set_time_limit(300);
+    $invoice = Invoice::with('items', 'client')->find($id); 
+    $pdf = Pdf::loadView('invoices.invoice', [
+        'invoice' => $invoice,
+    ])
+    ->setPaper('A4', 'portrait')
+    ->setOptions([
+        'isHtml5ParserEnabled' => true,
+        'isPhpEnabled' => true,
+        'isRemoteEnabled' => true, 
+    ]);
+
+    return $pdf->download('invoice.pdf');
+}
+
 }

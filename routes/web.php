@@ -81,6 +81,7 @@ Route::post('payments', [App\Http\Controllers\Payments::class, 'store'])->name('
 Route::delete('/payment/{id}', [App\Http\Controllers\Payments::class, 'destroy'])->name('payment.delete');
 Route::put('/payment/{id}', [App\Http\Controllers\Payments::class, 'update'])->name('payment.update');
 
+Route::get('/generate-pdf/{id}', [App\Http\Controllers\Invoices::class, 'generatePDF'])->name('generate');
 
 });
 
