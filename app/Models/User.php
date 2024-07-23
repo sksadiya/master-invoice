@@ -15,9 +15,12 @@ class User extends Authenticatable
 
 public function isAdmin()
 {
-    return $this->role === 1; // Adjust this according to your user role logic
+    return $this->role === 1;
 }
-
+public function isEmployee()
+    {
+        return $this->role === 2;
+    }
     /**
      * The attributes that are mass assignable.
      *

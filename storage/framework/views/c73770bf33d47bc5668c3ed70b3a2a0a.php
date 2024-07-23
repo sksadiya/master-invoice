@@ -385,7 +385,7 @@ unset($__errorArgs, $__bag); ?>" id="Copyright"
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          console.log('Cities fetched:', response.cities);
+          // console.log('Cities fetched:', response.cities);
           $('#city').empty();
           response.cities.forEach(city => {
             $('#city').append(new Option(city.name, city.id, city.id == "<?php echo e($settings['city']); ?>", city.id == "<?php echo e($settings['city']); ?>"));

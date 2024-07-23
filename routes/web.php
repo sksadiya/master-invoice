@@ -14,32 +14,47 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Auth::routes();
+Route::group(['middleware' => 'auth'], function () {
+  Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+  Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
+  Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
+  Route::post('/update-profile-image/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'updateProfileImage'])->name('updateProfileImage');
+  Route::get('settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
+  Route::get('/employee', [App\Http\Controllers\EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
+});
 //Language Translation
-
 Route::group(['middleware' => ['auth', 'check.admin']], function () {
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
-
-Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+  // Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 
 //Update User Details
-Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
-Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
-
+// Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
+// Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 
 //update profilr image 
-Route::post('/update-profile-image/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'updateProfileImage'])->name('updateProfileImage');
+// Route::post('/update-profile-image/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'updateProfileImage'])->name('updateProfileImage');
 Route::post('/save-settings', [App\Http\Controllers\SettingsController::class, 'updateSettings'])->name('updateSettings');
 
-Route::get('settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
+// Route::get('settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
 Route::get('app-settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('app-settings');
 // routes/web.php
-
 
 Route::get('categories', [App\Http\Controllers\categoryController::class, 'index'])->name('categories');
 Route::post('categories', [App\Http\Controllers\categoryController::class, 'store'])->name('category.add');
 Route::put('/categories/{id}', [App\Http\Controllers\categoryController::class, 'update'])->name('category.update');
 Route::delete('/categories/{id}', [App\Http\Controllers\categoryController::class, 'destroy'])->name('category.delete');
 
+Route::get('departments', [App\Http\Controllers\DepartmentController::class, 'index'])->name('departments');
+Route::post('departments', [App\Http\Controllers\DepartmentController::class, 'store'])->name('department.add');
+Route::put('/departments/{id}', [App\Http\Controllers\DepartmentController::class, 'update'])->name('department.update');
+Route::delete('/departments/{id}', [App\Http\Controllers\DepartmentController::class, 'destroy'])->name('department.delete');
+
+Route::get('employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
+Route::get('employee/add', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.add');
+Route::post('employee/store', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employee.store');
+Route::delete('/employee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employee.delete');
+Route::get('employee/edit/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
+Route::post('employee/update/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
 
 Route::get('taxes', [App\Http\Controllers\taxController::class, 'index'])->name('taxes');
 Route::post('taxes', [App\Http\Controllers\taxController::class, 'store'])->name('tax.add');
@@ -85,15 +100,5 @@ Route::get('/generate-pdf/{id}', [App\Http\Controllers\Invoices::class, 'generat
 
 });
 
-// Route::middleware('admin.guest')->group(function () {
-//   // Guest-only routes here
-//   Route::get('/welcome', function () {
-//       return view('welcome');
-//   })->name('welcome');
-// });
 
-// // Routes accessible only to authenticated admin users
-// Route::middleware('admin.auth')->prefix('admin')->group(function () {
-//   Route::get('/dashboard', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
-//   // Add more admin routes here
-// });
+

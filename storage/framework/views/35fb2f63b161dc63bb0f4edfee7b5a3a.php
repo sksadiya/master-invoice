@@ -45,7 +45,16 @@
                         <i class="ri-folder-user-line"></i> <span>Clients</span>
                     </a>
                 </li>
-               
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('departments')); ?>" >
+                        <i class="ri-file-user-line"></i> <span>Departments</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('employees')); ?>" >
+                        <i class="ri-file-user-line"></i> <span>Employees</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('invoices')); ?>" >
                     <i class="ri-file-list-3-line"></i> <span>Invoices</span>

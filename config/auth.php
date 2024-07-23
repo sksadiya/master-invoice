@@ -44,6 +44,10 @@ return [
         'driver' => 'session',
         'provider' => 'admins', // Use 'admins' provider or adjust as per your setup
     ],
+        'employee' => [
+        'driver' => 'session',
+        'provider' => 'employees', // Use 'admins' provider or adjust as per your setup
+    ],
     ],
 
     /*
@@ -69,6 +73,10 @@ return [
             'model' => App\Models\User::class,
         ],
         'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+        'employees' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],

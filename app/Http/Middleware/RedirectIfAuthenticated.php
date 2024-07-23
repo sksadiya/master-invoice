@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check() && Auth::guard($guard)->user()->isAdmin()) {
+            if (Auth::guard($guard)->check() && Auth::guard($guard)->user()->isAdmin() && Auth::guard($guard)->user()->isEmployee()) {
                 return redirect(RouteServiceProvider::HOME);
             }
         }
