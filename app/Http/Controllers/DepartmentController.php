@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 class DepartmentController extends Controller
 {
     public function index(Request $request) {
-        $departments = Department::latest();
+        $departments = Department::withCount('employees')->latest();
 
         if (!empty($request->get('search'))) {
             $departments = $departments->where(function ($query) use ($request) {

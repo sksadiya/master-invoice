@@ -14,37 +14,27 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Auth::routes();
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth','check.user.role']], function () {
   Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
   Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
   Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
   Route::post('/update-profile-image/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'updateProfileImage'])->name('updateProfileImage');
   Route::get('settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
   Route::get('/employee', [App\Http\Controllers\EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
-});
-//Language Translation
-Route::group(['middleware' => ['auth', 'check.admin']], function () {
-Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
-  // Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+// Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
 
-//Update User Details
-// Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
-// Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
-
-//update profilr image 
-// Route::post('/update-profile-image/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'updateProfileImage'])->name('updateProfileImage');
 Route::post('/save-settings', [App\Http\Controllers\SettingsController::class, 'updateSettings'])->name('updateSettings');
-
-// Route::get('settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
 Route::get('app-settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('app-settings');
-// routes/web.php
 
 Route::get('categories', [App\Http\Controllers\categoryController::class, 'index'])->name('categories');
 Route::post('categories', [App\Http\Controllers\categoryController::class, 'store'])->name('category.add');
 Route::put('/categories/{id}', [App\Http\Controllers\categoryController::class, 'update'])->name('category.update');
 Route::delete('/categories/{id}', [App\Http\Controllers\categoryController::class, 'destroy'])->name('category.delete');
 
-Route::get('departments', [App\Http\Controllers\DepartmentController::class, 'index'])->name('departments');
+Route::group(['middleware' => ['permission:View Departments']], function () {
+  Route::get('departments', [App\Http\Controllers\DepartmentController::class, 'index'])->name('departments');
+});
+
 Route::post('departments', [App\Http\Controllers\DepartmentController::class, 'store'])->name('department.add');
 Route::put('/departments/{id}', [App\Http\Controllers\DepartmentController::class, 'update'])->name('department.update');
 Route::delete('/departments/{id}', [App\Http\Controllers\DepartmentController::class, 'destroy'])->name('department.delete');
@@ -76,6 +66,13 @@ Route::get('products', [App\Http\Controllers\ProductController::class, 'create']
 Route::get('product/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
 Route::post('product/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
 Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete');
+
+Route::get('roles', [App\Http\Controllers\RolesAndPermissions::class, 'index'])->name('roles');
+Route::post('role', [App\Http\Controllers\RolesAndPermissions::class, 'store'])->name('role.store');
+Route::get('role', [App\Http\Controllers\RolesAndPermissions::class, 'create'])->name('role.add');
+Route::get('role/edit/{id}', [App\Http\Controllers\RolesAndPermissions::class, 'edit'])->name('role.edit');
+Route::post('role/update/{id}', [App\Http\Controllers\RolesAndPermissions::class, 'update'])->name('role.update');
+Route::delete('/role/{id}', [App\Http\Controllers\RolesAndPermissions::class, 'destroy'])->name('role.delete');
 
 Route::get('invoice/add', [App\Http\Controllers\Invoices::class, 'create'])->name('invoice.add');
 Route::post('invoice/add', [App\Http\Controllers\Invoices::class, 'store'])->name('invoice.store');

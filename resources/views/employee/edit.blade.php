@@ -85,16 +85,15 @@ Edit Employee
               <div class="mb-3">
                 <label for="password">Password <span class="text-danger">*</span></label>
                 <input type="password" class="form-control @error('password') is-invalid @enderror" name="password"
-                  id="password" aria-describedby="passwordInfo">
+                  id="password" placeholder="If You want to set new password then fill the field.">
                 @error('password')
           <div class="invalid-feedback">
           {{ $message }}
           </div>
-          <div id="passwordInfo" class="form-text">If You want to set new password then fill the field.</div>
         @enderror
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
               <div class="mb-3">
                 <label for="dept">Department</label>
                 <select class="form-select @error('dept') is-invalid @enderror"  name="dept" id="dept">
@@ -103,6 +102,21 @@ Edit Employee
                 @endforeach
                 </select>
                   @error('dept')
+                <div class="invalid-feedback">
+                  {{ $message }}
+                </div>
+                  @enderror
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
+                <label for="dept">Role</label>
+                <select class="form-select @error('role') is-invalid @enderror"  name="role" id="role">
+                @foreach ($roles as $role)
+                  <option  {{ $employee->user->roles->first()->id == $role->id ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
+                @endforeach
+                </select>
+                  @error('role')
                 <div class="invalid-feedback">
                   {{ $message }}
                 </div>
@@ -382,6 +396,7 @@ Edit Employee
     $('#city').select2();
     $('#country').select2();
     $('#dept').select2();
+    $('#role').select2();
 
     $('#country').change(function () {
       fetchStates($(this).val());

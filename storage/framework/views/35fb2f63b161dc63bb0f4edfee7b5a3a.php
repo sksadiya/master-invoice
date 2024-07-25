@@ -85,6 +85,11 @@
                     <i class="ri-settings-2-line"></i> <span>Settings</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('roles')); ?>" >
+                    <i class="ri-settings-2-line"></i> <span>Roles & Permissions</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

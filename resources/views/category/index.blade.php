@@ -45,7 +45,7 @@ Categories
               <thead class="table-light">
                 <tr>
                   <th class="sort" data-sort="category-name">Category</th>
-                  <!-- <th class="sort" data-sort="product-count">Product</th> -->
+                  <th class="sort" data-sort="product-count">Product</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
@@ -54,7 +54,7 @@ Categories
           @foreach ($categories as $category)
         <tr>
         <td class="category-name">{{ $category->name }}</td>
-        <!-- <td class="product-count"></td> -->
+        <td class="product-count">{{ $category->products_count }}</td>
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">

@@ -22,8 +22,13 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check() && Auth::guard($guard)->user()->isAdmin() && Auth::guard($guard)->user()->isEmployee()) {
-                return redirect(RouteServiceProvider::HOME);
+            if (Auth::guard($guard)->check()) {
+                $user = Auth::guard($guard)->user();
+
+                // Adjust the condition to check if the user is either an admin or an employee
+                if ($user->isAdmin() || $user->isEmployee()) {
+                    return redirect(RouteServiceProvider::HOME);
+                } 
             }
         }
 

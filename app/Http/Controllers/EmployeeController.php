@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+use Spatie\Permission\Models\Role;
 class EmployeeController extends Controller
 {
     public function index(Request $request)
@@ -31,7 +31,8 @@ class EmployeeController extends Controller
     public function create() {
         $countries = Country::all();
         $departments = Department::all();
-        return view('employee.create',compact('countries','departments'));
+        $roles = Role::all();
+        return view('employee.create',compact('countries','departments','roles'));
     }
 
     public function store(Request $request) {
@@ -43,6 +44,7 @@ class EmployeeController extends Controller
             'contact' => 'required|numeric',
             'alt_contact' => 'nullable|numeric',
             'password' => 'required|min:6',
+            'role' => 'required|exists:roles,id',
             'dept' => 'required|exists:departments,id',
             'address' => 'nullable',
             'country' => 'nullable|exists:countries,id',
@@ -73,7 +75,12 @@ class EmployeeController extends Controller
         $user->role = 2;
         $user->save();
 
-        
+        try {
+            $role = Role::findById($request->role);
+            $user->syncRoles([$role]);
+        } catch (\Spatie\Permission\Exceptions\RoleDoesNotExist $e) {
+            return redirect()->back()->withErrors(['error' => 'The selected role does not exist.'])->withInput();
+        }
         $employee = new Employee();
         $employee->user_id = $user->id;
         $employee->dept_id = $request->dept;
@@ -132,7 +139,8 @@ class EmployeeController extends Controller
         }
         $countries = Country::all();
         $departments = Department::all();
-        return view('employee.edit', compact('employee', 'countries','departments'));
+        $roles = Role::all();
+        return view('employee.edit', compact('employee', 'countries','departments','roles'));
     }
 
     public function update($id ,Request $request) {
@@ -149,6 +157,7 @@ class EmployeeController extends Controller
             'contact' => 'required|numeric',
             'alt_contact' => 'nullable|numeric',
             'password' => 'nullable|min:6',
+            'role' => 'required|exists:roles,id',
             'dept' => 'required|exists:departments,id',
             'address' => 'nullable',
             'country' => 'nullable|exists:countries,id',
@@ -181,8 +190,8 @@ class EmployeeController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
-
-        $employee->user_id = $user->id;
+        $role = Role::findById($request->role);
+        $user->syncRoles([$role]);
         $employee->dept_id = $request->dept;
         $employee->address = $request->address;
         $employee->alt_contact = $request->alt_contact;

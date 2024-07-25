@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 class categoryController extends Controller
 {
     public function index(Request $request) {
-        $categories = Category::latest();
+        $categories = Category::withCount('products')->latest();
 
         if (!empty($request->get('search'))) {
             $categories = $categories->where('name', 'like', '%' . $request->get('search') . '%');

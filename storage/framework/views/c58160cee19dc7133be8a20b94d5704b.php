@@ -183,7 +183,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
               <div class="mb-3">
                 <label for="dept">Department</label>
                 <select class="form-select <?php $__errorArgs = ['dept'];
@@ -199,6 +199,36 @@ unset($__errorArgs, $__bag); ?>" name="dept" id="dept">
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
                   <?php $__errorArgs = ['dept'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <div class="invalid-feedback">
+                  <?php echo e($message); ?>
+
+                </div>
+                  <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
+                <label for="dept">Roles</label>
+                <select class="form-select <?php $__errorArgs = ['role'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="role" id="role">
+                  <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($role->id); ?>"><?php echo e($role->name); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+                  <?php $__errorArgs = ['role'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -710,6 +740,7 @@ unset($__errorArgs, $__bag); ?>
     $('#city').select2();
     $('#country').select2();
     $('#dept').select2();
+    $('#role').select2();
 
     $('#country').change(function () {
       fetchStates($(this).val());

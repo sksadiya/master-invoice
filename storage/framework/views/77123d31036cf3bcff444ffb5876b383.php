@@ -14,8 +14,8 @@ Edit Product
         <h4 class="card-title mb-0">Edit Product</h4>
       </div>
       <div class="card-body p-4">
-        <form action="<?php echo e(route('product.update',$product->id)); ?>" method="post" id="client-create-form" name="client-create-form"
-          enctype="multipart/form-data">
+        <form action="<?php echo e(route('product.update', $product->id)); ?>" method="post" id="client-create-form"
+          name="client-create-form" enctype="multipart/form-data">
           <?php echo csrf_field(); ?>
           <div class="row">
             <div class="col-md-6">
@@ -31,11 +31,11 @@ endif;
 unset($__errorArgs, $__bag); ?>" id="name"
                   placeholder="Product Name" value="<?php echo e($product->name); ?>" name="name">
                 <?php if($errors->has('name')): ?>
-                  <div class="invalid-feedback">
-                    <?php echo e($errors->first('name')); ?>
+          <div class="invalid-feedback">
+            <?php echo e($errors->first('name')); ?>
 
-                  </div>
-                <?php endif; ?>
+          </div>
+        <?php endif; ?>
               </div>
             </div>
             <div class="col-lg-6">
@@ -44,8 +44,9 @@ unset($__errorArgs, $__bag); ?>" id="name"
                 <div class="mb-3">
                   <select class="form-control" name="category" id="category">
                     <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                      <option <?php echo e(($product->category_id == $category->id) ? 'selected':''); ?> value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <option <?php echo e(($product->category_id == $category->id) ? 'selected' : ''); ?> value="<?php echo e($category->id); ?>">
+              <?php echo e($category->name); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                   </select>
                 </div>
               </div>
@@ -88,11 +89,11 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                  <div class="invalid-feedback">
-                    <?php echo e($message); ?>
+          <div class="invalid-feedback">
+            <?php echo e($message); ?>
 
-                  </div>
-                <?php unset($message);
+          </div>
+        <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
@@ -150,9 +151,7 @@ unset($__errorArgs, $__bag); ?>
       showCloseButton: true
     });
   <?php endif; ?>
-
     $('#category').select2();
-
   });
 </script>
 <?php $__env->stopSection(); ?>

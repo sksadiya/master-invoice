@@ -44,7 +44,7 @@ Departments
               <thead class="table-light">
                 <tr>
                   <th class="sort" data-sort="department-name">Department</th>
-                  <!-- <th class="sort" data-sort="product-count">Product</th> -->
+                  <th class="sort" data-sort="employee-count">Employees</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
@@ -53,7 +53,7 @@ Departments
           <?php $__currentLoopData = $departments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
         <td class="department-name"><?php echo e($department->name); ?></td>
-        <!-- <td class="product-count"></td> -->
+        <td class="employee-count"><?php echo e($department->employees_count); ?></td>
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
@@ -221,7 +221,7 @@ Departments
       window.location.href = url;
     });
     var departmentList = new List('departmentList', {
-      valueNames: ['department-name', 'action'],
+      valueNames: ['department-name', 'employee-count','action'],
     });
     $('#addDepartmentForm').on('submit', function (e) {
       e.preventDefault();

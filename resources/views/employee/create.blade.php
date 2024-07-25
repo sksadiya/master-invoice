@@ -93,7 +93,7 @@ Add Employee
         @enderror
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
               <div class="mb-3">
                 <label for="dept">Department</label>
                 <select class="form-select @error('dept') is-invalid @enderror" name="dept" id="dept">
@@ -102,6 +102,21 @@ Add Employee
                   @endforeach
                 </select>
                   @error('dept')
+                <div class="invalid-feedback">
+                  {{ $message }}
+                </div>
+                  @enderror
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
+                <label for="dept">Roles</label>
+                <select class="form-select @error('role') is-invalid @enderror" name="role" id="role">
+                  @foreach ($roles as $role)
+                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                  @endforeach
+                </select>
+                  @error('role')
                 <div class="invalid-feedback">
                   {{ $message }}
                 </div>
@@ -381,6 +396,7 @@ Add Employee
     $('#city').select2();
     $('#country').select2();
     $('#dept').select2();
+    $('#role').select2();
 
     $('#country').change(function () {
       fetchStates($(this).val());

@@ -45,7 +45,7 @@ Categories
               <thead class="table-light">
                 <tr>
                   <th class="sort" data-sort="category-name">Category</th>
-                  <!-- <th class="sort" data-sort="product-count">Product</th> -->
+                  <th class="sort" data-sort="product-count">Product</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
@@ -54,7 +54,7 @@ Categories
           <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
         <td class="category-name"><?php echo e($category->name); ?></td>
-        <!-- <td class="product-count"></td> -->
+        <td class="product-count"><?php echo e($category->products_count); ?></td>
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
