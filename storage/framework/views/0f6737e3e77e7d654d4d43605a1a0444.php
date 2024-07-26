@@ -45,26 +45,34 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                         </div>
+                       
                         <div class="row mb-3">
-                            <ul class="list-group mb-4">
-                                <li class="list-group-item bg-light" aria-current="true">Permissions</li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                    <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3 permission-switch">
-                                            <div class="form-check form-switch form-switch-md">
-                                                <input class="form-check-input" type="checkbox" role="switch" 
-                                                       name="permissions[]" 
-                                                       value="<?php echo e($permission->id); ?>" 
-                                                       <?php echo e(old('permissions') && in_array($permission->id, old('permissions')) ? 'checked' : ''); ?>>
-                                                <label class="form-check-label"><?php echo e($permission->name); ?></label>
-                                            </div>
+                            <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category => $categoryPermissions): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <ul class="list-group mb-4">
+                                    <li class="list-group-item bg-light"><?php echo e(ucfirst($category)); ?></li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <?php $__currentLoopData = $categoryPermissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                                    <div class="card border">
+                                                        <div class="card-body">
+                                                            <div class="form-check form-switch form-switch-md">
+                                                                <input class="form-check-input" type="checkbox" role="switch" 
+                                                                    name="permissions[]" 
+                                                                    value="<?php echo e($permission->id); ?>" 
+                                                                    <?php echo e(old('permissions') && in_array($permission->id, old('permissions')) ? 'checked' : ''); ?>>
+                                                                <label class="form-check-label"><?php echo e($permission->name); ?></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
+
                         <div class="col-lg-12 mt-3">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="submit" class="btn btn-primary">Save</button>

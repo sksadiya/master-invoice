@@ -141,6 +141,7 @@
           <div class="row">
             <div class="col-12 text-end">
               <a href="#" onclick="window.print()" class="btn btn-primary">Print</a>
+              <a href="<?php echo e(route('generate',$invoice->id )); ?>"  class="btn btn-primary">Download</a>
             </div>
           </div>
         </div>

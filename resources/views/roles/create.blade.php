@@ -31,26 +31,34 @@ Roles
                                 </div>
                             </div>
                         </div>
+                       
                         <div class="row mb-3">
-                            <ul class="list-group mb-4">
-                                <li class="list-group-item bg-light" aria-current="true">Permissions</li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                    @foreach ($permissions as $permission)
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3 permission-switch">
-                                            <div class="form-check form-switch form-switch-md">
-                                                <input class="form-check-input" type="checkbox" role="switch" 
-                                                       name="permissions[]" 
-                                                       value="{{ $permission->id }}" 
-                                                       {{ old('permissions') && in_array($permission->id, old('permissions')) ? 'checked' : '' }}>
-                                                <label class="form-check-label">{{ $permission->name }}</label>
-                                            </div>
+                            @foreach ($permissions as $category => $categoryPermissions)
+                                <ul class="list-group mb-4">
+                                    <li class="list-group-item bg-light">{{ ucfirst($category) }}</li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            @foreach ($categoryPermissions as $permission)
+                                                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                                    <div class="card border">
+                                                        <div class="card-body">
+                                                            <div class="form-check form-switch form-switch-md">
+                                                                <input class="form-check-input" type="checkbox" role="switch" 
+                                                                    name="permissions[]" 
+                                                                    value="{{ $permission->id }}" 
+                                                                    {{ old('permissions') && in_array($permission->id, old('permissions')) ? 'checked' : '' }}>
+                                                                <label class="form-check-label">{{ $permission->name }}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         </div>
-                                        @endforeach
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            @endforeach
                         </div>
+
                         <div class="col-lg-12 mt-3">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="submit" class="btn btn-primary">Save</button>

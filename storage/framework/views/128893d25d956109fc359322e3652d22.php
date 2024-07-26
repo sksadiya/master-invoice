@@ -6,10 +6,8 @@
 <link href="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet" type="text/css" />
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-
 <div class="row">
     <div class="col">
-
         <div class="h-100">
             <div class="row mb-3 pb-1">
                 <div class="col-12">
@@ -153,6 +151,7 @@
 
 
 </div>
+
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>

@@ -317,114 +317,111 @@ unset($__errorArgs, $__bag); ?>" id="Copyright"
 <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <script>
   $(document).ready(function () {
-
-    <?php if(Session::has('success')): ?>
-    Swal.fire({
-      title: 'Success!',
-      text: '<?php echo e(Session::get('success')); ?>',
-      icon: 'success',
-      showCancelButton: false,
-      customClass: {
+  <?php if(Session::has('success')): ?>
+  Swal.fire({
+    title: 'Success!',
+    text: '<?php echo e(Session::get('success')); ?>',
+    icon: 'success',
+    showCancelButton: false,
+    customClass: {
       confirmButton: 'btn btn-primary w-xs me-2 mt-2',
-      },
-      buttonsStyling: false,
-      showCloseButton: true
-    });
-  <?php endif; ?>
-
-    <?php if(Session::has('error')): ?>
-    Swal.fire({
-      title: 'Error!',
-      text: "<?php echo e(Session::get('error')); ?>",
-      icon: 'error',
-      showCancelButton: false,
-      customClass: {
-      confirmButton: 'btn btn-danger w-xs mt-2',
-      },
-      buttonsStyling: false,
-      showCloseButton: true
-    });
-  <?php endif; ?>
-
-    $('#state-code').select2();
-    $('#city').select2();
-    $('#country-name').select2();
-    $('#country-code').select2();
-
-    $('#country-name').change(function () {
-      fetchStates($(this).val());
-    });
-
-    $('#state-code').change(function () {
-      fetchCities($(this).val());
-    });
-
-    function fetchStates(countryId) {
-      const fetchRoute = "<?php echo e(route('fetch.states', ':countryId')); ?>".replace(":countryId", countryId);
-      $.ajax({
-        url: fetchRoute,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          $('#state-code').empty();
-          response.states.forEach(state => {
-            $('#state-code').append(new Option(state.name, state.id, state.id == "<?php echo e($settings['state-code']); ?>", state.id == "<?php echo e($settings['state-code']); ?>"));
-          });
-          $('#state-code').trigger('change');
-        },
-        error: function (xhr, status, error) {
-          console.error('AJAX Error: ' + status + ' - ' + error);
-        }
-      });
-    }
-
-    function fetchCities(stateId) {
-      const fetchCitiesRoute = "<?php echo e(route('fetch.cities', ':stateId')); ?>".replace(':stateId', stateId);
-      $.ajax({
-        url: fetchCitiesRoute,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          // console.log('Cities fetched:', response.cities);
-          $('#city').empty();
-          response.cities.forEach(city => {
-            $('#city').append(new Option(city.name, city.id, city.id == "<?php echo e($settings['city']); ?>", city.id == "<?php echo e($settings['city']); ?>"));
-          });
-          $('#city').trigger('change');
-        },
-        error: function (xhr, status, error) {
-          console.error('AJAX Error: ' + status + ' - ' + error);
-        }
-      });
-    }
-
-    function initializeSelect2() {
-      var initialCountryId = $('#country-name').val();
-      var initialStateId = "<?php echo e($settings['state-code']); ?>";
-      var initialCityId = "<?php echo e($settings['city']); ?>";
-
-      if (initialCountryId) {
-        fetchStates(initialCountryId);
-      }
-
-      // Ensure cities are fetched only after states are loaded
-      $('#state-code').one('change', function () {
-        if (initialStateId) {
-          fetchCities(initialStateId);
-        }
-        if (initialCityId) {
-          $('#city').val(initialCityId).trigger('change');
-        }
-      });
-
-      if (initialStateId) {
-        $('#state-code').val(initialStateId).trigger('change');
-      }
-    }
-
-    initializeSelect2();
-
+    },
+    buttonsStyling: false,
+    showCloseButton: true
   });
+  <?php endif; ?>
+
+  <?php if(Session::has('error')): ?>
+  Swal.fire({
+    title: 'Error!',
+    text: "<?php echo e(Session::get('error')); ?>",
+    icon: 'error',
+    showCancelButton: false,
+    customClass: {
+      confirmButton: 'btn btn-danger w-xs mt-2',
+    },
+    buttonsStyling: false,
+    showCloseButton: true
+  });
+  <?php endif; ?>
+
+  $('#state-code').select2();
+  $('#city').select2();
+  $('#country-name').select2();
+  $('#country-code').select2();
+
+  $('#country-name').change(function () {
+    fetchStates($(this).val());
+  });
+
+  $('#state-code').change(function () {
+    fetchCities($(this).val());
+  });
+
+  function fetchStates(countryId) {
+    const fetchRoute = "<?php echo e(route('fetch.states', ':countryId')); ?>".replace(":countryId", countryId);
+    $.ajax({
+      url: fetchRoute,
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        $('#state-code').empty();
+        response.states.forEach(state => {
+          $('#state-code').append(new Option(state.name, state.id, state.id == "<?php echo e($settings['state-code']); ?>", state.id == "<?php echo e($settings['state-code']); ?>"));
+        });
+        $('#state-code').trigger('change'); // Trigger change to reload cities
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX Error: ' + status + ' - ' + error);
+      }
+    });
+  }
+
+  function fetchCities(stateId) {
+    const fetchCitiesRoute = "<?php echo e(route('fetch.cities', ':stateId')); ?>".replace(':stateId', stateId);
+    $.ajax({
+      url: fetchCitiesRoute,
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        $('#city').empty();
+        response.cities.forEach(city => {
+          $('#city').append(new Option(city.name, city.id, city.id == "<?php echo e($settings['city']); ?>", city.id == "<?php echo e($settings['city']); ?>"));
+        });
+        $('#city').trigger('change'); // Ensure the city field is updated
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX Error: ' + status + ' - ' + error);
+      }
+    });
+  }
+
+  function initializeSelect2() {
+    var initialCountryId = $('#country-name').val();
+    var initialStateId = "<?php echo e($settings['state-code']); ?>";
+    var initialCityId = "<?php echo e($settings['city']); ?>";
+
+    if (initialCountryId) {
+      fetchStates(initialCountryId);
+    }
+
+    // Ensure cities are fetched only after states are loaded
+    $('#state-code').one('change', function () {
+      if (initialStateId) {
+        fetchCities(initialStateId);
+      }
+    });
+
+    // Set the initial values after fetching cities
+    $('#city').val(initialCityId).trigger('change');
+    if (initialStateId) {
+      $('#state-code').val(initialStateId).trigger('change');
+    }
+  }
+
+  initializeSelect2();
+});
+
 </script>
 
 

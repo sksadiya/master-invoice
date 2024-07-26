@@ -9,9 +9,9 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Tax;
 use App\Rules\GstNumber;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Spatie\LaravelPdf\Facades\Pdf;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -345,22 +345,34 @@ class Invoices extends Controller
 
         return view('invoices.show', compact('invoice'));
     }
+    public function generatePDF($id) {
+        $invoice = Invoice::with('items', 'client', 'client.city', 'client.state')->find($id);
+        if (empty($invoice)) {
+            return redirect()->back()->with('error', 'No Invoice Found!');
+        }
 
-    public function generatePDF($id)
-{
-    set_time_limit(300);
-    $invoice = Invoice::with('items', 'client')->find($id); 
-    $pdf = Pdf::loadView('invoices.invoice', [
-        'invoice' => $invoice,
-    ])
-    ->setPaper('A4', 'portrait')
-    ->setOptions([
-        'isHtml5ParserEnabled' => true,
-        'isPhpEnabled' => true,
-        'isRemoteEnabled' => true, 
-    ]);
+        $pdf = Pdf::view('invoices.invoice', ['invoice' => $invoice])
+            ->format('A4')
+            ->download('invoice.pdf');
 
-    return $pdf->download('invoice.pdf');
-}
+        return $pdf;
+    }
+
+//     public function generatePDF($id)
+// {
+//     set_time_limit(300);
+//     $invoice = Invoice::with('items', 'client')->find($id); 
+//     $pdf = Pdf::loadView('invoices.invoice', [
+//         'invoice' => $invoice,
+//     ])
+//     ->setPaper('A4', 'portrait')
+//     ->setOptions([
+//         'isHtml5ParserEnabled' => true,
+//         'isPhpEnabled' => true,
+//         'isRemoteEnabled' => true, 
+//     ]);
+
+//     return $pdf->download('invoice.pdf');
+// }
 
 }

@@ -25,7 +25,40 @@ class RolesAndPermissions extends Controller
     }
     public function create()
     {
-        $permissions = Permission::all();
+        $allPermissions = Permission::all();
+    
+    // Organize permissions into categories
+    $permissions = [
+        'departments' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Departments');
+        }),
+        'employees' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Employees');
+        }),
+        'clients' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Clients');
+        }),
+        'invoices' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Invoices');
+        }),
+        'payments' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Payments');
+        }),
+        'categories' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Categories');
+        }),
+        'services' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Services');
+        }),
+        'roles' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Roles');
+        }),
+        'settings' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Settings');
+        }),
+      
+    ];
+        // $permissions = Permission::all();
         return view('roles.create', compact('permissions'));
     }
     public function store(Request $request)
@@ -54,7 +87,39 @@ class RolesAndPermissions extends Controller
             Session::flash('error', 'No role Found!');
             return redirect()->back();
         }
-        $permissions = Permission::all();
+        $allPermissions = Permission::all();
+    
+    // Organize permissions into categories
+    $permissions = [
+        'departments' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Departments');
+        }),
+        'employees' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Employees');
+        }),
+        'clients' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Clients');
+        }),
+        'invoices' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Invoices');
+        }),
+        'payments' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Payments');
+        }),
+        'categories' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Categories');
+        }),
+        'services' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Services');
+        }),
+        'roles' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Roles');
+        }),
+        'settings' => $allPermissions->filter(function ($permission) {
+            return str_contains($permission->name, 'Settings');
+        }),
+       
+    ];
         return view('roles.edit', compact('permissions', 'role'));
     }
     public function update($id, Request $request)
