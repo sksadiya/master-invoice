@@ -21,7 +21,7 @@ Roles
           <div class="row g-4 mb-3">
             <div class="col-sm-auto">
               <div>
-                <a href="{{ route('role.add') }}" type="button" class="btn btn-primary add-btn">Add Role</a>
+                <a href="{{ route('role.add') }}" type="button" class="btn btn-primary add-btn"><i class="bx bx-plus-circle me-2"></i> Add Role</a>
               </div>
             </div>
             <div class="col-sm">
