@@ -83,6 +83,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('expenseCategories') }}" >
+                    <i class="ri-product-hunt-line"></i> <span>Expense Categories</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('expenses') }}" >
+                    <i class="ri-product-hunt-line"></i> <span>Expenses</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('app-settings') }}" >
                     <i class="ri-settings-2-line"></i> <span>Settings</span>
                     </a>

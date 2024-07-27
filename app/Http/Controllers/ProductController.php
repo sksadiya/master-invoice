@@ -77,7 +77,7 @@ class ProductController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:2|unique:products,name,' . $id,
-            'category' => 'required',
+            'category' => 'required|exists:categories,id',
             'description' => 'nullable|min:10',
             'unit_price' => 'required|numeric|min:0'
         ]);

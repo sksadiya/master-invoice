@@ -99,18 +99,18 @@
                       <td></td>
                       <td></td>
                       <td></td>
-                      @php
-            $invoice->tax = rtrim(rtrim($invoice->tax, '0'), '.');
-          @endphp
-                      <th>Tax ({{ $invoice->tax }}%)</th>
-                      <td>₹ {{ $invoice->tax_total }}</td>
+                      <th>Discount (₹)</th>
+                      <td>₹ {{ $invoice->discount_total }}</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td></td>
                       <td></td>
-                      <th>Discount (₹)</th>
-                      <td>₹ {{ $invoice->discount_total }}</td>
+                      @php
+            $invoice->tax = rtrim(rtrim($invoice->tax, '0'), '.');
+          @endphp
+                      <th>Tax ({{ $invoice->tax }}%)</th>
+                      <td>₹ {{ $invoice->tax_total }}</td>
                     </tr>
                     <tr>
                       <td></td>

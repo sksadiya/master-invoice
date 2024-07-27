@@ -31,6 +31,11 @@ Route::post('categories', [App\Http\Controllers\categoryController::class, 'stor
 Route::put('/categories/{id}', [App\Http\Controllers\categoryController::class, 'update'])->name('category.update');
 Route::delete('/categories/{id}', [App\Http\Controllers\categoryController::class, 'destroy'])->name('category.delete');
 
+Route::get('expenseCategory', [App\Http\Controllers\expenseCategoryController::class, 'index'])->name('expenseCategories');
+Route::post('expenseCategory', [App\Http\Controllers\expenseCategoryController::class, 'store'])->name('expenseCategory.add');
+Route::put('/expenseCategories/{id}', [App\Http\Controllers\expenseCategoryController::class, 'update'])->name('expenseCategory.update');
+Route::delete('/expenseCategories/{id}', [App\Http\Controllers\expenseCategoryController::class, 'destroy'])->name('expenseCategory.delete');
+
 Route::group(['middleware' => ['permission:View Departments']], function () {
   Route::get('departments', [App\Http\Controllers\DepartmentController::class, 'index'])->name('departments');
 });
@@ -92,6 +97,13 @@ Route::get('payments', [App\Http\Controllers\Payments::class, 'index'])->name('p
 Route::post('payments', [App\Http\Controllers\Payments::class, 'store'])->name('payment.store');
 Route::delete('/payment/{id}', [App\Http\Controllers\Payments::class, 'destroy'])->name('payment.delete');
 Route::put('/payment/{id}', [App\Http\Controllers\Payments::class, 'update'])->name('payment.update');
+
+Route::get('expenses', [App\Http\Controllers\ExpenseController::class, 'index'])->name('expenses');
+Route::get('expense/add', [App\Http\Controllers\ExpenseController::class, 'create'])->name('expense.add');
+Route::post('expenses', [App\Http\Controllers\ExpenseController::class, 'store'])->name('expense.store');
+Route::get('/expense/edit/{id}', [App\Http\Controllers\ExpenseController::class, 'edit'])->name('expense.edit');
+Route::delete('/expense/{id}', [App\Http\Controllers\ExpenseController::class, 'destroy'])->name('expense.delete');
+Route::post('/expense/update/{id}', [App\Http\Controllers\ExpenseController::class, 'update'])->name('expense.update');
 
 Route::get('/generate-pdf/{id}', [App\Http\Controllers\Invoices::class, 'generatePDF'])->name('generate');
 

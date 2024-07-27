@@ -102,18 +102,18 @@
                       <td></td>
                       <td></td>
                       <td></td>
-                      <?php
-            $invoice->tax = rtrim(rtrim($invoice->tax, '0'), '.');
-          ?>
-                      <th>Tax (<?php echo e($invoice->tax); ?>%)</th>
-                      <td>₹ <?php echo e($invoice->tax_total); ?></td>
+                      <th>Discount (₹)</th>
+                      <td>₹ <?php echo e($invoice->discount_total); ?></td>
                     </tr>
                     <tr>
                       <td></td>
                       <td></td>
                       <td></td>
-                      <th>Discount (₹)</th>
-                      <td>₹ <?php echo e($invoice->discount_total); ?></td>
+                      <?php
+            $invoice->tax = rtrim(rtrim($invoice->tax, '0'), '.');
+          ?>
+                      <th>Tax (<?php echo e($invoice->tax); ?>%)</th>
+                      <td>₹ <?php echo e($invoice->tax_total); ?></td>
                     </tr>
                     <tr>
                       <td></td>

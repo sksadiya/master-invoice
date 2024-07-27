@@ -54,7 +54,7 @@ class RolesAndPermissions extends Controller
             return str_contains($permission->name, 'Roles');
         }),
         'settings' => $allPermissions->filter(function ($permission) {
-            return str_contains($permission->name, 'Settings');
+            return str_contains($permission->name, 'Settings') || str_contains($permission->name, 'Dashboard');
         }),
       
     ];
@@ -116,7 +116,7 @@ class RolesAndPermissions extends Controller
             return str_contains($permission->name, 'Roles');
         }),
         'settings' => $allPermissions->filter(function ($permission) {
-            return str_contains($permission->name, 'Settings');
+            return str_contains($permission->name, 'Settings') || str_contains($permission->name, 'Dashboard');
         }),
        
     ];
