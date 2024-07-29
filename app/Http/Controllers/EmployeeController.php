@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\Country;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -291,5 +293,19 @@ class EmployeeController extends Controller
             'status' => true,
             'message' => 'employee Deleted Successfully'
         ]);
+    }
+
+    public function show($id, Request $request)
+    {
+        $employee = Employee::find($id);
+        if (empty($employee)) {
+            Session::flash('error', 'No Client Found!');
+            return redirect()->back();
+        }
+        $country = Country::find($employee->country_id);
+        $state = State::find($employee->state_id);
+        $city = City::find($employee->city_id);
+   
+        return view('employee.show', compact('employee','country','state','city'));
     }
 }

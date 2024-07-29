@@ -55,6 +55,7 @@ Route::post('employee/store', [App\Http\Controllers\EmployeeController::class, '
 Route::delete('/employee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employee.delete');
 Route::get('employee/edit/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
 Route::post('employee/update/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
+Route::get('employee/{id}', [App\Http\Controllers\EmployeeController::class, 'show'])->name('employee.show');
 
 Route::get('taxes', [App\Http\Controllers\taxController::class, 'index'])->name('taxes');
 Route::post('taxes', [App\Http\Controllers\taxController::class, 'store'])->name('tax.add');

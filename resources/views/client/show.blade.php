@@ -31,13 +31,13 @@
         </a>
         </li>
       @endif
-      @if($client->invoices->pluck('payments')->flatten()->isNotEmpty())
-    <li class="nav-item">
+          @if($client->invoices->pluck('payments')->flatten()->isNotEmpty())
+        <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#payments" role="tab">
-            <i class="far fa-user"></i> Payments
+          <i class="far fa-user"></i> Payments
         </a>
-    </li>
-@endif
+        </li>
+      @endif
 
         </ul>
       </div>
@@ -45,43 +45,44 @@
         <div class="tab-content">
           <div class="tab-pane active" id="clientDetails" role="tabpanel">
             <div class="row">
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Full Name:</label>
-                <span class="fs-5 ">{{ $client->first_name }} {{ $client->last_name }}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class=" ">Full Name</label>
+                <input type="text" name="name" id="name" readonly class="form-control"
+                  value="{{ $client->first_name }} {{ $client->last_name }}">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Email:</label>
-                <span class="fs-5 ">{{ ($client->email) ? $client->email : 'N/A'}}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Email</label>
+                <input type="text" name="email" id="email" readonly class="form-control" value="{{ $client->email}}">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Phone Number:</label>
-                <span class="fs-5 ">{{ $client->contact }}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class=" ">Phone Number</label>
+                <input type="text" name="contact" id="contact" readonly class="form-control"
+                  value="{{ $client->contact}}">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Country:</label>
-                <span class="fs-5 ">{{ $country->name }}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Country</label>
+                <input type="text" name="country" id="country" readonly class="form-control"
+                  value="{{ $country->name }}">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">State:</label>
-                <span class="fs-5 ">{{ $state->name }}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">State</label>
+                <input type="text" name="state" id="state" readonly class="form-control" value="{{ $state->name }}">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">City:</label>
-                <span class="fs-5 ">{{ $city->name }}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">City</label>
+                <input type="text" name="city" id="city" readonly class="form-control" value="{{ $city->name }}">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Address:</label>
-                <span class="fs-5 ">{{ ($client->Address) ? $client->Address : 'N/A' }}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Address</label>
+                <textarea readonly class="form-control" name="address" id="address">{{ $client->Address}}</textarea>
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Note:</label>
-                <span class="fs-5 ">{{ ($client->Notes) ? $client->Notes : 'N/A' }}</span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Note</label>
+                <input type="text" name="notes" id="notes" readonly class="form-control" value="{{ $client->Notes }}">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">GSTIN:</label>
-                <span class="fs-5 ">{{ $client->GST ? $client->GST : 'N/A' }}</span>
-
-
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">GSTIN</label>
+                <input type="text" name="gst" id="gst" readonly class="form-control" value="{{ $client->GST }}">
               </div>
               <!--end col-->
             </div>
@@ -99,9 +100,11 @@
                         <div class="col-sm">
                           <form method="GET" action="" id="searchForm">
                             <div class="d-flex justify-content-sm-end">
-                <a href="{{ route('exportClientInvoices',$client->id) }}" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
-                <a href="{{ route('clients.export-with-invoices',$client->id) }}" type="button" class="btn btn-outline-success btn-border me-2">Excel Export</a>
-                
+                              <a href="{{ route('exportClientInvoices', $client->id) }}" type="button"
+                                class="btn btn-outline-success btn-border me-2">PDF Export</a>
+                              <a href="{{ route('clients.export-with-invoices', $client->id) }}" type="button"
+                                class="btn btn-outline-success btn-border me-2">Excel Export</a>
+
                               <div class="search-box ms-2 me-2">
                                 <input type="text" class="form-control search" name="search" id="searchInput"
                                   value="{{ request()->get('search') }}" placeholder="Search...">
@@ -188,8 +191,10 @@
                         <div class="col-sm">
                           <form method="GET" action="" id="searchForm">
                             <div class="d-flex justify-content-sm-end">
-                <a href="{{ route('exportClientPayments',$client->id) }}" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
-                <a href="{{ route('clients.export-with-payments',$client->id) }}" type="button" class="btn btn-outline-info btn-border me-2">Excel Export</a>
+                              <a href="{{ route('exportClientPayments', $client->id) }}" type="button"
+                                class="btn btn-outline-success btn-border me-2">PDF Export</a>
+                              <a href="{{ route('clients.export-with-payments', $client->id) }}" type="button"
+                                class="btn btn-outline-info btn-border me-2">Excel Export</a>
                               <div class="search-box ms-2 me-2">
                                 <input type="text" class="form-control search" name="paymentSearch" id="searchInput"
                                   value="{{ request()->get('paymentSearch') }}" placeholder="Search...">
@@ -211,15 +216,16 @@
                             </tr>
                           </thead>
                           <tbody class="list form-check-all">
-                          @foreach($payments as $payment)
-                          <tr>
-                            <td class="payment-invoice-number"> {{ $payment->invoice->invoice_number }}</td>
-                            <td class="payment-date">{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
-                            <td class="payment-mode">{{ $payment->payment_mode}}</td>
-                            <td class="payment-total">{{ $payment->amount }}</td>
-                            <td class="payment-due">{{ $payment->due_payment }}</td>
-                          </tr>
-                          @endforeach
+                            @foreach($payments as $payment)
+                <tr>
+                  <td class="payment-invoice-number"> {{ $payment->invoice->invoice_number }}</td>
+                  <td class="payment-date">
+                  {{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                  <td class="payment-mode">{{ $payment->payment_mode}}</td>
+                  <td class="payment-total">{{ $payment->amount }}</td>
+                  <td class="payment-due">{{ $payment->due_payment }}</td>
+                </tr>
+              @endforeach
                           </tbody>
                         </table>
                       </div>

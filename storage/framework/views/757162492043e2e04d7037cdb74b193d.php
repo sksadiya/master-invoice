@@ -33,13 +33,13 @@
         </a>
         </li>
       <?php endif; ?>
-      <?php if($client->invoices->pluck('payments')->flatten()->isNotEmpty()): ?>
-    <li class="nav-item">
+          <?php if($client->invoices->pluck('payments')->flatten()->isNotEmpty()): ?>
+        <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#payments" role="tab">
-            <i class="far fa-user"></i> Payments
+          <i class="far fa-user"></i> Payments
         </a>
-    </li>
-<?php endif; ?>
+        </li>
+      <?php endif; ?>
 
         </ul>
       </div>
@@ -47,43 +47,44 @@
         <div class="tab-content">
           <div class="tab-pane active" id="clientDetails" role="tabpanel">
             <div class="row">
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Full Name:</label>
-                <span class="fs-5 "><?php echo e($client->first_name); ?> <?php echo e($client->last_name); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class=" ">Full Name</label>
+                <input type="text" name="name" id="name" readonly class="form-control"
+                  value="<?php echo e($client->first_name); ?> <?php echo e($client->last_name); ?>">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Email:</label>
-                <span class="fs-5 "><?php echo e(($client->email) ? $client->email : 'N/A'); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Email</label>
+                <input type="text" name="email" id="email" readonly class="form-control" value="<?php echo e($client->email); ?>">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Phone Number:</label>
-                <span class="fs-5 "><?php echo e($client->contact); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class=" ">Phone Number</label>
+                <input type="text" name="contact" id="contact" readonly class="form-control"
+                  value="<?php echo e($client->contact); ?>">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Country:</label>
-                <span class="fs-5 "><?php echo e($country->name); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Country</label>
+                <input type="text" name="country" id="country" readonly class="form-control"
+                  value="<?php echo e($country->name); ?>">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">State:</label>
-                <span class="fs-5 "><?php echo e($state->name); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">State</label>
+                <input type="text" name="state" id="state" readonly class="form-control" value="<?php echo e($state->name); ?>">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">City:</label>
-                <span class="fs-5 "><?php echo e($city->name); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">City</label>
+                <input type="text" name="city" id="city" readonly class="form-control" value="<?php echo e($city->name); ?>">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Address:</label>
-                <span class="fs-5 "><?php echo e(($client->Address) ? $client->Address : 'N/A'); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Address</label>
+                <textarea readonly class="form-control" name="address" id="address"><?php echo e($client->Address); ?></textarea>
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">Note:</label>
-                <span class="fs-5 "><?php echo e(($client->Notes) ? $client->Notes : 'N/A'); ?></span>
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">Note</label>
+                <input type="text" name="notes" id="notes" readonly class="form-control" value="<?php echo e($client->Notes); ?>">
               </div>
-              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                <label for="name" class="pb-2 fs-5 ">GSTIN:</label>
-                <span class="fs-5 "><?php echo e($client->GST ? $client->GST : 'N/A'); ?></span>
-
-
+              <div class="col-sm-6 d-flex flex-column mb-md-10 mb-3">
+                <label for="name" class="">GSTIN</label>
+                <input type="text" name="gst" id="gst" readonly class="form-control" value="<?php echo e($client->GST); ?>">
               </div>
               <!--end col-->
             </div>
@@ -101,9 +102,11 @@
                         <div class="col-sm">
                           <form method="GET" action="" id="searchForm">
                             <div class="d-flex justify-content-sm-end">
-                <a href="<?php echo e(route('exportClientInvoices',$client->id)); ?>" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
-                <a href="<?php echo e(route('clients.export-with-invoices',$client->id)); ?>" type="button" class="btn btn-outline-success btn-border me-2">Excel Export</a>
-                
+                              <a href="<?php echo e(route('exportClientInvoices', $client->id)); ?>" type="button"
+                                class="btn btn-outline-success btn-border me-2">PDF Export</a>
+                              <a href="<?php echo e(route('clients.export-with-invoices', $client->id)); ?>" type="button"
+                                class="btn btn-outline-success btn-border me-2">Excel Export</a>
+
                               <div class="search-box ms-2 me-2">
                                 <input type="text" class="form-control search" name="search" id="searchInput"
                                   value="<?php echo e(request()->get('search')); ?>" placeholder="Search...">
@@ -198,8 +201,10 @@
                         <div class="col-sm">
                           <form method="GET" action="" id="searchForm">
                             <div class="d-flex justify-content-sm-end">
-                <a href="<?php echo e(route('exportClientPayments',$client->id)); ?>" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
-                <a href="<?php echo e(route('clients.export-with-payments',$client->id)); ?>" type="button" class="btn btn-outline-info btn-border me-2">Excel Export</a>
+                              <a href="<?php echo e(route('exportClientPayments', $client->id)); ?>" type="button"
+                                class="btn btn-outline-success btn-border me-2">PDF Export</a>
+                              <a href="<?php echo e(route('clients.export-with-payments', $client->id)); ?>" type="button"
+                                class="btn btn-outline-info btn-border me-2">Excel Export</a>
                               <div class="search-box ms-2 me-2">
                                 <input type="text" class="form-control search" name="paymentSearch" id="searchInput"
                                   value="<?php echo e(request()->get('paymentSearch')); ?>" placeholder="Search...">
@@ -221,15 +226,16 @@
                             </tr>
                           </thead>
                           <tbody class="list form-check-all">
-                          <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                          <tr>
-                            <td class="payment-invoice-number"> <?php echo e($payment->invoice->invoice_number); ?></td>
-                            <td class="payment-date"><?php echo e(\Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y')); ?></td>
-                            <td class="payment-mode"><?php echo e($payment->payment_mode); ?></td>
-                            <td class="payment-total"><?php echo e($payment->amount); ?></td>
-                            <td class="payment-due"><?php echo e($payment->due_payment); ?></td>
-                          </tr>
-                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <tr>
+                  <td class="payment-invoice-number"> <?php echo e($payment->invoice->invoice_number); ?></td>
+                  <td class="payment-date">
+                  <?php echo e(\Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y')); ?></td>
+                  <td class="payment-mode"><?php echo e($payment->payment_mode); ?></td>
+                  <td class="payment-total"><?php echo e($payment->amount); ?></td>
+                  <td class="payment-due"><?php echo e($payment->due_payment); ?></td>
+                </tr>
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                           </tbody>
                         </table>
                       </div>

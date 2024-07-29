@@ -21,7 +21,8 @@ Employees
           <div class="row g-4 mb-3">
             <div class="col-sm-auto">
               <div>
-                <a href="<?php echo e(route('employee.add')); ?>" type="button" class="btn btn-primary add-btn"><i class="bx bx-plus-circle me-2"></i> Add employee</a>
+                <a href="<?php echo e(route('employee.add')); ?>" type="button" class="btn btn-primary add-btn"><i
+                    class="bx bx-plus-circle me-2"></i> Add employee</a>
               </div>
             </div>
             <div class="col-sm">
@@ -55,7 +56,8 @@ Employees
                 <?php if($employees): ?>
           <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-        <td class="employee-name"><a href=""><?php echo e($employee->user->name); ?></a></td>
+        <td class="employee-name"><a
+          href="<?php echo e(route('employee.show', $employee->id)); ?>"><?php echo e($employee->user->name); ?></a></td>
         <td class="employee-department"><?php echo e($employee->department->name); ?></td>
         <td class="employee-email"><?php echo e($employee->user->email); ?></td>
         <td class="employee-contact"><?php echo e($employee->user->contact); ?></td>
@@ -63,8 +65,8 @@ Employees
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
-          <a href="<?php echo e(route('employee.edit' ,$employee->id)); ?>" class="btn btn-sm btn-success edit-item-btn"><i
-          class="bx bxs-pencil"></i> Edit</a>
+          <a href="<?php echo e(route('employee.edit', $employee->id)); ?>"
+          class="btn btn-sm btn-success edit-item-btn"><i class="bx bxs-pencil"></i> Edit</a>
           </div>
           <div class="remove">
           <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
@@ -184,7 +186,7 @@ Employees
 
     var employeesList = new List('employeesList', {
       valueNames: ['employee-name', 'employee-department', 'employee-contact', 'employee-email',
-        'employee-salary','action'],
+        'employee-salary', 'action'],
     });
 
     $('.remove-item-btn').on('click', function () {
@@ -195,7 +197,7 @@ Employees
     $('#delete-record').on('click', function () {
       var employeeId = $(this).data('id');
       console.log(employeeId);
-      const delRoute = "<?php echo e(route('employee.delete','ID')); ?>";
+      const delRoute = "<?php echo e(route('employee.delete', 'ID')); ?>";
       const newdelRoute = delRoute.replace('ID', employeeId);
 
       $.ajax({
