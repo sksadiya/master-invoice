@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Client;
+use App\Models\clientService;
 use App\Models\Country;
 use App\Models\Invoice;
+use App\Models\serviceCategory;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Rules\GstNumber;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class clientController extends Controller
 {
     public function index(Request $request)
     {
-        $clients = Client::latest();
+        $clients = Client::withCount(['invoices', 'services'])
+        ->latest();
 
         if (!empty($request->get('search'))) {
             $clients = $clients->where(function ($query) use ($request) {
@@ -24,7 +28,6 @@ class clientController extends Controller
                     ->orWhere('value', 'like', '%' . $request->get('search') . '%');
             });
         }
-
         $perPage = $request->get('perPage', 20);
         $clients = $clients->paginate($perPage);
 
@@ -34,7 +37,8 @@ class clientController extends Controller
     public function create()
     {
         $countries = Country::all();
-        return view('client.create', compact('countries'));
+        $serviceCategories = serviceCategory::all();
+        return view('client.create', compact('countries','serviceCategories'));
     }
 
     public function store(Request $request)
@@ -55,6 +59,8 @@ class clientController extends Controller
             'Address' => 'nullable',
             'notes' => 'nullable',
             'website' => 'nullable|url',
+            'service_categories' => 'nullable|array',
+            'service_categories.*' => 'nullable|integer|exists:service_categories,id',
         ]);
 
         if ($validator->fails()) {
@@ -78,6 +84,14 @@ class clientController extends Controller
         $client->website = $request->website;
         $success = $client->save();
         if ($success) {
+            if ($request->has('service_categories')) {
+                foreach ($request->service_categories as $categoryId) {
+                    $service = new clientService();
+                    $service->client_id = $client->id;
+                    $service->service_category_id = $categoryId;
+                   $service->save();
+                }
+            }
             Session::flash('success', 'Client Details Add Successfully!');
         } else {
             Session::flash('error', 'Client Details Add Failed!');
@@ -87,14 +101,16 @@ class clientController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $client = Client::find($id);
+        $client = Client::with('services')->findOrFail($id);
 
         if (empty($client)) {
             Session::flash('error', 'No CLient found!');
             return redirect()->route('clients');
         }
+        $serviceCategories = serviceCategory::all();
+        $selectedCategories = $client->services->pluck('id')->toArray();
         $countries = Country::all();
-        return view('client.edit', compact('client', 'countries'));
+        return view('client.edit', compact('client', 'countries','serviceCategories','selectedCategories'));
     }
 
     public function update(Request $request, $id)
@@ -120,6 +136,8 @@ class clientController extends Controller
             'Address' => 'nullable',
             'notes' => 'nullable',
             'website' => 'nullable|url',
+            'service_categories' => 'nullable|array',
+            'service_categories.*' => 'nullable|integer|exists:service_categories,id',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -140,6 +158,11 @@ class clientController extends Controller
         $client->website = $request->website;
         $success = $client->save();
         if ($success) {
+            if ($request->has('service_categories')) {
+                $client->services()->sync($request->service_categories);
+            } else {
+                $client->services()->sync([]);
+            }
             Session::flash('success', 'Client Details Updated Successfully!');
         } else {
             Session::flash('error', 'Client Details Updated Successfully!');
@@ -192,5 +215,34 @@ class clientController extends Controller
         });
     }
         return view('client.show', compact('client', 'country', 'state', 'city', 'invoices','payments'));
+    }
+    public function exportClientPayments($id) {
+        $client = Client::with('invoices.payments')->find($id);
+        if (empty($client)) {
+            Session::flash('error', 'No Client Found!');
+            return redirect()->back();
+        }
+        $payments = $client->invoices->flatMap(function($invoice) {
+            return $invoice->payments;
+        });
+        $pdf = Pdf::view('client.exportPayments', ['payments' => $payments])
+        ->format('A4')
+        ->download('invoices.pdf');
+
+    return $pdf;
+
+    }
+    public function exportClientInvoices($id) {
+        $client = Client::with('invoices')->find($id);
+        if (empty($client)) {
+            Session::flash('error', 'No Client Found!');
+            return redirect()->back();
+        }
+        $invoices = $client->invoices;
+        $pdf = Pdf::view('client.exportInvoices', ['invoices' => $invoices])
+        ->format('A4')
+        ->download('invoices.pdf');
+
+    return $pdf;
     }
 }

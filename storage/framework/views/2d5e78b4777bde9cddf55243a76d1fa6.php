@@ -18,9 +18,10 @@ Expenses
       <div class="card-body">
         <div class="listjs-table" id="expensesList">
           <div class="row g-4 mb-3">
-          <div class="col-sm-auto">
+            <div class="col-sm-auto">
               <div>
-                <a href="<?php echo e(route('expense.add')); ?>" type="button" class="btn btn-primary add-btn"><i class="bx bx-plus-circle me-2"></i> Add Expense</a>
+                <a href="<?php echo e(route('expense.add')); ?>" type="button" class="btn btn-primary add-btn"><i
+                    class="bx bx-plus-circle me-2"></i> Add Expense</a>
               </div>
             </div>
             <div class="col-sm">
@@ -63,8 +64,8 @@ Expenses
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
-          <a href="<?php echo e(route('expense.edit' ,$expense->id)); ?>" class="btn btn-sm btn-success edit-item-btn"><i
-          class="bx bxs-pencil"></i> Edit</a>
+          <a href="<?php echo e(route('expense.edit', $expense->id)); ?>"
+          class="btn btn-sm btn-success edit-item-btn"><i class="bx bxs-pencil"></i> Edit</a>
           </div>
           <div class="remove">
           <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal"
@@ -188,7 +189,7 @@ Expenses
       valueNames: ['expense-title', 'expense-date', 'expense-category', 'expense-amount',
         'team-member'],
     });
-    
+
     $('.remove-item-btn').on('click', function () {
       var expenseId = $(this).data('id');
       $('#delete-record').data('id', expenseId);

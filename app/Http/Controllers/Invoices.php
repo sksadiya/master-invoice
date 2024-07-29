@@ -357,7 +357,14 @@ class Invoices extends Controller
 
         return $pdf;
     }
+public function exportInvoices() {
+    $invoices = Invoice::latest()->get();
+    $pdf = Pdf::view('invoices.exportInvoices', ['invoices' => $invoices])
+            ->format('A4')
+            ->download('invoices.pdf');
 
+        return $pdf;
+}
 //     public function generatePDF($id)
 // {
 //     set_time_limit(300);

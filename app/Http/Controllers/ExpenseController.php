@@ -58,7 +58,7 @@ class ExpenseController extends Controller
         if ($request->file('bill')) {
             $bill = $request->file('bill');
             $billName = time() . '_' . uniqid() . '.' . $bill->getClientOriginalExtension();
-            $billPath = public_path('/images/uploads/documents/');
+            $billPath = public_path('/images/uploads/bills/');
             $bill->move($billPath, $billName);
             $expense->bill_file = $billName;
         }
@@ -109,14 +109,14 @@ class ExpenseController extends Controller
         $expense->team_member_id = $request->member;
         $expense->amount = $request->amount;
         $expense->description = $request->description;
-        $fileBasePath = public_path('images/uploads/documents/');
+        $fileBasePath = public_path('images/uploads/bills/');
 
         // Delete files from the specific directory
         if ($request->hasFile('bill')) {
             // Handle file upload
             $bill = $request->file('bill');
             $billName = time() . '_' . uniqid() . '.' . $bill->getClientOriginalExtension();
-            $billPath = public_path('/images/uploads/documents/');
+            $billPath = public_path('/images/uploads/bills/');
 
             // Move the new file to the destination
             if ($bill->move($billPath, $billName)) {

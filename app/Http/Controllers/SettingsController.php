@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\Setting;
 use App\Models\State;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Validator;
 use App\Rules\GstNumber;
@@ -68,6 +69,18 @@ class SettingsController extends Controller
                 $file = $files[$key];
                 $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 // $filename = time() . '.' . $file->getClientOriginalExtension();
+
+                // Retrieve the current setting for this key
+                $setting = Setting::where('key', $key)->first();
+
+                // Delete the old file if it exists
+                if ($setting && $setting->value) {
+                    $oldFilePath = public_path('images/uploads/' . $setting->value);
+                    if (File::exists($oldFilePath)) {
+                        File::delete($oldFilePath);
+                    }
+                }
+
                 $file->move(public_path('images/uploads'), $filename);
                 $value = $filename;
             }

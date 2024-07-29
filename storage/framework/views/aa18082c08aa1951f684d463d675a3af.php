@@ -56,7 +56,7 @@ Employees
           <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
         <td class="employee-name"><a href=""><?php echo e($employee->user->name); ?></a></td>
-        <td class="employee-department"><?php echo e($employee->dept); ?></td>
+        <td class="employee-department"><?php echo e($employee->department->name); ?></td>
         <td class="employee-email"><?php echo e($employee->user->email); ?></td>
         <td class="employee-contact"><?php echo e($employee->user->contact); ?></td>
         <!-- <td class="employee-salary"><?php echo e($employee->salary); ?></td> -->

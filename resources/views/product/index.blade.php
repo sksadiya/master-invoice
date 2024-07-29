@@ -53,7 +53,7 @@ products
           @foreach ($products as $product)
         <tr>
         <td class="product-name">{{ $product->name }}</td>
-        <td class="product-category">{{ $product->category_id }}</td>
+        <td class="product-category">{{ $product->category->name }}</td>
         <td class="product-price">{{ $product->unit_price }}</td>
         <td class="">
         <div class="justify-content-end d-flex gap-2">

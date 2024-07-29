@@ -27,4 +27,10 @@ class Client extends Model
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
+
+    public function services()
+    {
+        return $this->belongsToMany(ServiceCategory::class, 'client_service', 'client_id', 'service_category_id');
+    }
+   
 }

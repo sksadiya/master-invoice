@@ -53,7 +53,7 @@ products
           <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
         <td class="product-name"><?php echo e($product->name); ?></td>
-        <td class="product-category"><?php echo e($product->category_id); ?></td>
+        <td class="product-category"><?php echo e($product->category->name); ?></td>
         <td class="product-price"><?php echo e($product->unit_price); ?></td>
         <td class="">
         <div class="justify-content-end d-flex gap-2">

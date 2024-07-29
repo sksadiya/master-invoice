@@ -99,6 +99,9 @@
                         <div class="col-sm">
                           <form method="GET" action="" id="searchForm">
                             <div class="d-flex justify-content-sm-end">
+                <a href="{{ route('exportClientInvoices',$client->id) }}" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
+                <a href="{{ route('clients.export-with-invoices',$client->id) }}" type="button" class="btn btn-outline-success btn-border me-2">Excel Export</a>
+                
                               <div class="search-box ms-2 me-2">
                                 <input type="text" class="form-control search" name="search" id="searchInput"
                                   value="{{ request()->get('search') }}" placeholder="Search...">
@@ -185,6 +188,8 @@
                         <div class="col-sm">
                           <form method="GET" action="" id="searchForm">
                             <div class="d-flex justify-content-sm-end">
+                <a href="{{ route('exportClientPayments',$client->id) }}" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
+                <a href="{{ route('clients.export-with-payments',$client->id) }}" type="button" class="btn btn-outline-info btn-border me-2">Excel Export</a>
                               <div class="search-box ms-2 me-2">
                                 <input type="text" class="form-control search" name="paymentSearch" id="searchInput"
                                   value="{{ request()->get('paymentSearch') }}" placeholder="Search...">

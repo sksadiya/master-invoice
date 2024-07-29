@@ -45,6 +45,11 @@
                         <i class="ri-folder-user-line"></i> <span>Clients</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('serviceCategories')); ?>" >
+                        <i class="ri-folder-user-line"></i> <span>Service Categories</span>
+                    </a>
+                </li>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('View Departments')): ?>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('departments')); ?>" >
@@ -79,7 +84,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('products')); ?>" >
-                    <i class="ri-product-hunt-line"></i> <span>Services</span>
+                    <i class="ri-product-hunt-line"></i> <span>Products</span>
                     </a>
                 </li>
                 <li class="nav-item">

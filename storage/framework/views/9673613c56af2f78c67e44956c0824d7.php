@@ -159,6 +159,16 @@ unset($__errorArgs, $__bag); ?>" id="website"
                 <?php endif; ?>
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="service_categories" class="form-label">Service Categories</label>
+                <select class="form-control select2" id="service_categories" name="service_categories[]" multiple="multiple">
+                  <?php $__currentLoopData = $serviceCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+              </div>
+            </div>
             <div class="col-lg-6">
               <div class="mb-3">
                 <label for="country" class="form-label">Country</label>
@@ -335,6 +345,7 @@ unset($__errorArgs, $__bag); ?>
     $('#state-code').select2();
     $('#city').select2();
     $('#country-name').select2();
+    $('#service_categories').select2();
 
     $('#country-name').change(function () {
       fetchStates($(this).val());

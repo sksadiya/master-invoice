@@ -47,8 +47,7 @@ Clients
                   <th class="sort" data-sort="client-business">Business Name</th>
                   <th class="sort" data-sort="client-contact">Contact</th>
                   <th class="sort" data-sort="client-invoices-count">Invoices</th>
-                  <th class="sort" data-sort="client-total-amount">Total</th>
-                  <th class="sort" data-sort="client-pending-amount">Pending</th>
+                  <th class="sort" data-sort="client-services-count">Services</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
@@ -60,9 +59,8 @@ Clients
           {{$client->last_name}}</a></td>
         <td class="client-business">{{ $client->business }}</td>
         <td class="client-contact">{{ $client->contact }}</td>
-        <td class="client-invoices-count"></td>
-        <td class="client-total-amount"></td>
-        <td class="client-pending-amount"></td>
+        <td class="client-invoices-count">{{ $client->invoices_count }}</td>
+        <td class="client-services-count">{{ $client->services_count }}</td>
         <td class="">
         <div class="justify-content-end d-flex gap-2">
           <div class="edit">
@@ -185,7 +183,7 @@ Clients
     });
     var clientsList = new List('clientsList', {
       valueNames: ['client-name', 'client-business', 'client-contact', 'client-invoices-count',
-        'client-total-amount', 'client-pending-amount', 'action'],
+        'client-services-count', 'action'],
     });
 
     $('.remove-item-btn').on('click', function () {

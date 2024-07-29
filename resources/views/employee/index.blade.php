@@ -56,7 +56,7 @@ Employees
           @foreach ($employees as $employee)
         <tr>
         <td class="employee-name"><a href="">{{ $employee->user->name }}</a></td>
-        <td class="employee-department">{{ $employee->dept }}</td>
+        <td class="employee-department">{{ $employee->department->name }}</td>
         <td class="employee-email">{{ $employee->user->email }}</td>
         <td class="employee-contact">{{ $employee->user->contact}}</td>
         <!-- <td class="employee-salary">{{ $employee->salary}}</td> -->

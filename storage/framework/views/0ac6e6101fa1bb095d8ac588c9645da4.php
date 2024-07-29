@@ -31,13 +31,14 @@ Invoices
             <div class="col-sm">
               <form method="GET" action="<?php echo e(route('invoices')); ?>" id="searchForm">
                 <div class="d-flex justify-content-sm-end">
+                <a href="<?php echo e(route('exportInvoices')); ?>" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
+                <a href="<?php echo e(route('export-invoices')); ?>" type="button" class="btn btn-outline-success btn-border">Excel Export</a>
                   <div class="search-box ms-2 me-2">
                     <input type="text" class="form-control search" name="search" id="searchInput"
                       value="<?php echo e(request()->get('search')); ?>" placeholder="Search...">
                     <i class="ri-search-line search-icon"></i>
                   </div>
                   <a href="" type="button" class="btn bg-primary text-light">reset</a>
-
                 </div>
               </form>
             </div>

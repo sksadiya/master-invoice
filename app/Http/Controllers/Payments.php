@@ -7,7 +7,7 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+use Spatie\LaravelPdf\Facades\Pdf;
 class Payments extends Controller
 {
     public function index(Request $request) {
@@ -234,5 +234,13 @@ public function destroy($id)
         'status' => true,
         'message' => 'Payment Deleted Successfully'
     ]);
+}
+public function exportPayments() {
+    $payments = Payment::with('invoice.client')->latest()->get();
+    $pdf = Pdf::view('payments.exportPayments', ['payments' => $payments])
+            ->format('A4')
+            ->download('invoices.pdf');
+
+        return $pdf;
 }
 }

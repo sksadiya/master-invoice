@@ -1,7 +1,12 @@
 <?php
 
+use App\Exports\ClientsWithInvoicesExport;
+use App\Exports\ClientsWithPaymentsExport;
+use App\Exports\Invoices;
+use App\Exports\Payments;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,6 +69,14 @@ Route::get('client/edit/{id}', [App\Http\Controllers\clientController::class, 'e
 Route::post('client/update/{id}', [App\Http\Controllers\clientController::class, 'update'])->name('client.update');
 Route::delete('/client/{id}', [App\Http\Controllers\clientController::class, 'destroy'])->name('client.delete');
 Route::get('client/{id}', [App\Http\Controllers\clientController::class, 'show'])->name('client.show');
+Route::get('export-payments/{id}', [App\Http\Controllers\clientController::class, 'exportClientPayments'])->name('exportClientPayments');
+Route::get('export-invoices/{id}', [App\Http\Controllers\clientController::class, 'exportClientInvoices'])->name('exportClientInvoices');
+Route::get('clients/{clientId}/export-with-invoices', function ($clientId) {
+  return Excel::download(new ClientsWithInvoicesExport($clientId), 'client_' . $clientId . '_invoices.xlsx');
+})->name('clients.export-with-invoices');
+Route::get('clients/{clientId}/export-with-payments', function ($clientId) {
+  return Excel::download(new ClientsWithPaymentsExport($clientId), 'client_' . $clientId . '_payments.xlsx');
+})->name('clients.export-with-payments');
 
 Route::get('product', [App\Http\Controllers\ProductController::class, 'index'])->name('products');
 Route::post('products', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
@@ -87,7 +100,10 @@ Route::get('invoice/edit/{id}', [App\Http\Controllers\Invoices::class, 'edit'])-
 Route::post('invoice/update/{id}', [App\Http\Controllers\Invoices::class, 'update'])->name('invoice.update');
 Route::get('invoice/{id}', [App\Http\Controllers\Invoices::class, 'show'])->name('invoice.show');
 Route::get('/download-invoice/{id}', [App\Http\Controllers\Invoices::class, 'downloadInvoice'])->name('download.invoice');
-
+Route::get('/download-invoices', [App\Http\Controllers\Invoices::class, 'exportInvoices'])->name('exportInvoices');
+Route::get('export-invoices', function () {
+  return Excel::download(new Invoices(), 'invoices.xlsx');
+})->name('export-invoices');
 
 Route::get('/states/{id}', [App\Http\Controllers\SettingsController::class, 'fetchStates'])->name('fetch.states');
 Route::get('/cities/{id}', [App\Http\Controllers\SettingsController::class, 'fetchCities'])->name('fetch.cities');
@@ -97,6 +113,10 @@ Route::get('payments', [App\Http\Controllers\Payments::class, 'index'])->name('p
 Route::post('payments', [App\Http\Controllers\Payments::class, 'store'])->name('payment.store');
 Route::delete('/payment/{id}', [App\Http\Controllers\Payments::class, 'destroy'])->name('payment.delete');
 Route::put('/payment/{id}', [App\Http\Controllers\Payments::class, 'update'])->name('payment.update');
+Route::get('/download-payments', [App\Http\Controllers\Payments::class, 'exportPayments'])->name('exportPayments');
+Route::get('export-payments', function () {
+  return Excel::download(new Payments(), 'payments.xlsx');
+})->name('export-payments');
 
 Route::get('expenses', [App\Http\Controllers\ExpenseController::class, 'index'])->name('expenses');
 Route::get('expense/add', [App\Http\Controllers\ExpenseController::class, 'create'])->name('expense.add');
@@ -106,6 +126,11 @@ Route::delete('/expense/{id}', [App\Http\Controllers\ExpenseController::class, '
 Route::post('/expense/update/{id}', [App\Http\Controllers\ExpenseController::class, 'update'])->name('expense.update');
 
 Route::get('/generate-pdf/{id}', [App\Http\Controllers\Invoices::class, 'generatePDF'])->name('generate');
+
+Route::get('serviceCategories', [App\Http\Controllers\serviceCategoryController::class, 'index'])->name('serviceCategories');
+Route::post('serviceCategories', [App\Http\Controllers\serviceCategoryController::class, 'store'])->name('serviceCategory.add');
+Route::put('/serviceCategory/{id}', [App\Http\Controllers\serviceCategoryController::class, 'update'])->name('serviceCategory.update');
+Route::delete('/serviceCategory/{id}', [App\Http\Controllers\serviceCategoryController::class, 'destroy'])->name('serviceCategory.delete');
 
 });
 
