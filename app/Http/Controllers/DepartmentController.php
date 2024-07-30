@@ -90,8 +90,13 @@ class DepartmentController extends Controller
         {
             try {
                 $department = Department::findOrFail($id);
+                if ($department->employees()->count() > 0) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Cannot delete department with associated employees.',
+                    ], 500);
+                }
                 $department->delete();
-    
                 return response()->json([
                     'status' => true,
                     'message' => 'Department deleted successfully',

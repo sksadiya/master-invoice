@@ -58,7 +58,7 @@ Employees
         <tr>
         <td class="employee-name"><a
           href="{{ route('employee.show', $employee->id)}}">{{ $employee->user->name }}</a></td>
-        <td class="employee-department">{{ $employee->department->name }}</td>
+        <td class="employee-department">{{$employee->department->name }}</td>
         <td class="employee-email">{{ $employee->user->email }}</td>
         <td class="employee-contact">{{ $employee->user->contact}}</td>
         <!-- <td class="employee-salary">{{ $employee->salary}}</td> -->

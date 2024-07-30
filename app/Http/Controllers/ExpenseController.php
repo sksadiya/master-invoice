@@ -168,4 +168,16 @@ class ExpenseController extends Controller
         }
         return redirect()->route('expenses');
     }
+
+    public function show($id, Request $request)
+    {
+        $expense = Expense::find($id);
+        if (empty($expense)) {
+            Session::flash('error', 'No Client Found!');
+            return redirect()->back();
+        }
+      
+   
+        return view('expenses.show', compact('expense'));
+    }
 }

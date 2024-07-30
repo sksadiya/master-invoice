@@ -55,7 +55,7 @@ Expenses
                 <?php if($expenses): ?>
           <?php $__currentLoopData = $expenses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $expense): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-        <td class="expense-title"><?php echo e($expense->title); ?></td>
+        <td class="expense-title"><a href="<?php echo e(route('expense.show',$expense->id)); ?>"><?php echo e($expense->title); ?></a></td>
         <td class="expense-date"><?php echo e(\Carbon\Carbon::parse($expense->date)->format('d/m/Y')); ?></td>
         <td class="expense-category"><?php echo e($expense->category->name); ?></td>
         <td class="expense-amount"><?php echo e($expense->amount); ?></td>
