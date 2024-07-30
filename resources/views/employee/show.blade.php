@@ -4,6 +4,7 @@
 @endsection
 @section('css')
 <link href="{{ URL::asset('build/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{ URL::asset('build/libs/glightbox/css/glightbox.min.css') }}">
 @endsection
 @section('content')
 <div class="row">
@@ -32,12 +33,13 @@
                             </a>
                         </li>
                     @endif
-                    <!-- <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#bills" role="tab">
-          <i class="far fa-user"></i> Bills
-        </a>
-        </li> -->
-
+                    @if($employee->expenses->isNotEmpty())
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#bills" role="tab">
+                                <i class="far fa-user"></i> Bills
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
             <div class="card-body p-4">
@@ -132,16 +134,177 @@
                     <!--end tab-pane-->
                     <div class="tab-pane" id="documents" role="tabpanel">
                         <div class="row">
+                            @if($employee->pan_file)
+                                <div class="element-item col-xxl-3 col-xl-4 col-sm-6">
+                                    <div class="gallery-box card">
+                                        <div class="gallery-container">
+                                            <a class="image-popup"
+                                                href="{{ URL::asset('images/uploads/documents/' . $employee->pan_file) }}"
+                                                title="">
+                                                @if(pathinfo($employee->pan_file, PATHINFO_EXTENSION) == 'pdf')
+                                                    <img class="gallery-img img-fluid mx-auto"
+                                                        src="{{ URL::asset('build/images/pdf-icon.png') }}"
+                                                        alt="PDF Document" />
+                                                @else
+                                                    <img class="gallery-img img-fluid mx-auto"
+                                                        src="{{ URL::asset('images/uploads/documents/' . $employee->pan_file) }}"
+                                                        alt="PAN Document" />
+                                                @endif
+                                                <div class="gallery-overlay">
+                                                    <h5 class="overlay-caption">PAN Card</h5>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="box-content">
+                                            <div class="d-flex align-items-center mt-1">
+                                                @if(pathinfo($employee->pan_file, PATHINFO_EXTENSION) !== 'pdf')
+                                                    <div class="flex-grow-1 text-muted">
+                                                        <a href="{{ URL::asset('images/uploads/documents/' . $employee->pan_file) }}"
+                                                            download class="download-button">
+                                                            <i class="bx bx-cloud-download"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if($employee->adhar_file)
+                                <div class="element-item col-xxl-3 col-xl-4 col-sm-6">
+                                    <div class="gallery-box card">
+                                        <div class="gallery-container">
+                                            <a class="image-popup"
+                                                href="{{ URL::asset('images/uploads/documents/' . $employee->adhar_file) }}"
+                                                title="">
+                                                @if(pathinfo($employee->adhar_file, PATHINFO_EXTENSION) == 'pdf')
+                                                    <img class="gallery-img img-fluid mx-auto"
+                                                        src="{{ URL::asset('build/images/pdf-icon.png') }}"
+                                                        alt="PDF Document" />
+                                                @else
+                                                    <img class="gallery-img img-fluid mx-auto"
+                                                        src="{{ URL::asset('images/uploads/documents/' . $employee->adhar_file) }}"
+                                                        alt="PAN Document" />
 
-                        </div>
+                                                @endif
+                                                <div class="gallery-overlay">
+                                                    <h5 class="overlay-caption">Aadhar Card</h5>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="box-content">
+                                            <div class="d-flex align-items-center mt-1">
+                                                @if(pathinfo($employee->adhar_file, PATHINFO_EXTENSION) !== 'pdf')
+                                                    <div class="flex-grow-1 text-muted">
+                                                        <a href="{{ URL::asset('images/uploads/documents/' . $employee->adhar_file) }}"
+                                                            download class="download-button">
+                                                            <i class="bx bx-cloud-download"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if($employee->passbook)
+                                    <div class="element-item col-xxl-3 col-xl-4 col-sm-6">
+                                        <div class="gallery-box card">
+                                            <div class="gallery-container">
+                                                <a class="image-popup"
+                                                    href="{{ URL::asset('images/uploads/documents/' . $employee->passbook) }}"
+                                                    title="">
+                                                    @if(pathinfo($employee->passbook, PATHINFO_EXTENSION) == 'pdf')
+                                                        <img class="gallery-img img-fluid mx-auto"
+                                                            src="{{ URL::asset('build/images/pdf-icon.png') }}"
+                                                            alt="PDF Document" />
+                                                    @else
+                                                        <img class="gallery-img img-fluid mx-auto"
+                                                            src="{{ URL::asset('images/uploads/documents/' . $employee->passbook) }}"
+                                                            alt="PAN Document" height="300px" width="300px" />
+                                                    @endif
+                                                    <div class="gallery-overlay">
+                                                        <h5 class="overlay-caption">Passbook</h5>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="box-content">
+                                                <div class="d-flex align-items-center mt-1">
+                                                    @if(pathinfo($employee->passbook, PATHINFO_EXTENSION) !== 'pdf')
+                                                        <div class="flex-grow-1 text-muted">
+                                                            <a href="{{ URL::asset('images/uploads/documents/' . $employee->passbook) }}"
+                                                                download class="download-button">
+                                                                <i class="bx bx-cloud-download"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                     </div>
                     <!--end tab-pane-->
 
-                    <!-- <div class="tab-pane" id="bills" role="tabpanel">
-            <div class="row">
-             
-            </div>
-          </div> -->
+                    <div class="tab-pane" id="bills" role="tabpanel">
+                        <div class="row">
+                            @foreach ($employee->expenses as $expense)
+                                @if($expense->bill_file)
+                                    <div class="element-item col-xxl-3 col-xl-4 col-sm-6 designing development"
+                                        data-category="designing development">
+                                        <div class="gallery-box card">
+                                            <div class="gallery-container">
+                                                <a class="image-popup"
+                                                    href="{{ URL::asset('images/uploads/bills/' . $expense->bill_file) }}"
+                                                    title="">
+                                                    @if(pathinfo($expense->bill_file, PATHINFO_EXTENSION) == 'pdf')
+                                                        <img class="gallery-img img-fluid mx-auto"
+                                                            src="{{ URL::asset('build/images/pdf-icon.png') }}"
+                                                            alt="PDF Document" />
+                                                    @else
+                                                        <img class="gallery-img img-fluid mx-auto"
+                                                            src="{{ URL::asset('images/uploads/bills/' . $expense->bill_file) }}"
+                                                            alt="Expense Document" />
+                                                    @endif
+                                                    <div class="gallery-overlay">
+                                                        <h5 class="overlay-caption">Expense Bill</h5>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="box-content">
+                                                <div class="d-flex align-items-center mt-1">
+                                                    @if(pathinfo($expense->bill_file, PATHINFO_EXTENSION) !== 'pdf')
+                                                        <div class="flex-grow-1 text-muted">
+                                                            <a href="{{ URL::asset('images/uploads/bills/' . $expense->bill_file) }}"
+                                                                download class="download-button">
+                                                                <i class="bx bx-cloud-download"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    <div class="flex-shrink-0">
+                                                        <div class="d-flex gap-3">
+                                                            <button type="button"
+                                                                class="btn btn-sm fs-13 btn-link text-body text-decoration-none px-0">
+                                                                <i class="ri-thumb-up-fill text-muted align-bottom me-1"></i>
+                                                                2.2K
+                                                            </button>
+                                                            <button type="button"
+                                                                class="btn btn-sm fs-13 btn-link text-body text-decoration-none px-0">
+                                                                <i
+                                                                    class="ri-question-answer-fill text-muted align-bottom me-1"></i>
+                                                                1.3K
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -153,6 +316,9 @@
 @section('script')
 <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
 <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/glightbox/js/glightbox.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/isotope-layout/isotope.pkgd.min.js') }}"></script>
+<script src="{{ URL::asset('build/js/pages/gallery.init.js') }}"></script>
 <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
 <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ URL::asset('build/js/app.js') }}"></script>

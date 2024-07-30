@@ -30,7 +30,7 @@ Payments
               <form method="GET" action="{{ route('payments') }}" id="searchForm">
                 <div class="d-flex justify-content-sm-end">
                 <a href="{{ route('exportPayments') }}" type="button" class="btn btn-outline-success btn-border me-2">PDF Export</a>
-                <a href="{{ route('export-payments') }}" type="button" class="btn btn-outline-success btn-border">Excel Export</a>
+                <a href="{{ route('export-payments') }}" type="button" class="btn btn-outline-info btn-border">Excel Export</a>
                   <div class="search-box ms-2 me-2">
                     <input type="text" class="form-control search" name="search" id="searchInput"
                       value="{{ request()->get('search') }}" placeholder="Search...">

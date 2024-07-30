@@ -105,7 +105,7 @@
                               <a href="<?php echo e(route('exportClientInvoices', $client->id)); ?>" type="button"
                                 class="btn btn-outline-success btn-border me-2">PDF Export</a>
                               <a href="<?php echo e(route('clients.export-with-invoices', $client->id)); ?>" type="button"
-                                class="btn btn-outline-success btn-border me-2">Excel Export</a>
+                                class="btn btn-outline-info btn-border me-2">Excel Export</a>
 
                               <div class="search-box ms-2 me-2">
                                 <input type="text" class="form-control search" name="search" id="searchInput"

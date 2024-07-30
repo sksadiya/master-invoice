@@ -53,4 +53,12 @@ public function isEmployee()
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function employees()
+{
+    return $this->hasOne(Employee::class, 'user_id');
+}
+public function expenses()
+{
+    return $this->hasMany(Expense::class, 'team_member_id');
+}
 }

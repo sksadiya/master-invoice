@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Intervention\Image\Laravel\Facades\Image;
 class EmployeeController extends Controller
 {
     public function index(Request $request)
@@ -297,7 +298,7 @@ class EmployeeController extends Controller
 
     public function show($id, Request $request)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::with('user','expenses')->find($id);
         if (empty($employee)) {
             Session::flash('error', 'No Client Found!');
             return redirect()->back();
