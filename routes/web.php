@@ -125,6 +125,7 @@ Route::post('expenses', [App\Http\Controllers\ExpenseController::class, 'store']
 Route::get('/expense/edit/{id}', [App\Http\Controllers\ExpenseController::class, 'edit'])->name('expense.edit');
 Route::delete('/expense/{id}', [App\Http\Controllers\ExpenseController::class, 'destroy'])->name('expense.delete');
 Route::post('/expense/update/{id}', [App\Http\Controllers\ExpenseController::class, 'update'])->name('expense.update');
+Route::get('expense/{id}', [App\Http\Controllers\ExpenseController::class, 'show'])->name('expense.show');
 
 Route::get('/generate-pdf/{id}', [App\Http\Controllers\Invoices::class, 'generatePDF'])->name('generate');
 

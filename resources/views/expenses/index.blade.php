@@ -57,7 +57,7 @@ Expenses
                 @if($expenses)
           @foreach ($expenses as $expense)
         <tr>
-        <td class="expense-title">{{ $expense->title}}</td>
+        <td class="expense-title"><a href="{{ route('expense.show',$expense->id)}}">{{ $expense->title}}</a></td>
         <td class="expense-date">{{ \Carbon\Carbon::parse($expense->date)->format('d/m/Y') }}</td>
         <td class="expense-category">{{ $expense->category->name}}</td>
         <td class="expense-amount">{{ $expense->amount }}</td>

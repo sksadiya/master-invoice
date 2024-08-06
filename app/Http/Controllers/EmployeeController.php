@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Expense;
 use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        $employees = Employee::latest();
+        $employees = Employee::with('user','department')->latest();
+        // return dd($employees);
         if (!empty($request->get('search'))) {
             $employees = $employees->where(function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->get('search') . '%')
@@ -300,13 +302,14 @@ class EmployeeController extends Controller
     {
         $employee = Employee::with('user','expenses')->find($id);
         if (empty($employee)) {
-            Session::flash('error', 'No Client Found!');
+            Session::flash('error', 'No Employee Found!');
             return redirect()->back();
         }
+        $expenses = $employee->expenses;
         $country = Country::find($employee->country_id);
         $state = State::find($employee->state_id);
         $city = City::find($employee->city_id);
    
-        return view('employee.show', compact('employee','country','state','city'));
+        return view('employee.show', compact('employee','country','state','city','expenses'));
     }
 }
